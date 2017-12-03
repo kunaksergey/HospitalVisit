@@ -1,12 +1,11 @@
 package ua.shield.repository;
 
+import org.springframework.stereotype.Repository;
 import ua.shield.entity.Doctor;
 
 import java.util.List;
 
-/**
- * Created by sa on 03.12.17.
- */
+@Repository
 public interface DoctorRepository {
     List<Doctor> findAllByNameStartsWithOrderByNameDesc(String name);
 

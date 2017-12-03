@@ -14,19 +14,13 @@ import java.util.List;
 public class DistrictServiceImpl implements DistrictService {
     @Autowired
     DistrictRepository districtRepository;
-    List<District> districtList;
-    {
-        districtList=new ArrayList(Arrays.asList(
-                new District[]{new District(1,"one"),new District(2,"two")}
-                ));
-    }
+
 
     @Override
     public List<District> findAll() {
 
-        //return districtRepository.findAll(new Sort("name"));
-        return districtList;
-    }
+       return districtRepository.findAll(new Sort("name"));
+     }
 
     @Override
     public District findOneByName(String name) {
@@ -40,7 +34,6 @@ public class DistrictServiceImpl implements DistrictService {
 
     @Override
     public District findOne(Integer id) {
-        //return districtRepository.findOne(id);
-        return districtList.get(id-1);
-    }
+       return districtRepository.findOne(id);
+     }
 }

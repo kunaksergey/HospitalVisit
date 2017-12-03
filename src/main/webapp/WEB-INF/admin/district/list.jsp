@@ -13,11 +13,15 @@
     <script src="/js/bootstrap.bundle.js"></script>
 </head>
 <body>
+<h1>Все районы</h1>
 <table  class="table table-striped">
     <thead>
     <tr>
         <th>Наименование</th>
-        <th> <span class="glyphicon">&#x270f;</span></th>
+        <%--<th> <span class="glyphicon">&#x270f;</span></th>--%>
+        <th> <a href="district/add" class="btn btn-info btn-sm">
+            <span class="glyphicon glyphicon-pencil">Создать</span>
+        </a></th>
     </tr>
     </thead>
     <tbody>

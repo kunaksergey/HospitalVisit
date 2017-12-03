@@ -14,13 +14,14 @@
     <script src="/js/bootstrap.bundle.js"></script>
 </head>
 <body>
-<form method="POST" action="/district/edit" modelAttribute="district">
+<form:form method="POST" action="/district/save" modelAttribute="district">
     <div class="form-group">
+        <form:hidden path="id" />
         <label for="nameDistrict">Район:</label>
-        <form:input path="name" type="text" class="form-control" id="nameDistrict" aria-describedby="nameHelp" placeholder="Название района">
+        <form:input path="name" type="text" class="form-control" id="nameDistrict" aria-describedby="nameHelp" placeholder="Название района"/>
         <small id="nameHelp" class="form-text text-muted">Необходимо название района</small>
     </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
-</form>
+    <button type="submit" class="btn btn-info btn-sm">Сохранить</button>
+</form:form>
 </body>
 </html>

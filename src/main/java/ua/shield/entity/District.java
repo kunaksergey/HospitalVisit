@@ -1,18 +1,14 @@
 package ua.shield.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
-/**
- * Created by sa on 03.12.17.
- */
 @Entity
 @Table(name="district")
 public class District {
     @Id
-    private int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Integer id;
     @Column(name = "name")
     private String name;
 
@@ -24,11 +20,11 @@ public class District {
         this.name=name;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

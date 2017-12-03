@@ -2,6 +2,7 @@ package ua.shield.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -40,7 +41,7 @@ public class DistrictController {
         return "redirect:/admin/district/list";
     }
 
-    @RequestMapping(value="edit/{id}",method = RequestMethod.GET)
+    @RequestMapping(value="/edit/{id}",method = RequestMethod.GET)
     ModelAndView edit(@PathVariable Integer id ){
         ModelAndView modelAndView=new ModelAndView();
         modelAndView.addObject("district",districtService.findOne(id));
@@ -48,10 +49,10 @@ public class DistrictController {
         return modelAndView;
     }
 
-    @RequestMapping(method = RequestMethod.POST)
-    String edit(District district){
+    @RequestMapping(value = "/save",method = RequestMethod.POST)
+    String save(@ModelAttribute("district")  District district){
         districtService.save(district);
-        return "redirect:/admin/district/list";
+        return "redirect:/district";
     }
 
 
