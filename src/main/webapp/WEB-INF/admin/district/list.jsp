@@ -13,7 +13,7 @@
     <script src="/js/bootstrap.bundle.js"></script>
 </head>
 <body>
-<h1>Все районы</h1>
+<h2>Все районы</h2>
 <table  class="table table-striped">
     <thead>
     <tr>

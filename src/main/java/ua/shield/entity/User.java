@@ -16,5 +16,6 @@ public class User {
     private String phone;
     private String email;
     private Set<Role> roles;
+    private byte[] image;
     private int status;
 }

@@ -16,7 +16,7 @@
 <%--Menu--%>
 <nav class="nav">
     <a class="nav-link active" href="/district">Район</a>
-    <a class="nav-link" href="#">Больница</a>
+    <a class="nav-link" href="/hospital">Больница</a>
     <a class="nav-link" href="#">Администраторы больниц</a>
     <a class="nav-link" href="#">Доктора</a>
     <a class="nav-link" href="#">Специализации</a>
