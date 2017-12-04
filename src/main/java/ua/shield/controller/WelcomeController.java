@@ -1,11 +1,19 @@
 package ua.shield.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import ua.shield.domen.AjaxResponseBody;
+import ua.shield.domen.SearchCriteria;
+import ua.shield.dto.DoctorDto;
 import ua.shield.service.DistrictService;
 import ua.shield.service.NewsService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by sa on 03.12.17.
@@ -25,6 +33,24 @@ public class WelcomeController {
         modelAndView.setViewName("welcome");
         return modelAndView;
     }
+
+    @PostMapping(value = "/search_name", produces = { MediaType.APPLICATION_JSON_VALUE })
+    @ResponseBody
+    public AjaxResponseBody searchName(@ModelAttribute SearchCriteria searchCriteria,
+                                       BindingResult result){
+
+        return new AjaxResponseBody();
+    }
+
+    @PostMapping(value="/search_spec",produces = { MediaType.APPLICATION_JSON_VALUE })
+    @ResponseBody
+    public AjaxResponseBody searchSpec(@ModelAttribute SearchCriteria searchCriteria,
+                                      BindingResult result
+    ) {
+
+        return new AjaxResponseBody();
+    }
+
 
     // @RequestMapping("/error")
     public String error() {
