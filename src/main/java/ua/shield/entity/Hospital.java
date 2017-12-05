@@ -14,8 +14,10 @@ public class Hospital {
     private String name;
     @Column(name = "address")
     private String address;
-    @Transient
+
+    @ManyToOne(cascade = CascadeType.ALL)
     private District district;
+
     @Transient
     private Set<String> phones;
     @Transient

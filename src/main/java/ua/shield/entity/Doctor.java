@@ -1,15 +1,29 @@
 package ua.shield.entity;
 
+import javax.persistence.*;
 import java.util.List;
 import java.util.Set;
-
-/**
- * Created by sa on 30.11.17.
- */
+//@Entity
+//@Table(name="doctor")
 public class Doctor extends User {
-    private Specialization specialization;
-    private Set<Hospital> hospitalSet;
+
+    @ManyToOne
+    private List<Specialization> specialization;
+
+    @OneToOne
+    private Hospital hospital;
+    @Transient
     private Set<Schedule> schedules;
+    @Transient
     private Set<Ticket> tickets;
+    @Transient
     private List<News> newsList;
+
+    public Hospital getHospital() {
+        return hospital;
+    }
+
+    public void setHospital(Hospital hospital) {
+        this.hospital = hospital;
+    }
 }

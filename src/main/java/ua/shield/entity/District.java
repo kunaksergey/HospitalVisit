@@ -1,6 +1,7 @@
 package ua.shield.entity;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name="district")
@@ -11,6 +12,9 @@ public class District {
     private Integer id;
     @Column(name = "name")
     private String name;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<Hospital> hospitalList;
 
     public District() {
     }
@@ -34,6 +38,14 @@ public class District {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<Hospital> getHospitalList() {
+        return hospitalList;
+    }
+
+    public void setHospitalList(List<Hospital> hospitalList) {
+        this.hospitalList = hospitalList;
     }
 
     @Override
