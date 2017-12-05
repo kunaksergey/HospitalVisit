@@ -2,19 +2,30 @@ package ua.shield.entity;
 
 import ua.shield.enum_.Role;
 
+import javax.persistence.*;
 import java.util.Set;
 
-/**
- * Created by sa on 30.11.17.
- */
+@Entity
+@Table(name="users")
 public class User {
+    @Id
+    @Column(name="id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String login;
     private String password;
+    @Transient
+    private String confirmPassword;
+
     private String fullName;
     private String birthday;
     private String phone;
     private String email;
+
+    @ManyToMany
+    @JoinTable (name = "user_roles",
+            joinColumns = @JoinColumn (name = "USER_ID"),
+            inverseJoinColumns =@JoinColumn(name = "ROLE"))
     private Set<Role> roles;
     private byte[] image;
     private int status;
@@ -41,6 +52,14 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
+
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
     }
 
     public String getFullName() {
