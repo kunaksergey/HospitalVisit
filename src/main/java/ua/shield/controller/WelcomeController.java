@@ -30,7 +30,7 @@ public class WelcomeController {
     public ModelAndView welcome(ModelAndView modelAndView) {
         modelAndView.addObject("news", newsService.findAll());
         modelAndView.addObject("districts", districtService.findAll());
-        modelAndView.setViewName("welcome");
+        modelAndView.setViewName("/welcome");
         return modelAndView;
     }
 

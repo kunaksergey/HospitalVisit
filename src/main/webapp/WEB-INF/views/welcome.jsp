@@ -1,9 +1,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <html>
 <head>
-    <title>Добро пожаловать</title>
+    <title>Ласкаво просимо</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -29,13 +30,20 @@
                     </nav>
                 </div>
                 <div class="main-navbar__section main-navbar__section_right">
-                    <a href="/login/" id="login" class="btn btn_x-large btn_navbar_login">Войти</a>
-                    <a href="/register/" class="btn btn_x-large btn_navbar_registration">Регистрация</a>
+                    <sec:authorize access="!isAuthenticated()">
+                        <a href="/login/" id="login" class="btn btn_x-large btn_navbar_login">Ввійти</a>
+                        <a href="/registration/" class="btn btn_x-large btn_navbar_registration">Реєстрація</a>
+                    </sec:authorize>
+                    <sec:authorize access="isAuthenticated()">
+                        <a class="nav-link" href="/cabinet">Особистий кабінет</a>
+                        <a class="nav-link" href="/logout">Выйти</a>
+                    </sec:authorize>
                 </div>
             </div>
         </div>
     </div>
     <%--End menu--%>
+
 
     <%--Search--%>
     <div class="row">
