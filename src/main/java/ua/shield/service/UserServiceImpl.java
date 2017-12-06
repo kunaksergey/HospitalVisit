@@ -5,11 +5,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import ua.shield.entity.User;
+import ua.shield.repository.UserRepository;
 
 @Service("userService")
 public class UserServiceImpl implements UserService {
+    
     @Autowired
-    private UserService userService;
+    private UserRepository userRepository;
 
     @Autowired
     private RoleService roleService;
@@ -20,11 +22,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public User save(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        return userService.save(user);
+        return userRepository.save(user);
     }
 
     @Override
-    public User findByLogin(String login) {
-        return findByLogin(login);
+    public User findByUsername(String username) {
+        
+        return userRepository.findByUsername(username);
     }
 }

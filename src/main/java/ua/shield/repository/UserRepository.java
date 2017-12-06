@@ -7,5 +7,5 @@ import ua.shield.entity.User;
  * Created by sa on 05.12.17.
  */
 public interface UserRepository extends JpaRepository<User,Integer>{
-    User findByLogin(String login);
+    User findByUsername(String username);
 }

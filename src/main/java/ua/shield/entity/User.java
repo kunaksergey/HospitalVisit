@@ -1,6 +1,6 @@
 package ua.shield.entity;
 
-import ua.shield.enum_.Role;
+import ua.shield.enum_.RoleEnum;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -12,7 +12,7 @@ public class User {
     @Column(name="id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String login;
+    private String username;
     private String password;
     @Transient
     private String confirmPassword;
@@ -28,7 +28,7 @@ public class User {
             inverseJoinColumns =@JoinColumn(name = "ROLE"))
     private Set<Role> roles;
     private byte[] image;
-    private int status;
+    private boolean enabled;
 
     public int getId() {
         return id;
@@ -38,12 +38,12 @@ public class User {
         this.id = id;
     }
 
-    public String getLogin() {
-        return login;
+    public String getUsername() {
+        return username;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
@@ -110,11 +110,12 @@ public class User {
         this.image = image;
     }
 
-    public int getStatus() {
-        return status;
+    public boolean isEnabled() {
+        return enabled;
     }
 
-    public void setStatus(int status) {
-        this.status = status;
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
+
 }

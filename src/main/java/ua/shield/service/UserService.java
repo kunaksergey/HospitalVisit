@@ -7,5 +7,5 @@ import ua.shield.entity.User;
  */
 public interface UserService {
     User save(User user);
-    User findByLogin(String login);
+    User findByUsername(String username);
 }
