@@ -13,7 +13,10 @@
     <script src="/js/bootstrap.bundle.js"></script>
     <script src="/js/bootstrap.js"></script>
     <script src="/js/cabinet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.min.js"></script>
+    <script src="/js/bootstrap-datepicker.ua.js" charset="UTF-8"></script>
     <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.standalone.min.css"/>
  </head>
 
 <body>
@@ -23,33 +26,36 @@
     <c:out value="${user.phone}"/><br/>
     <c:out value="${user.email}"/><br/>
     <a id="reg-child-open" class="nav-link" href="#">Зареєструвати дитину</a>
-</div>
 
-<div id="reg-child" class="container">
-    <div class="row">
-        <div class="col-lg-6">
-            <div id="reg-child-content" class="jumbotron">
-                <p><a id="reg-child-close" href="#">Закрити</a></p>
-                <div id="reg-child-body">
-                    <form id="f_add-child" role="form" method="post">
-                        <div class="form-group ">
-                            <input type="text" name="fullname" class="form-control" required
-                                   placeholder="ПІБ дитини">
-                        </div>
+    <div id="reg-child-dialog" class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <div id="reg-child-content" class="jumbotron">
+                    <p><a id="reg-child-close" href="#">Закрити</a></p>
+                    <div id="reg-child-body">
+                        <form id="f_add-child" role="form" method="post">
+                            <div class="form-group ">
+                                <input type="text" name="fullName" class="form-control" required
+                                       placeholder="ПІБ дитини">
+                            </div>
 
-                        <div class="form-group">
-                            <input type="date" name="birthday" class="form-control" required/>
-                        </div>
+                            <div class="form-group">
+                                <input class="datepicker" name="birthDay" placeholder="дата">
+                            </div>
 
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-info btn-sm">Додати</button>
-                        </div>
-                    </form>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-info btn-sm">Додати</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<div class="container" id="childDetails">
+</div>
+
 
 </body>
 </html>

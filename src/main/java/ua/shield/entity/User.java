@@ -1,6 +1,6 @@
 package ua.shield.entity;
 
-import ua.shield.enum_.RoleEnum;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -10,15 +10,17 @@ import java.util.Set;
 public class User {
     @Id
     @Column(name="id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
     @Column(name="username")
     private String username;
 
     @Column(name="password")
+    @JsonIgnore
     private String password;
     @Transient
+    @JsonIgnore
     private String confirmPassword;
 
     @Column(name="fullname")
@@ -30,6 +32,10 @@ public class User {
 
     @Column(name="email")
     private String email;
+
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "user", orphanRemoval = true)
+    @OrderBy(value = "fullname")
+    private Set<Chield> chields;
 
     @ManyToMany
     @JoinTable (name = "user_roles",
@@ -127,4 +133,16 @@ public class User {
         this.enabled = enabled;
     }
 
+    public Set<Chield> getChields() {
+        return chields;
+    }
+
+    public void setChields(Set<Chield> chields) {
+        this.chields = chields;
+    }
+
+    public void addChield(Chield chield) {
+        chields.add(chield);
+        chield.setUser(this);
+    }
 }

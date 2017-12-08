@@ -71,12 +71,17 @@
 #reg-child-content{
     display: none;
 }
-
+#reg-child-dialog{
+    position: absolute;
+    z-index: 1000;
+    top: 177px;
+    left: 103px;
+    }
 .jumbotron{
     position: relative;
     padding: 10px ;
     margin-top:20px;
-    background: #eee;
+    background: #868e96;
     text-align:center;
     margin-bottom:10px;
 }

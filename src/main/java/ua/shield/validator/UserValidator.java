@@ -8,6 +8,8 @@ import org.springframework.validation.Validator;
 import ua.shield.entity.User;
 import ua.shield.service.UserService;
 
+import java.util.regex.Pattern;
+
 @Component
 public class UserValidator implements Validator {
     @Autowired
@@ -23,6 +25,7 @@ public class UserValidator implements Validator {
         User user = (User) obj;
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "userform.required");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "userform.required");
 
         if (user.getUsername().length() < 8 || user.getUsername().length() > 32) {
             errors.rejectValue("username", "userform.username.length");
@@ -30,6 +33,12 @@ public class UserValidator implements Validator {
 
         if (userService.findByUsername(user.getUsername()) != null) {
             errors.rejectValue("username", "userform.username.duplicate");
+        }
+
+        Pattern pattern = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$",
+                Pattern.CASE_INSENSITIVE);
+        if (!(pattern.matcher(user.getEmail()).matches())) {
+            errors.rejectValue("email", "userform.email.invalid");
         }
 
 

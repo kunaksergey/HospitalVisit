@@ -1,19 +1,24 @@
 package ua.shield.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import ua.shield.entity.Chield;
 import ua.shield.entity.User;
 import ua.shield.service.SecurityService;
 import ua.shield.service.UserService;
 import ua.shield.validator.UserValidator;
 
 import java.security.Principal;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Set;
 
 /**
  * Created by sa on 06.12.17.
@@ -29,6 +34,13 @@ public class UserController {
     @Autowired
     UserValidator userValidator;
 
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        dateFormat.setLenient(false);
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
+    }
+
     @RequestMapping(value = "/registration",method= RequestMethod.GET)
     public String registration(Model model){
         model.addAttribute("userForm",new User());
@@ -41,7 +53,7 @@ public class UserController {
         if(bindingResult.hasErrors()){
             return "/user/registration";
         }
-       userService.save(userForm);
+       userService.add(userForm);
        securityService.autoLogin(userForm.getUsername(),userForm.getConfirmPassword());
        return "redirect:/welcome";
     }
@@ -62,5 +74,19 @@ public class UserController {
         return modelAndView;
     }
 
+    @RequestMapping(value = "/cabinet/addChield",method= RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_VALUE })
+    @ResponseBody
+    public Set<Chield> addChield(@ModelAttribute Chield chield, BindingResult bindingResult,Principal principal){
+        User user = userService.findByUsername(principal.getName());
+        user.addChield(chield);
+        return userService.update(user).getChields();
+    }
+
+    @RequestMapping(value = "/cabinet/getChield",method= RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
+    @ResponseBody
+    public Set<Chield> getChield(Principal principal){
+        User user = userService.findByUsername(principal.getName());
+       return user.getChields();
+    }
 
 }

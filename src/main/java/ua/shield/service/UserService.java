@@ -6,6 +6,7 @@ import ua.shield.entity.User;
  * Created by sa on 05.12.17.
  */
 public interface UserService {
-    User save(User user);
+    User add(User user);
+    User update(User user);
     User findByUsername(String username);
 }

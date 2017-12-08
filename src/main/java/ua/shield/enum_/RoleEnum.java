@@ -7,5 +7,5 @@ public enum RoleEnum {
     ROLE_ADMIN,
     ROLE_ADMIN_HOSPITAL,
     ROLE_DOCTOR,
-    ROLE_PATIENT;
+    ROLE_USER;
 }

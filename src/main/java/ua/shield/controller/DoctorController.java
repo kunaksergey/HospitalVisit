@@ -1,10 +1,13 @@
 package ua.shield.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import ua.shield.del.ShedDel;
 import ua.shield.entity.Doctor;
 import ua.shield.entity.Hospital;
 import ua.shield.service.DoctorService;
@@ -49,6 +52,13 @@ public class DoctorController {
     String add(Doctor doctor){
         doctorService.save(doctor);
         return "redirect:/admin/doctor/list";
+    }
+
+    @RequestMapping(value="schedule",method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
+    @ResponseBody
+    ShedDel shedule(){
+        ShedDel shedDel = new ShedDel();
+        return shedDel;
     }
 
 }
