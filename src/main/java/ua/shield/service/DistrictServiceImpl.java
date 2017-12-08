@@ -12,6 +12,7 @@ import java.util.List;
 
 @Service("districtService")
 public class DistrictServiceImpl implements DistrictService {
+
     @Autowired
     DistrictRepository districtRepository;
 

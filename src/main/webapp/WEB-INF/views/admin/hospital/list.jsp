@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <title>Список мед учереждений</title>
+    <title>Мед.заклади</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -13,16 +13,16 @@
     <script src="/js/bootstrap.bundle.js"></script>
 </head>
 <body>
-<h2>Все мед. учереждения</h2>
+<h2>Усі мед. заклади</h2>
 <table  class="table table-striped">
     <thead>
     <tr>
-        <th>Наименование</th>
-        <th>Адресс</th>
+        <th>Найменування</th>
+        <th>Адреса</th>
         <th>Район</th>
         <%--<th> <span class="glyphicon">&#x270f;</span></th>--%>
         <th> <a href="hospital/add" class="btn btn-info btn-sm">
-            <span class="glyphicon glyphicon-pencil">Создать</span>
+            <span class="glyphicon glyphicon-pencil">Створити</span>
         </a></th>
     </tr>
     </thead>
@@ -34,7 +34,7 @@
             <td><c:out value="${hospital.district.name}"/></td>
             <td>
                 <a href="hospital/edit/${hospital.id}" class="btn btn-info btn-sm">
-                    <span class="glyphicon glyphicon-pencil">Edit</span>
+                    <span class="glyphicon glyphicon-pencil">Зберегти</span>
                 </a>
             </td>
         </tr>

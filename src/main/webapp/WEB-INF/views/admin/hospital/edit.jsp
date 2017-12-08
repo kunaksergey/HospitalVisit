@@ -4,7 +4,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <html>
 <head>
-    <title>Список мед-учереждений</title>
+    <title>Список мед.закладів</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -17,15 +17,15 @@
 <form:form method="POST" action="/hospital/save" modelAttribute="hospital">
     <div class="form-group">
         <form:hidden path="id" />
-        <label for="name">Мед.Учереждение:</label>
+        <label for="name">Мед.Заклади:</label>
     </div>
     <div class="form-group">
         <form:input path="name" type="text" class="form-control" id="name" placeholder="Название мед.учреждения"/>
-        <small class="form-text text-muted">Укажите название</small>
+        <small class="form-text text-muted">Вкажіть найменування</small>
     </div>
     <div class="form-group">
         <form:input path="address" type="text" class="form-control" id="address" placeholder="Адресс"/>
-        <small class="form-text text-muted">Укажите адресс</small>
+        <small class="form-text text-muted">Вкажіть адресу</small>
     </div>
     <div class="form-group">
         <form:select class="form-control" id="district_select" path="district">
@@ -36,9 +36,9 @@
                 </option>
             </c:forEach>
         </form:select>
-        <small class="form-text text-muted">Выберите район</small>
+        <small class="form-text text-muted">Выберіть район</small>
     </div>
-    <button type="submit" class="btn btn-info btn-sm">Сохранить</button>
+    <button type="submit" class="btn btn-info btn-sm">Зберегти</button>
 </form:form>
 </body>
 </html>

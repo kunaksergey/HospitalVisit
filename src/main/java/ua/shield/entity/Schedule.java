@@ -27,12 +27,14 @@ public class Schedule {
     private Date start;//начало работы расписания
 
     @ManyToOne
-    @JoinColumn(name = "doctor_id")
-    private Doctor doctor;//врач
+    @JoinColumn(name = "user_id")
+    private User user;//врач
 
     @Column(name="room")
     private String room;//кабинет приема
-    Set<Day> daySet;
+
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "schedule", orphanRemoval = true)
+    private Set<Day> daySet;
 
     public Schedule() {
     }
@@ -53,12 +55,12 @@ public class Schedule {
         this.start = start;
     }
 
-    public Doctor getDoctor() {
-        return doctor;
+    public User getUser() {
+        return user;
     }
 
-    public void setDoctor(Doctor doctor) {
-        this.doctor = doctor;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getRoom() {

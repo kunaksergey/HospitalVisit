@@ -12,7 +12,7 @@ import java.util.List;
 public class NewsServiceImpl implements NewsService {
 
     @Autowired
-    NewsRepository newsRepository;
+    private NewsRepository newsRepository;
 
 
     @Override
