@@ -1,5 +1,7 @@
 package ua.shield.entity;
 
+import ua.shield.enum_.RoleEnum;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Set;
@@ -9,7 +11,8 @@ import java.util.Set;
 public class Role implements Serializable {
     @Id
     @Column(name="ROLE")
-    private String role;
+    @Enumerated(EnumType.STRING)
+    private RoleEnum role;
 
     @ElementCollection(targetClass=User.class)
     @ManyToMany
@@ -21,19 +24,17 @@ public class Role implements Serializable {
     public Role() {
     }
 
-    public Role(String role) {
+    public Role(RoleEnum role) {
         this.role = role;
     }
 
-
-    public String getRole() {
+    public RoleEnum getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(RoleEnum role) {
         this.role = role;
     }
-
 
     public Set<User> getUserSet() {
         return userSet;
@@ -42,6 +43,8 @@ public class Role implements Serializable {
     public void setUserSet(Set<User> userSet) {
         this.userSet = userSet;
     }
+
+
 
     @Override
     public boolean equals(Object o) {

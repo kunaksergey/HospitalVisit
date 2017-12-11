@@ -12,6 +12,8 @@ import ua.shield.repository.UserRepository;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Service("userService")
 @Transactional
@@ -29,9 +31,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public User add(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        HashSet<Role> roles=new HashSet<>();
-        roles.add(new Role(RoleEnum.ROLE_USER.name()));
-        user.setRoles(roles);
         return userRepository.saveAndFlush(user);
     }
 
@@ -42,7 +41,26 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findByUsername(String username) {
-        
         return userRepository.findByUsername(username);
+    }
+
+    @Override
+    public User findOne(Integer id) {
+        return userRepository.findOne(id);
+    }
+
+    @Override
+    public List<User> findByRolesIn(Set<Role> roles) {
+        return userRepository.findByRolesIn(roles);
+    }
+
+    @Override
+    public List<User> findByRoles(Role role) {
+        return userRepository.findByRoles(role);
+    }
+
+    @Override
+    public List<User> findAll() {
+        return userRepository.findAll();
     }
 }

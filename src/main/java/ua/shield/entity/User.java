@@ -1,47 +1,53 @@
 package ua.shield.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import ua.shield.enum_.RoleEnum;
 
 import javax.persistence.*;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name="users")
+@Table(name = "users")
 public class User {
     @Id
-    @Column(name="id")
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @Column(name="username")
+    @Column(name = "username")
     private String username;
 
-    @Column(name="password")
+    @Column(name = "password")
     @JsonIgnore
     private String password;
     @Transient
     @JsonIgnore
     private String confirmPassword;
 
-    @Column(name="fullname")
+    @Column(name = "fullname")
     private String fullName;
 
     private String birthday;
-    @Column(name="phone")
+    @Column(name = "phone")
     private String phone;
 
-    @Column(name="email")
+    @Column(name = "email")
     private String email;
 
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "user", orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
     @OrderBy(value = "fullname")
     private Set<Chield> chields;
 
     @ManyToMany
-    @JoinTable (name = "user_roles",
-            joinColumns = @JoinColumn (name = "USER_ID"),
-            inverseJoinColumns =@JoinColumn(name = "ROLE"))
+    @JoinTable(name = "user_roles",
+            joinColumns = @JoinColumn(name = "USER_ID"),
+            inverseJoinColumns = @JoinColumn(name = "ROLE"))
     private Set<Role> roles;
+    @Transient
+    private Set<RoleEnum> roles2 = new HashSet<>(Arrays.asList(RoleEnum.ROLE_USER, RoleEnum.ROLE_ADMIN));
+
     private byte[] image;
     private boolean enabled;
 
@@ -125,8 +131,21 @@ public class User {
         this.image = image;
     }
 
+    public Set<RoleEnum> getRoles2() {
+        return roles2;
+    }
+
+    public void setRoles2(Set<RoleEnum> roles2) {
+        this.roles2 = roles2;
+    }
+
     public boolean isEnabled() {
         return enabled;
+
+    }
+
+    public boolean hasRole(RoleEnum roleEnum) {
+        return roles.contains(new Role(roleEnum));
     }
 
     public void setEnabled(boolean enabled) {

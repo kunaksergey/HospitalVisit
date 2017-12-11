@@ -1,6 +1,6 @@
 $(document).ready(function () {
-    var urlGetChield = "/cabinet/getChield";
-    var urlAddChield = "/cabinet/addChield";
+    var urlGetChield = "/user/getChield";
+    var urlAddChield = "/user/addChield";
     $.ajax({
         type: "GET",
         url: urlGetChield,
@@ -28,6 +28,7 @@ $(document).ready(function () {
     });
 
     $("#f_add-child").on("submit", function (event) {
+        console.log($("#f_add-child").serialize());
         $.ajax({
             type: "POST",
             url: urlAddChield,
