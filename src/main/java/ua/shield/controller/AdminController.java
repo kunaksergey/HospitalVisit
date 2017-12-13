@@ -7,9 +7,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import ua.shield.entity.Hospital;
 import ua.shield.entity.Role;
 import ua.shield.entity.User;
 import ua.shield.enum_.RoleEnum;
+import ua.shield.service.HospitalService;
 import ua.shield.service.UserService;
 
 import java.util.*;
@@ -23,28 +25,25 @@ public class AdminController {
     @Autowired
     UserService userService;
 
-    @RequestMapping(method = RequestMethod.GET)
-    String welcome(){
-        return "/admin/index";
-    }
+    @Autowired
+    HospitalService hospitalService;
 
-    @RequestMapping(value = "users")
+    @RequestMapping(value = "/users")
     String showAll(Model model){
         model.addAttribute("users",userService.findAll());
-        model.addAttribute("roleSet",new ArrayList<>(Arrays.asList(RoleEnum.values())));
-        model.addAttribute("rolesForm",RoleEnum.values());
         return "/admin/user/list";
     }
 
-    @RequestMapping(value = "users/{role}")
+    @RequestMapping(value = "/users/{role}")
     String showAll(@PathVariable RoleEnum role, Model model){
         model.addAttribute("users",userService.findByRoles(new Role(role)));
         return "/admin/user/list";
     }
 
-    @RequestMapping(value = "user/edit/{id}",method = RequestMethod.GET)
+    @RequestMapping(value = "/user/edit/{id}",method = RequestMethod.GET)
     String edit(@PathVariable Integer id, Model model){
         model.addAttribute("user",userService.findOne(id));
+        model.addAttribute("hospitals",hospitalService.findAll());
         model.addAttribute("roles",RoleEnum.values());
         return "/admin/user/edit";
     }

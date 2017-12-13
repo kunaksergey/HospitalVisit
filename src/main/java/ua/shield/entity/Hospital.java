@@ -90,4 +90,19 @@ public class Hospital {
     public void setNewsList(List<News> newsList) {
         this.newsList = newsList;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Hospital hospital = (Hospital) o;
+
+        return name != null ? name.equals(hospital.name) : hospital.name == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return name != null ? name.hashCode() : 0;
+    }
 }

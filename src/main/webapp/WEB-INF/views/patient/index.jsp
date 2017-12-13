@@ -20,6 +20,7 @@
  </head>
 
 <body>
+<h2>Особистий кабінет</h2>
 <div class="container">
     <c:out value="${user.username}"/><br/>
     <c:out value="${user.fullName}"/><br/>

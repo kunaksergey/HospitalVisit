@@ -13,9 +13,8 @@ import ua.shield.entity.User;
 import ua.shield.enum_.RoleEnum;
 import ua.shield.service.SecurityService;
 import ua.shield.service.UserService;
-import ua.shield.validator.UserValidator;
+import ua.shield.validator.UserFormValidator;
 
-import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -33,7 +32,7 @@ public class UserController {
     SecurityService securityService;
 
     @Autowired
-    UserValidator userValidator;
+    UserFormValidator userValidator;
 
     @InitBinder
     public void initBinder(WebDataBinder binder) {

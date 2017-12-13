@@ -35,7 +35,6 @@
                         <a href="/registration/" class="btn btn_x-large btn_navbar_registration">Реєстрація</a>
                     </sec:authorize>
                     <sec:authorize access="isAuthenticated()">
-                        <a class="nav-link" href="/cabinet">Особистий кабінет</a>
                         <a class="nav-link" href="/logout">Выйти</a>
                     </sec:authorize>
                 </div>
@@ -47,7 +46,7 @@
 
     <%--Search--%>
     <div class="row">
-        <div class="col-lg-11">
+        <div class="col-lg-10">
             <div class="bd-example bd-example-tabs" role="tabpanel">
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                     <li class="nav-item">
@@ -63,9 +62,9 @@
                 <div class="tab-content" id="myTabContent">
 
                     <%--Tab search spec--%>
-                    <div role="tabpanel" class="tab-pane fade show active" id="tab_search_spec">
+                    <div role="tabpanel" class="tab-pane show active" id="tab_search_spec">
                         <form id="f_search_spec" class="form-search form-inline" role="form">
-                            <div class="input-group col-lg-6">
+                            <div class="input-group col-lg-4">
                                 <input type="text" name="search" class="form-control input-medium search-query" required
                                        placeholder="Поиск по специализации">
                             </div>
@@ -87,12 +86,12 @@
                             </div>
                         </form>
                     </div>
-                    <%--End Tab--%>
+                    <%--End Tab search spec--%>
 
                     <%--Tab search name--%>
-                    <div role="tabpanel" class="tab-pane fade" id="tab_search_name">
+                    <div role="tabpanel" class="tab-pane" id="tab_search_name">
                         <form id="f_search_name" class="form-search form-inline" role="form" method="post">
-                            <div class="input-group col-lg-6">
+                            <div class="input-group col-lg-4">
                                 <input type="text" name="search" class="form-control search-query" required
                                        placeholder="Поиск по фамилии">
                             </div>
@@ -114,8 +113,24 @@
                             </div>
                         </form>
                     </div>
-                    <%--End Tab--%>
+                    <%--End Tab search name--%>
                 </div>
+            </div>
+        </div>
+        <div class="col-lg-2">
+            <div class="list-group">
+                <sec:authorize access="hasRole(\"ROLE_USER\")">
+                <a href="/patient" class="list-group-item">Особистий кабінет</a>
+                </sec:authorize>
+                <sec:authorize access="hasRole(\"ROLE_DOCTOR\")">
+                <a href="/doctor" class="list-group-item">Кабінет лікаря</a>
+                </sec:authorize>
+                <sec:authorize access="hasRole(\"ROLE_ADMIN_HOSPITAL\")">
+                <a href="/mgr" class="list-group-item">Завідуючий</a>
+                </sec:authorize>
+                <sec:authorize access="hasRole(\"ROLE_ADMIN\")">
+                <a href="/admin" class="list-group-item">Адмінка</a>
+                </sec:authorize>
             </div>
         </div>
     </div>

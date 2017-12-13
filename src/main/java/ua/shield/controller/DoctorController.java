@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-import ua.shield.del.ShedDel;
 import ua.shield.entity.Doctor;
 import ua.shield.entity.Hospital;
 import ua.shield.service.DoctorService;
@@ -31,7 +30,7 @@ public class DoctorController {
         return null;
     }
 
-    @RequestMapping
+    @RequestMapping(value="bred",method = RequestMethod.GET)
     ModelAndView showAll(){
         ModelAndView modelAndView=new ModelAndView();
         modelAndView.addObject("doctors",doctorService.findAll());
@@ -50,15 +49,15 @@ public class DoctorController {
 
     @RequestMapping(value="add",method = RequestMethod.POST)
     String add(Doctor doctor){
-        doctorService.save(doctor);
+//        doctorService.save(doctor);
         return "redirect:/admin/doctor/list";
     }
 
-    @RequestMapping(value="schedule",method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
-    @ResponseBody
-    ShedDel shedule(){
-        ShedDel shedDel = new ShedDel();
-        return shedDel;
-    }
+//    @RequestMapping(value="schedule",method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
+//    @ResponseBody
+//    ShedDel shedule(){
+//        ShedDel shedDel = new ShedDel();
+//        return shedDel;
+//    }
 
 }

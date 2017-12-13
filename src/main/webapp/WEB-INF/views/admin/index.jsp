@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <title>Панель администратора</title>
+    <title>Панель адміністратора</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -13,6 +13,7 @@
     <script src="/js/bootstrap.bundle.js"></script>
 </head>
 <body>
+<h2>Панель адміністратора</h2>
 <%--Menu--%>
 <nav class="nav">
     <a class="nav-link active" href="/district">Район</a>

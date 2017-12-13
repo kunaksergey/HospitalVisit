@@ -22,6 +22,7 @@ public class User {
     @Column(name = "password")
     @JsonIgnore
     private String password;
+
     @Transient
     @JsonIgnore
     private String confirmPassword;
@@ -45,9 +46,9 @@ public class User {
             joinColumns = @JoinColumn(name = "USER_ID"),
             inverseJoinColumns = @JoinColumn(name = "ROLE"))
     private Set<Role> roles;
-    @Transient
-    private Set<RoleEnum> roles2 = new HashSet<>(Arrays.asList(RoleEnum.ROLE_USER, RoleEnum.ROLE_ADMIN));
 
+    @OneToOne
+    private Hospital hospital;
     private byte[] image;
     private boolean enabled;
 
@@ -131,14 +132,6 @@ public class User {
         this.image = image;
     }
 
-    public Set<RoleEnum> getRoles2() {
-        return roles2;
-    }
-
-    public void setRoles2(Set<RoleEnum> roles2) {
-        this.roles2 = roles2;
-    }
-
     public boolean isEnabled() {
         return enabled;
 
@@ -158,6 +151,14 @@ public class User {
 
     public void setChields(Set<Chield> chields) {
         this.chields = chields;
+    }
+
+    public Hospital getHospital() {
+        return hospital;
+    }
+
+    public void setHospital(Hospital hospital) {
+        this.hospital = hospital;
     }
 
     public void addChield(Chield chield) {

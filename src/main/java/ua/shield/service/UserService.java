@@ -1,8 +1,10 @@
 package ua.shield.service;
 
+import ua.shield.entity.Hospital;
 import ua.shield.entity.Role;
 import ua.shield.entity.User;
 import ua.shield.enum_.RoleEnum;
+import ua.shield.exeption.UserRegistrationException;
 
 import java.util.List;
 import java.util.Set;
@@ -18,5 +20,6 @@ public interface UserService {
     List<User> findByRolesIn(Set<Role> roles);
     List<User> findByRoles(Role role);
     List<User> findAll();
-
+    User findByEmail(String email);
+    List<User> findByHospitalAndRoles(Hospital hospital, Role role);
 }

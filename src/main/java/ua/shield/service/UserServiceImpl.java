@@ -5,9 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ua.shield.entity.Hospital;
 import ua.shield.entity.Role;
 import ua.shield.entity.User;
 import ua.shield.enum_.RoleEnum;
+import ua.shield.exeption.UserRegistrationException;
 import ua.shield.repository.UserRepository;
 
 import java.util.Arrays;
@@ -62,5 +64,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> findAll() {
         return userRepository.findAll();
+    }
+
+    @Override
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
+    @Override
+    public List<User> findByHospitalAndRoles(Hospital hospital, Role role) {
+        return userRepository.findByHospitalAndRoles(hospital,role);
     }
 }

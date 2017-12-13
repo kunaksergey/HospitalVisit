@@ -51,6 +51,25 @@ public class WelcomeController {
         return new AjaxResponseBody();
     }
 
+    @RequestMapping("/admin")
+    public String welcomeAdmin() {
+        return "/admin/index";
+    }
+
+    @RequestMapping("/doctor")
+    public String welcomeDoctor() {
+        return "/doctor/index";
+    }
+
+    @RequestMapping("/mgr")
+    public String welcomeMgr() {
+        return "/mgr/index";
+    }
+
+    @RequestMapping("/patient")
+    public String welcomePatient() {
+        return "/patient/index";
+    }
 
     // @RequestMapping("/error")
     public String error() {
