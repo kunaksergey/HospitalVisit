@@ -56,5 +56,11 @@
     </div>
     <button type="submit" class="btn btn-info btn-sm">Сохранить</button>
 </form:form>
+<div id="schedule">
+    <div id="schedule-content">
+        <p><a id="schedule-close" href="#">Close</a></p>
+        <div id="schedule-body"></div>
+    </div>
+</div>
 </body>
 </html>

@@ -1,13 +1,12 @@
 package ua.shield.entity;
 
-import org.hibernate.annotations.GeneratorType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.springframework.format.annotation.DateTimeFormat;
-import ua.shield.enum_.WeekDayEnum;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.util.Date;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -26,6 +25,7 @@ public class Schedule {
     @DateTimeFormat(pattern = "dd-mm-yyyy")
     private Date start;//начало работы расписания
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;//врач
@@ -34,7 +34,8 @@ public class Schedule {
     private String room;//кабинет приема
 
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "schedule", orphanRemoval = true)
-    private Set<Day> daySet;
+    @JsonProperty("scheduleDetails")
+    private Set<ScheduleDetail> detailsSet;
 
     public Schedule() {
     }
@@ -71,11 +72,11 @@ public class Schedule {
         this.room = room;
     }
 
-    public Set<Day> getDaySet() {
-        return daySet;
+    public Set<ScheduleDetail> getDetailsSet() {
+        return detailsSet;
     }
 
-    public void setDaySet(Set<Day> daySet) {
-        this.daySet = daySet;
+    public void setDetailsSet(Set<ScheduleDetail> detailsSet) {
+        this.detailsSet = detailsSet;
     }
 }
