@@ -1,62 +1,78 @@
 $(document).ready(function () {
-    $("#schedule-content").css("display", "none");
-
+    // $("#schedule-content").css("display", "none");
+    //
     $("#schedule-add").on("click", function (event) {
         event.preventDefault();
-        console.log("test");
-        $("#schedule-content").css("display", "block");
-        $("#schedule-add").css("display", "none");
-        $("#sched-time-add").css("display", "block");
-        $("#sched-time-content").css("display", "none");
-
+        $("#table-content").empty().append(createEmptyTables());
     });
 
-    $("#sched-time-add").on("click", function (event) {
+    $(".schedule-loaded").on("click", function (event) {
         event.preventDefault();
-        $("#sched-time-content").css("display", "block");
-        $("#sched-time-add").css("display", "none");
-    });
-
-
-    $(".schedule-open").on("click", function (event) {
-        var urlSchedule=$(this).attr("href");
-        event.preventDefault();
+        var urlSchedule = $(this).attr("href");
         $.ajax
         ({
             type: 'GET',
-            url:urlSchedule,
-            // beforeSend: function (xhr) {
-            //
-            //     xhr.setRequestHeader('Authorization', make_token($.cookie('coupon-token')));
-            // },
+            url: urlSchedule,
+            dataType: 'json',
             success: function (data) {
-                console.log(data);
-
+                $("#table-content").empty().append(createTablesFromRequest(data));
             },
             error: function (xhr, ajaxOptions, throwError) {
-                login_dialog();
+
             }
         });
-
-        $("#schedule-content").css("display", "block");
-        $("#sched-time-add").css("display", "block");
-        $("#sched-time-content").css("display", "none");
-        $(this).css("display", "none");
-
     });
 
-
-    $("#schedule-close").on("click", function (event) {
-        $("#schedule-content").css("display", "none");
-        $("#schedule-add").css("display", "block");
-        $(".schedule-open").css("display", "block");
+    $("#add-time").on("submit", function (ex) {
+        ex.preventDefault();
+        var dayId = $(this).find("[name='day']").val();
+        var timeValue = $(this).find("[name='time']").val();
+        var append = $("#table-content").find('#' + dayId).append(createScheduleTime(timeValue));
     });
 
-    $("#sched-time-close").on("click", function (event) {
-        event.preventDefault();
-        $("#sched-time-content").css("display", "none");
-        $("#sched-time-add").css("display", "block");
-    });
-
+    $('#confirm-delete').on('show.bs.modal', function (e) {
+        var nodeForRemove = $(e.relatedTarget).parent(".schedule-time");
+        $(this).find('.btn-ok').on("click", function (e) {
+            nodeForRemove.remove();
+        });
+     });
 
 });
+
+//создаем tables из полученных данных
+function createTablesFromRequest(data) {
+    var cloneNode = $("#tables-for-clone").clone();
+
+    //заполняем данными из запроса
+    $.each(data.detailsMap, function (index, value) {
+        var evenOrOdd = index;
+        $.each(value, function (index, value) {
+            var weekDay = index;
+            $.each(value, function (index, value) {
+                var idNode = evenOrOdd + '_' + weekDay;
+                cloneNode.find('#' + idNode).append(createScheduleTime(value));
+            });
+        });
+    });
+
+    //End each
+    return cloneNode.children();
+}
+
+//создаем пустые tables
+function createEmptyTables() {
+    var clone = $("#tables-for-clone").clone();
+    return clone.children();
+}
+
+function createScheduleTime(value) {
+    var html = '';
+    html += '<div class="schedule-time">' +
+        '<span>{value}</span>'.replace('{value}', value) +
+        '<a href="#" class="del-time" data-toggle="modal" data-target="#confirm-delete">del</a>' +
+        '</div>';
+    return $.parseHTML(html);
+}
+
+
+
