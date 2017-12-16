@@ -1,6 +1,7 @@
 package ua.shield.entity;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * Created by sa on 30.11.17.
@@ -16,6 +17,12 @@ public class Specialization {
 
     @Column(name = "name")
     private String name;
+
+    @ManyToMany
+    @JoinTable(name = "specialization_details",
+            joinColumns = @JoinColumn(name = "SPECIALIZATION_ID"),
+            inverseJoinColumns = @JoinColumn(name = "USER_ID"))
+    private List<User> user;
 
     public Specialization() {
     }
@@ -34,5 +41,13 @@ public class Specialization {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<User> getUser() {
+        return user;
+    }
+
+    public void setUser(List<User> user) {
+        this.user = user;
     }
 }

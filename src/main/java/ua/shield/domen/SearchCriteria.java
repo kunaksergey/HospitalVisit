@@ -1,25 +1,27 @@
 package ua.shield.domen;
 
+import ua.shield.entity.District;
+
 /**
  * Created by sa on 04.12.17.
  */
 public class SearchCriteria {
-    private Integer district;
-    private String search;
+    private District district;
+    private String searchStr;
 
-    public Integer getDistrict() {
+    public District getDistrict() {
         return district;
     }
 
-    public void setDistrict(Integer district) {
+    public void setDistrict(District district) {
         this.district = district;
     }
 
-    public String getSearch() {
-        return search;
+    public String getSearchStr() {
+        return searchStr;
     }
 
-    public void setSearch(String search) {
-        this.search = search;
+    public void setSearchStr(String searchStr) {
+        this.searchStr = searchStr;
     }
 }

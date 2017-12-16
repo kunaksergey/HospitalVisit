@@ -13,11 +13,13 @@
     <script src="/js/bootstrap.bundle.js"></script>
 </head>
 <body>
-<h2>Панель управляючого</h2>
-<%--Menu--%>
-<nav class="nav">
-    <a class="nav-link" href="/mgr/doctor">Лікірі</a>
-
-</nav>
+<div class="container">
+    <h2>Панель управляючого</h2>
+    <%--Menu--%>
+    <nav class="nav">
+        <a class="nav-link" href="/mgr/doctor">Лікірі</a>
+        <a class="nav-link" href="">Зареєструвати лікаря</a>
+    </nav>
+</div>
 </body>
 </html>

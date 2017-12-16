@@ -8,39 +8,83 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/parts-selector.css">
+    <link rel="stylesheet" href="/css/style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.5/umd/popper.min.js"></script>
     <script src="/js/bootstrap.js"></script>
     <script src="/js/bootstrap.bundle.js"></script>
     <script src="/js/user.js"></script>
+    <script src="/js/parts-selector.js"></script>
     <script src="/js/schedule.js"></script>
-</head>
+    </head>
 <body>
 <div class="container">
     <form:form method="POST" action="/admin_hosp/doctor/save" modelAttribute="doctor">
-        <div class="form-group">
+        <div class="form-group row">
             <form:hidden path="id"/>
         </div>
 
-        <div class="form-group">
-            <label for="fullName">ПІБ:</label>
-            <form:input path="fullName"/>
+        <div class="form-group row">
+            <label for="fullName" class="col-2 col-form-label">ПІБ:</label>
+            <div class="col-6">
+                <form:input path="fullName" class="form-control"/>
+            </div>
         </div>
-        <div class="form-group">
-            <label for="birthday">День народження:</label>
-            <form:input path="birthday"/>
+        <div class="form-group row">
+            <label for="birthday" class="col-2 col-form-label">День народження:</label>
+            <div class="col-6">
+                <form:input path="birthday" class="form-control"/>
+            </div>
         </div>
-        <div class="form-group">
-            <label for="birthday">Телефон:</label>
-            <form:input path="phone"/>
+        <div class="form-group row">
+            <label for="birthday" class="col-2 col-form-label">Телефон:</label>
+            <div class="col-6">
+                <form:input path="phone" class="form-control"/>
+            </div>
         </div>
-        <div class="form-group">
-            <label for="birthday">Email:</label>
-            <form:input path="email"/>
+        <div class="form-group row">
+            <label for="birthday" class="col-2 col-form-label">Email:</label>
+            <div class="col-6">
+                <form:input path="email" class="form-control"/>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="parts-selector" id="parts-selector-specialization">
+                <div class="parts list">
+                    <h3 class="list-heading">Available items</h3>
+                    <ul>
+                        <li>
+                            jQuery
+                        </li>
+                        <li>
+                            Script
+                        </li>
+                        <li>
+                            Net
+                        </li>
+
+                        <li>
+                            Plugins
+                        </li>
+                    </ul>
+                </div>
+                <div class="controls">
+                    <a class="moveto selected"><span class="icon"></span><span class="text">Add</span></a>
+                    <a class="moveto parts"><span class="icon"></span><span class="text">Remove</span></a>
+                </div>
+                <div class="selected list">
+                    <h3 class="list-heading">Chosen items</h3>
+                    <ul>
+                    </ul>
+                </div>
+            </div>
         </div>
         <div class="checkbox-list">
-            <form:checkboxes items="${roles}"
-                             path="roles"/>
+            <label for="roles" class="col-2 col-form-label">Дозвол:</label>
+            <div class="col-6">
+                <form:checkboxes items="${roles}" path="roles" class="form-check"/>
+            </div>
         </div>
         <button type="submit" class="btn btn-info btn-sm">Зберегти</button>
     </form:form>
@@ -86,7 +130,7 @@
 <!-- End schedule modal -->
 
 <!-- Time modal -->
-<div class="modal fade" id="timeModal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade mt-1" id="timeModal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -98,7 +142,7 @@
             <div class="modal-body">
                 <form id="add-time" role="form" method="post">
                     <div class="form-group">
-                        <select name="day" class="selectpicker">
+                        <select name="day" class="form-control" data-header="Виберіть день" data-width="75%">
                             <optgroup label="Парні">
                                 <option value="even_monday">Понеділок</option>
                                 <option value="even_tuesday">Вівторок</option>
@@ -121,31 +165,32 @@
                     </div>
 
                     <div class="form-group">
-                        <input type="text" name="time" placeholder="00:00">
-                    </div>
-                    <div class="form-group modal-footer">
-                        <button type="submit" class="btn btn-info btn-sm">Додати</button>
+                        <input class="form-control" type="text" name="time" placeholder="00:00">
                     </div>
                 </form>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-info btn-sm">Додати</button>
             </div>
         </div>
     </div>
 </div>
 <!-- End time modal -->
+
 <!-- Delete modal -->
 <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Confirm Delete</h5>
+                <h5 class="modal-title">Підтверження!</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
 
             <div class="modal-body">
-               <p>Do you want to proceed?</p>
-             </div>
+                <p>Ви бажаєте продовжити?</p>
+            </div>
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
@@ -228,5 +273,11 @@
     </table>
 </div>
 <%--End Table body for clone --%>
+<script>
+    $(function() {
+        $( "#parts-selector-specialization" ).partsSelector();
+    });
+
+</script>
 </body>
 </html>

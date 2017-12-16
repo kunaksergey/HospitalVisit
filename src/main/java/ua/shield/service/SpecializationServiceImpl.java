@@ -31,4 +31,9 @@ public class SpecializationServiceImpl implements SpecializationService {
         return specializationRepository.findOne(id);
     }
 
- }
+    @Override
+    public List<Specialization> findAllByNameStartsWith(String searchStr) {
+        return specializationRepository.findAllByNameStartsWith(searchStr);
+    }
+
+}

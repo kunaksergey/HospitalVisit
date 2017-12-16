@@ -12,4 +12,5 @@ public interface SpecializationService {
     List<Specialization> findAll();
     Specialization save(Specialization specialization);
     Specialization findOne(Integer id);
+    List<Specialization> findAllByNameStartsWith(String searchStr);
 }

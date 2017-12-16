@@ -28,27 +28,11 @@ public class WelcomeController {
 
     @RequestMapping("/")
     public ModelAndView welcome(ModelAndView modelAndView) {
+        modelAndView.addObject("searchCriteria", new SearchCriteria());
         modelAndView.addObject("news", newsService.findAll());
         modelAndView.addObject("districts", districtService.findAll());
         modelAndView.setViewName("/welcome");
         return modelAndView;
-    }
-
-    @PostMapping(value = "/search_name", produces = { MediaType.APPLICATION_JSON_VALUE })
-    @ResponseBody
-    public AjaxResponseBody searchName(@ModelAttribute SearchCriteria searchCriteria,
-                                       BindingResult result){
-
-        return new AjaxResponseBody();
-    }
-
-    @PostMapping(value="/search_spec",produces = { MediaType.APPLICATION_JSON_VALUE })
-    @ResponseBody
-    public AjaxResponseBody searchSpec(@ModelAttribute SearchCriteria searchCriteria,
-                                      BindingResult result
-    ) {
-
-        return new AjaxResponseBody();
     }
 
     @RequestMapping("/admin")

@@ -6,6 +6,7 @@ import ua.shield.enum_.RoleEnum;
 import javax.persistence.*;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -40,6 +41,12 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
     @OrderBy(value = "fullname")
     private Set<Chield> chields;
+
+    @ManyToMany
+    @JoinTable(name = "specialization_details",
+            joinColumns = @JoinColumn(name = "USER_ID"),
+            inverseJoinColumns = @JoinColumn(name = "SPECIALIZATION_ID"))
+    private List<Specialization> specialization;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
     private Set<Schedule> schedules;
@@ -145,7 +152,6 @@ public class User {
 
     public boolean isEnabled() {
         return enabled;
-
     }
 
     public boolean hasRole(RoleEnum roleEnum) {
@@ -175,5 +181,13 @@ public class User {
     public void addChield(Chield chield) {
         chields.add(chield);
         chield.setUser(this);
+    }
+
+    public List<Specialization> getSpecialization() {
+        return specialization;
+    }
+
+    public void setSpecialization(List<Specialization> specialization) {
+        this.specialization = specialization;
     }
 }

@@ -67,7 +67,7 @@ function createEmptyTables() {
 
 function createScheduleTime(value) {
     var html = '';
-    html += '<div class="schedule-time">' +
+    html += '<div class="schedule-time m-1 p-1 bg-info text-white rounded">' +
         '<span>{value}</span>'.replace('{value}', value) +
         '<a href="#" class="del-time" data-toggle="modal" data-target="#confirm-delete">del</a>' +
         '</div>';

@@ -13,33 +13,37 @@
     <script src="/js/bootstrap.bundle.js"></script>
 </head>
 <body>
-<h2>Усі мед. заклади</h2>
-<table  class="table table-striped">
-    <thead>
-    <tr>
-        <th>Найменування</th>
-        <th>Адреса</th>
-        <th>Район</th>
-        <%--<th> <span class="glyphicon">&#x270f;</span></th>--%>
-        <th> <a href="hospital/add" class="btn btn-info btn-sm">
-            <span class="glyphicon glyphicon-pencil">Створити</span>
-        </a></th>
-    </tr>
-    </thead>
-    <tbody>
-    <c:forEach var="hospital" items="${hospitals}">
-        <tr>
-            <td><c:out value="${hospital.name}"/></td>
-            <td><c:out value="${hospital.address}"/></td>
-            <td><c:out value="${hospital.district.name}"/></td>
-            <td>
-                <a href="hospital/edit/${hospital.id}" class="btn btn-info btn-sm">
-                    <span class="glyphicon glyphicon-pencil">Зберегти</span>
-                </a>
-            </td>
-        </tr>
-    </c:forEach>
-    </tbody>
-</table>
+<div class="container">
+    <div class="row">
+        <h2>Усі мед. заклади</h2>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Найменування</th>
+                <th>Адреса</th>
+                <th>Район</th>
+                <%--<th> <span class="glyphicon">&#x270f;</span></th>--%>
+                <th><a href="hospital/add" class="btn btn-info btn-sm">
+                    <span class="glyphicon glyphicon-pencil">Створити</span>
+                </a></th>
+            </tr>
+            </thead>
+            <tbody>
+            <c:forEach var="hospital" items="${hospitals}">
+                <tr>
+                    <td><c:out value="${hospital.name}"/></td>
+                    <td><c:out value="${hospital.address}"/></td>
+                    <td><c:out value="${hospital.district.name}"/></td>
+                    <td>
+                        <a href="hospital/edit/${hospital.id}" class="btn btn-info btn-sm">
+                            <span class="glyphicon glyphicon-pencil">Зберегти</span>
+                        </a>
+                    </td>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
+    </div>
+</div>
 </body>
 </html>

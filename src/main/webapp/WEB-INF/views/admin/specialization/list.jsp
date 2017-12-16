@@ -13,29 +13,31 @@
     <script src="/js/bootstrap.bundle.js"></script>
 </head>
 <body>
-<h2>Спеціалізації</h2>
-<table  class="table table-striped">
-    <thead>
-    <tr>
-        <th>Найменування</th>
-        <th> <a href="specialization/add" class="btn btn-info btn-sm">
-            <span class="glyphicon glyphicon-pencil">Створити</span>
-        </a>
-        </th>
-    </tr>
-    </thead>
-    <tbody>
-    <c:forEach var="specialization" items="${specializations}">
+<div class="container">
+    <h2>Спеціалізації</h2>
+    <table class="table table-striped">
+        <thead>
         <tr>
-            <td><c:out value="${specialization.name}"/></td>
-            <td>
-                <a href="specialization/edit/${specialization.id}" class="btn btn-info btn-sm">
-                    <span class="glyphicon glyphicon-pencil">Редагувати</span>
-                </a>
-            </td>
+            <th>Найменування</th>
+            <th><a href="specialization/add" class="btn btn-info btn-sm">
+                <span class="glyphicon glyphicon-pencil">Створити</span>
+            </a>
+            </th>
         </tr>
-    </c:forEach>
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+        <c:forEach var="specialization" items="${specializations}">
+            <tr>
+                <td><c:out value="${specialization.name}"/></td>
+                <td>
+                    <a href="specialization/edit/${specialization.id}" class="btn btn-info btn-sm">
+                        <span class="glyphicon glyphicon-pencil">Редагувати</span>
+                    </a>
+                </td>
+            </tr>
+        </c:forEach>
+        </tbody>
+    </table>
+</div>
 </body>
 </html>

@@ -2,6 +2,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html>
 <head>
     <title>Ласкаво просимо</title>
@@ -51,85 +52,52 @@
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                     <li class="nav-item">
                         <a class="nav-link active" data-toggle="tab" href="#tab_search_spec" role="tab"
-                        >Поиск по специализации</a>
+                        >Пошук за спеціалізацією</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" data-toggle="tab" href="#tab_search_name" role="tab"
-                        >Поиск по фамилии</a>
+                        >Пошук за ПІБ</a>
                     </li>
                 </ul>
 
                 <div class="tab-content" id="myTabContent">
-
-                    <%--Tab search spec--%>
-                    <div role="tabpanel" class="tab-pane show active" id="tab_search_spec">
-                        <form id="f_search_spec" class="form-search form-inline" role="form">
+                        <%--Tab search --%>
+                        <form:form modelAttribute="searchCriteria" action="/search/spec" id="f_search" class="form-search form-inline" role="form" method="post">
                             <div class="input-group col-lg-4">
-                                <input type="text" name="search" class="form-control input-medium search-query" required
-                                       placeholder="Поиск по специализации">
+                                <form:input  path="searchStr" type="text" class="form-control search-query"
+                                             placeholder="Спеціалізація"/>
                             </div>
                             <%--Select district--%>
                             <div class="form-group">
-                                <label for="district_select_1">Район:</label>
-                                <select class="form-control" id="district_select_1" name="district">
-                                    <option value="-1">Выбрать все</option>
-                                    <c:forEach var="district" items="${districts}">
-                                        <option value="${district.id}">
-                                            <c:out value="${district.name}"/>
-                                        </option>
-                                    </c:forEach>
-                                </select>
-                            </div>
-
-                            <div class="form-group">
-                                <button type="submit" class="btn btn-info btn-sm">Найти</button>
-                            </div>
-                        </form>
-                    </div>
-                    <%--End Tab search spec--%>
-
-                    <%--Tab search name--%>
-                    <div role="tabpanel" class="tab-pane" id="tab_search_name">
-                        <form id="f_search_name" class="form-search form-inline" role="form" method="post">
-                            <div class="input-group col-lg-4">
-                                <input type="text" name="search" class="form-control search-query" required
-                                       placeholder="Поиск по фамилии">
-                            </div>
-                            <%--Select district--%>
-                            <div class="form-group">
-                                <label for="district_select_2" class="control-label">Район:</label>
-                                <select class="form-control" id="district_select_2" name="district">
-                                    <option value="-1">Выбрать все</option>
-                                    <c:forEach var="district" items="${districts}">
-                                        <option value="${district.id}">
-                                            <c:out value="${district.name}"/>
-                                        </option>
-                                    </c:forEach>
-                                </select>
+                                <label for="district">Район:</label>
+                                <form:select class="form-control" path="district">
+                                    <form:option value="-1">Вибрати усі</form:option>
+                                    <form:options items="${districts}" itemLabel="name" itemValue="id"/>
+                                </form:select>
                             </div>
                             <%--End select district--%>
                             <div class="form-group">
-                                <button type="submit" class="btn btn-info btn-sm">Найти</button>
+                                <button type="submit" class="btn btn-info btn-sm">Знайти</button>
                             </div>
-                        </form>
-                    </div>
-                    <%--End Tab search name--%>
+                        </form:form>
+                        <%--End search --%>
                 </div>
+
             </div>
         </div>
         <div class="col-lg-2">
             <div class="list-group">
                 <sec:authorize access="hasRole(\"ROLE_USER\")">
-                <a href="/patient" class="list-group-item">Особистий кабінет</a>
+                    <a href="/patient" class="list-group-item">Особистий кабінет</a>
                 </sec:authorize>
                 <sec:authorize access="hasRole(\"ROLE_DOCTOR\")">
-                <a href="/doctor" class="list-group-item">Кабінет лікаря</a>
+                    <a href="/doctor" class="list-group-item">Кабінет лікаря</a>
                 </sec:authorize>
                 <sec:authorize access="hasRole(\"ROLE_ADMIN_HOSPITAL\")">
-                <a href="/mgr" class="list-group-item">Завідуючий</a>
+                    <a href="/mgr" class="list-group-item">Завідуючий</a>
                 </sec:authorize>
                 <sec:authorize access="hasRole(\"ROLE_ADMIN\")">
-                <a href="/admin" class="list-group-item">Адмінка</a>
+                    <a href="/admin" class="list-group-item">Адмінка</a>
                 </sec:authorize>
             </div>
         </div>

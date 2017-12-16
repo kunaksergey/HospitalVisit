@@ -19,7 +19,7 @@ public class District {
     public District() {
     }
 
-    public District(int id,String name) {
+    public District(Integer id,String name) {
         this.id=id;
         this.name=name;
     }

@@ -40,7 +40,6 @@
             <form:select class="form-control" path="hospital">
                 <form:option value="">--None--</form:option>
                 <form:options items="${hospitals}" itemLabel="name" itemValue="id"/>
-                    <form:options items="${hospitals}" itemLabel="name" itemValue="id"/>
             </form:select>
             <small class="form-text text-muted">Выберіть лікарню</small>
         </div>

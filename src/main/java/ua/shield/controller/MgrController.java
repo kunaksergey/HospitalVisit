@@ -9,11 +9,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import ua.shield.entity.Hospital;
 import ua.shield.entity.Role;
+import ua.shield.entity.Specialization;
 import ua.shield.entity.User;
 import ua.shield.enum_.RoleEnum;
+import ua.shield.service.SpecializationService;
 import ua.shield.service.UserService;
 
 import java.security.Principal;
+import java.util.List;
 
 /**
  * Created by sa on 11.12.17.
@@ -23,6 +26,9 @@ import java.security.Principal;
 public class MgrController {
     @Autowired
     UserService userService;
+
+    @Autowired
+    SpecializationService specializationService;
 
     @RequestMapping("doctor")
     String showDoctorList(Model model, Principal principal){
@@ -37,7 +43,10 @@ public class MgrController {
 //        User adminHospital=userService.findByUsername(principal.getName());
         User adminHospital=userService.findByUsername("hospital");//delete
         doctor=doctor.getHospital().equals(adminHospital.getHospital())?doctor:null;
+        List<Specialization> allSpecialization = specializationService.findAll();
+        allSpecialization.removeAll(doctor.getSpecialization());
         model.addAttribute("doctor",doctor);
+        model.addAttribute("specialization",allSpecialization);
         model.addAttribute("roles",new Role[]{new Role(RoleEnum.ROLE_DOCTOR)});
         return "/mgr/doctor/edit";
     }

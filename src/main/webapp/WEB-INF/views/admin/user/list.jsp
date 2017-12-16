@@ -13,62 +13,64 @@
     <script src="/js/bootstrap.bundle.js"></script>
 </head>
 <body>
-<h2>Лист користувачів</h2>
-<table class="table table-condensed">
-    <thead>
-    </thead>
-    <tbody>
-    <nav class="nav">
-        <a class="nav-link active" href="/admin/users">Усі</a>
-        <a class="nav-link" href="/admin/users/ROLE_DOCTOR">Лікарі</a>
-        <a class="nav-link" href="/admin/users/ROLE_ADMIN_HOSPITAL">Адміністратор лікарні</a>
-        <a class="nav-link" href="/admin/users/ROLE_ADMIN">Адміністратор</a>
-    </nav>
-    <c:forEach var="user" items="${users}">
-    <table class="table table-bordered">
-        <tr>
-            <td>Id:</td>
-            <td>${user.id}</td>
-        </tr>
-        <tr>
-            <td>Користувач:</td>
-            <td>${user.username}</td>
-        </tr>
-        <tr>
-            <td>ПІБ:</td>
-            <td>${user.fullName}</td>
-        </tr>
-        <tr>
-            <td>
-                Дозволи:
-            </td>
-            <td>
-                <c:forEach var="item" items="${user.roles}">
-                    <c:out value="${item.role}"/>
-                </c:forEach>
-            </td>
-                <%--<form:form method="POST" action="/admin/user/save" modelAttribute="rolesForm" class="form-signin">--%>
-                <%--<form:checkboxes items="${roleSet}" path=""/>--%>
-                <%--<button type="submit" class="btn btn-info btn-sm">Зберегти</button>--%>
-                <%--</form:form>--%>
-        </tr>
-        <tr>
-            <td>
-                <a href="/admin/user/edit/${user.id}" class="btn btn-info btn-sm">
-                    <span class="glyphicon glyphicon-pencil">Редагувати</span>
-                </a>
-            </td>
-        </tr>
-            <%--<tr>--%>
-            <%--<td>--%>
-            <%--<a href="user/edit/${user.id}" class="btn btn-info btn-sm">--%>
-            <%--<span class="glyphicon glyphicon-pencil">Редагувати</span>--%>
-            <%--</a>--%>
-            <%--</td>--%>
-            <%--</tr>--%>
-        </c:forEach>
+<div class="container">
+    <h2>Лист користувачів</h2>
+    <table class="table table-condensed">
+        <thead>
+        </thead>
+        <tbody>
+        <nav class="nav">
+            <a class="nav-link active" href="/admin/users">Усі</a>
+            <a class="nav-link" href="/admin/users/ROLE_DOCTOR">Лікарі</a>
+            <a class="nav-link" href="/admin/users/ROLE_ADMIN_HOSPITAL">Адміністратор лікарні</a>
+            <a class="nav-link" href="/admin/users/ROLE_ADMIN">Адміністратор</a>
+        </nav>
+        <c:forEach var="user" items="${users}">
+        <table class="table table-bordered">
+            <tr>
+                <td>Id:</td>
+                <td>${user.id}</td>
+            </tr>
+            <tr>
+                <td>Користувач:</td>
+                <td>${user.username}</td>
+            </tr>
+            <tr>
+                <td>ПІБ:</td>
+                <td>${user.fullName}</td>
+            </tr>
+            <tr>
+                <td>
+                    Дозволи:
+                </td>
+                <td>
+                    <c:forEach var="item" items="${user.roles}">
+                        <c:out value="${item.role}"/>
+                    </c:forEach>
+                </td>
+                    <%--<form:form method="POST" action="/admin/user/save" modelAttribute="rolesForm" class="form-signin">--%>
+                    <%--<form:checkboxes items="${roleSet}" path=""/>--%>
+                    <%--<button type="submit" class="btn btn-info btn-sm">Зберегти</button>--%>
+                    <%--</form:form>--%>
+            </tr>
+            <tr>
+                <td>
+                    <a href="/admin/user/edit/${user.id}" class="btn btn-info btn-sm">
+                        <span class="glyphicon glyphicon-pencil">Редагувати</span>
+                    </a>
+                </td>
+            </tr>
+                <%--<tr>--%>
+                <%--<td>--%>
+                <%--<a href="user/edit/${user.id}" class="btn btn-info btn-sm">--%>
+                <%--<span class="glyphicon glyphicon-pencil">Редагувати</span>--%>
+                <%--</a>--%>
+                <%--</td>--%>
+                <%--</tr>--%>
+            </c:forEach>
+        </table>
+        </tbody>
     </table>
-    </tbody>
-</table>
+</div>
 </body>
 </html>
