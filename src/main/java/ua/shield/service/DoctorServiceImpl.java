@@ -9,6 +9,8 @@ import ua.shield.repository.HospitalRepositoty;
 import ua.shield.repository.SpecializationRepository;
 import ua.shield.repository.UserRepository;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 @Service("doctorService")
@@ -36,14 +38,16 @@ public class DoctorServiceImpl implements DoctorService {
     @Override
     public List<User> findAllBySpecializationStartsWith(String startStr){
         List<Specialization> specializations = specializationRepository.findAllByNameStartsWith(startStr);
-        return doctorRepository.findAllBySpecializationInAndRolesOrderByFullNameAsc(specializations,new Role(RoleEnum.ROLE_DOCTOR));
+        List<User> doctors = doctorRepository.findAllBySpecializationInAndRolesOrderByFullNameAsc(specializations, new Role(RoleEnum.ROLE_DOCTOR));
+        return new ArrayList<>(new HashSet<>(doctors));
     }
 
     @Override
     public List<User> findAllBySpecializationStartsWithAndDistrict(String startStr, District district) {
         List<Specialization> specializations = specializationRepository.findAllByNameStartsWith(startStr);
         List<Hospital> hospitals = hospitalRepositoty.findAllByDistrict(district);
-        return doctorRepository.findAllBySpecializationInAndHospitalInAndRolesOrderByFullNameAsc(specializations,hospitals,new Role(RoleEnum.ROLE_DOCTOR));
+        List<User> doctors= doctorRepository.findAllBySpecializationInAndHospitalInAndRolesOrderByFullNameAsc(specializations,hospitals,new Role(RoleEnum.ROLE_DOCTOR));
+        return new ArrayList<>(new HashSet<>(doctors));
     }
 
     @Override

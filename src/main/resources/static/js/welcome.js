@@ -21,15 +21,34 @@ $(document).ready(function () {
         $.ajax({
             type: "POST",
             url: url,
-            data: $("#f_search").serialize(), // serializes the form's elements.
+            data:formSearch.serialize(), // serializes the form's elements.
             success: function(data)
             {
-                console.log(data); // show response from the php script.
+                handleSearchResult(data); // show response from the php script.
             }
         });
         e.preventDefault(); // avoid to execute the actual submit of the form.
     });
 
+    function handleSearchResult(data){
+        var searchDoctorGrid=$("#search-doctor-grid");
+        searchDoctorGrid.empty();
+        $.each(data, function (index, value) {
+               var node=createCardDoctorNode(value);
+               searchDoctorGrid.append(node);
+        });
+    }
 
+    function createCardDoctorNode(doctorObj) {
+        var cardDoctor=$("#card-doctor-for-clone").clone().children();
+        cardDoctor.find(".card-doctor-name").text(doctorObj.fullName);
+        var speciality=cardDoctor.find(".card-doctor-speciality");
+        $.each(doctorObj.specializations, function (index, value) {
+            speciality.append('<div>{speciality}</div>'.replace('{speciality}',value));
+        });
+        cardDoctor.find(".card-doctor-clinic").text(doctorObj.hospitalName);
+        cardDoctor.find(".сard-doctor-cabinet").text(doctorObj.address);
+        return cardDoctor;
+    }
 
 });

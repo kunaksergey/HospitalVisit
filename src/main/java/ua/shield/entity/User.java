@@ -190,4 +190,27 @@ public class User {
     public void setSpecialization(List<Specialization> specialization) {
         this.specialization = specialization;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        User user = (User) o;
+
+        if (enabled != user.enabled) return false;
+        if (username != null ? !username.equals(user.username) : user.username != null) return false;
+        if (fullName != null ? !fullName.equals(user.fullName) : user.fullName != null) return false;
+        if (email != null ? !email.equals(user.email) : user.email != null) return false;
+        if (hospital != null ? !hospital.equals(user.hospital) : user.hospital != null) return false;
+        return Arrays.equals(image, user.image);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = username != null ? username.hashCode() : 0;
+        result = 31 * result + (fullName != null ? fullName.hashCode() : 0);
+        result = 31 * result + (email != null ? email.hashCode() : 0);
+        return result;
+    }
 }
