@@ -7,8 +7,8 @@ import javax.persistence.*;
  * Created by sa on 08.12.17.
  * Время талончика
  */
-@Entity
-@Table(name="time")
+//@Entity
+//@Table(name="time")
 public class TimeTicket {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -18,10 +18,7 @@ public class TimeTicket {
     @Column(name="time")
     private String time;
 
-    @JsonIgnore
-    @ManyToOne
-    @JoinColumn(name = "day_id")
-    private Day day;
+
 
     public TimeTicket() {
     }
@@ -46,11 +43,4 @@ public class TimeTicket {
         this.time = time;
     }
 
-    public Day getDay() {
-        return day;
-    }
-
-    public void setDay(Day day) {
-        this.day = day;
-    }
 }

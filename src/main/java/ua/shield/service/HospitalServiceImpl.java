@@ -2,6 +2,7 @@ package ua.shield.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ua.shield.entity.Doctor;
 import ua.shield.entity.Hospital;
 import ua.shield.repository.HospitalRepositoty;
 
@@ -27,6 +28,12 @@ public class HospitalServiceImpl implements HospitalService{
     @Override
     public Hospital findOne(Integer id) {
         return hospitalRepositoty.findOne(id);
+    }
+
+    @Override
+    public List<Doctor> findAllOfHospital() {
+
+        return null;
     }
 
     ;

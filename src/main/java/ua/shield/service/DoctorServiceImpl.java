@@ -1,6 +1,9 @@
 package ua.shield.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import ua.shield.entity.*;
 import ua.shield.enum_.RoleEnum;
@@ -10,43 +13,42 @@ import ua.shield.repository.SpecializationRepository;
 import ua.shield.repository.UserRepository;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
 @Service("doctorService")
 public class DoctorServiceImpl implements DoctorService {
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     @Autowired
-    HospitalRepositoty hospitalRepositoty;
+    private HospitalRepositoty hospitalRepositoty;
 
     @Autowired
-    SpecializationRepository specializationRepository;
+    private SpecializationRepository specializationRepository;
 
     @Autowired
-    DoctorRepository doctorRepository;
+    private DoctorRepository doctorRepository;
 
     @Override
-    public List<User> findAll() {
-         return userRepository.findByRoles(new Role(RoleEnum.ROLE_DOCTOR));
+    public List<Doctor> findAll() {
+         return doctorRepository.findAll();
     }
 
 
-
-
     @Override
-    public List<User> findAllBySpecializationStartsWith(String startStr){
+    public List<Doctor> findAllBySpecializationStartsWith(String startStr){
         List<Specialization> specializations = specializationRepository.findAllByNameStartsWith(startStr);
-        List<User> doctors = doctorRepository.findAllBySpecializationInAndRolesOrderByFullNameAsc(specializations, new Role(RoleEnum.ROLE_DOCTOR));
+        List<Doctor> doctors = doctorRepository.findAllBySpecializationsInOrderByUserAsc(specializations);
         return new ArrayList<>(new HashSet<>(doctors));
     }
 
     @Override
-    public List<User> findAllBySpecializationStartsWithAndDistrict(String startStr, District district) {
+    public List<Doctor> findAllBySpecializationStartsWithAndDistrict(String startStr, District district) {
         List<Specialization> specializations = specializationRepository.findAllByNameStartsWith(startStr);
         List<Hospital> hospitals = hospitalRepositoty.findAllByDistrict(district);
-        List<User> doctors= doctorRepository.findAllBySpecializationInAndHospitalInAndRolesOrderByFullNameAsc(specializations,hospitals,new Role(RoleEnum.ROLE_DOCTOR));
+        List<Doctor> doctors= doctorRepository.findAllBySpecializationsInAndHospitalInOrderByUserAsc(specializations,hospitals);
         return new ArrayList<>(new HashSet<>(doctors));
     }
 
@@ -55,21 +57,28 @@ public class DoctorServiceImpl implements DoctorService {
         return null;
     }
 
+    @Override
+    public List<Doctor> findAllByUserIn(List<User> users) {
+        return doctorRepository.findAllByUserIn(users);
+    }
+
     /*
      * find doctor by started letter in his full name
      */
      @Override
-    public List<User> findAllByFullNameStartsWith(String name){
-        return doctorRepository.findAllByFullNameStartsWithAndRolesOrderByFullNameAsc(name,new Role(RoleEnum.ROLE_DOCTOR));
+    public List<Doctor> findAllByFullNameStartsWith(String nameStartWith){
+        List<User> users=userRepository.findAllByFullNameStartsWithAndRoles(nameStartWith,new Role(RoleEnum.ROLE_DOCTOR));
+        return doctorRepository.findAllByUserIn(users);
     }
 
     /*
      * find doctor by started letter in full name and district
      */
     @Override
-    public List<User> findAllByFullNameStartsWithAndDistrict(String searchStr, District district) {
+    public List<Doctor> findAllByFullNameStartsWithAndDistrict(String nameStartWith, District district) {
         List<Hospital> hospitals = hospitalRepositoty.findAllByDistrict(district);
-        return doctorRepository.findAllByFullNameStartsWithAndHospitalAndRolesInOrderByFullNameAsc(searchStr,hospitals,new Role(RoleEnum.ROLE_DOCTOR));
+        List<User> users=userRepository.findAllByFullNameStartsWithAndRoles(nameStartWith,new Role(RoleEnum.ROLE_DOCTOR));
+        return doctorRepository.findAllByUserInAndHospitalInOrderByUserAsc(users,hospitals);
     }
 
     @Override
@@ -78,14 +87,19 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
+    public Doctor findByUser(User user) {
+        return doctorRepository.findByUser(user);
+    }
+
+    @Override
     public Doctor add(Doctor doctor){
-       return new Doctor();
-        //return doctorRepository.save(doctor);
+        doctor.getUser().setRoles(new HashSet<>(Collections.singletonList(new Role(RoleEnum.ROLE_DOCTOR))));
+        return doctorRepository.save(doctor);
     }
 
     @Override
     public Doctor update(Doctor doctor) {
-        return null;
+        return doctorRepository.save(doctor);
     }
 
     @Override

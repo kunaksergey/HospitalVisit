@@ -10,20 +10,25 @@ public class Hospital {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
+
     @Column(name = "name")
     private String name;
+
     @Column(name = "address")
     private String address;
 
     @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "district_id")
     private District district;
 
     @Transient
     private Set<String> phones;
-    @Transient
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "hospital")
     private Set<Doctor> doctors;
+
     @Transient
-    private Set<HospitalAdmin> hospitalAdmins;
+    private Set<Supervisor> hospitalAdmins;
     @Transient
     private List<News> newsList;
 
@@ -75,11 +80,11 @@ public class Hospital {
         this.doctors = doctors;
     }
 
-    public Set<HospitalAdmin> getHospitalAdmins() {
+    public Set<Supervisor> getHospitalAdmins() {
         return hospitalAdmins;
     }
 
-    public void setHospitalAdmins(Set<HospitalAdmin> hospitalAdmins) {
+    public void setHospitalAdmins(Set<Supervisor> hospitalAdmins) {
         this.hospitalAdmins = hospitalAdmins;
     }
 

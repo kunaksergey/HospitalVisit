@@ -22,10 +22,10 @@
 <body>
 <h2>Особистий кабінет</h2>
 <div class="container">
-    <c:out value="${user.username}"/><br/>
-    <c:out value="${user.fullName}"/><br/>
-    <c:out value="${user.phone}"/><br/>
-    <c:out value="${user.email}"/><br/>
+    <c:out value="${patient.user.username}"/><br/>
+    <c:out value="${patient.user.fullName}"/><br/>
+    <c:out value="${patient.user.phone}"/><br/>
+    <c:out value="${patient.user.email}"/><br/>
     <a id="reg-child-open" class="nav-link" href="#">Зареєструвати дитину</a>
 
     <div id="reg-child-dialog" class="container">

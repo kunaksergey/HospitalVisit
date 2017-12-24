@@ -8,12 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 import ua.shield.entity.Hospital;
 import ua.shield.entity.Role;
 import ua.shield.entity.User;
-import ua.shield.enum_.RoleEnum;
-import ua.shield.exeption.UserRegistrationException;
 import ua.shield.repository.UserRepository;
 
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -53,12 +49,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> findByRolesIn(Set<Role> roles) {
-        return userRepository.findByRolesIn(roles);
+        return userRepository.findAllByRolesIn(roles);
+    }
+
+    @Override
+    public List<User> findAllByFullNameStartWith(String nameStartWith) {
+        return userRepository.findAllByFullNameStartsWith(nameStartWith);
     }
 
     @Override
     public List<User> findByRoles(Role role) {
-        return userRepository.findByRoles(role);
+        return userRepository.findAllByRoles(role);
     }
 
     @Override
@@ -71,8 +72,4 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByEmail(email);
     }
 
-    @Override
-    public List<User> findByHospitalAndRoles(Hospital hospital, Role role) {
-        return userRepository.findByHospitalAndRoles(hospital,role);
     }
-}

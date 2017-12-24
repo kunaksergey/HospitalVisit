@@ -8,22 +8,22 @@ import java.util.*;
  */
 public class Main {
     public static void main(String[] args) {
-        List<Shape> list = new ArrayList<>();
-        list.add(new Circle(5));
-        list.add(new Rectangle(2, 45));
-        list.add(new Circle(8));
-        list.add(new Rectangle(3, 12));
-        try {
-            Shape shape = Shape.maxBroadLength(list);
-            Shape shape1 = Shape.maxSquire(list);
-            System.out.println(shape.broadLength());
-            System.out.println(shape.squire());
-            Shape.write(list, "test.txt");
-            Collection<Shape> readedCollection = Shape.read("test.txt");
-            System.out.println(Arrays.toString(readedCollection.toArray()));
-        } catch (IOException | ClassNotFoundException | CollectionIsEmptyException e) {
-            e.printStackTrace();
-        }
+//        List<Shape> list = new ArrayList<>();
+//        list.add(new Circle(5));
+//        list.add(new Rectangle(2, 45));
+//        list.add(new Circle(8));
+//        list.add(new Rectangle(3, 12));
+//        try {
+//            Shape shape = Shape.maxBroadLength(list);
+//            Shape shape1 = Shape.maxSquire(list);
+//            System.out.println(shape.broadLength());
+//            System.out.println(shape.squire());
+//            Shape.write(list, "test.txt");
+//            Collection<Shape> readedCollection = Shape.read("test.txt");
+//            System.out.println(Arrays.toString(readedCollection.toArray()));
+//        } catch (IOException | ClassNotFoundException | CollectionIsEmptyException e) {
+//            e.printStackTrace();
+//        }
     }
 }
 

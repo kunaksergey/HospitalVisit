@@ -90,16 +90,16 @@
         </div>
         <div class="col-lg-2">
             <div class="list-group">
-                <sec:authorize access="hasRole(\"ROLE_USER\")">
+                <sec:authorize access="hasRole('ROLE_USER')">
                     <a href="/patient" class="list-group-item">Особистий кабінет</a>
                 </sec:authorize>
-                <sec:authorize access="hasRole(\"ROLE_DOCTOR\")">
+                <sec:authorize access="hasRole('ROLE_DOCTOR')">
                     <a href="/doctor" class="list-group-item">Кабінет лікаря</a>
                 </sec:authorize>
-                <sec:authorize access="hasRole(\"ROLE_ADMIN_HOSPITAL\")">
-                    <a href="/mgr" class="list-group-item">Завідуючий</a>
+                <sec:authorize access="hasRole('ROLE_SUPERVISOR')">
+                    <a href="/supervisor" class="list-group-item">Завідуючий</a>
                 </sec:authorize>
-                <sec:authorize access="hasRole(\"ROLE_ADMIN\")">
+                <sec:authorize access="hasRole('ROLE_ADMIN')">
                     <a href="/admin" class="list-group-item">Адмінка</a>
                 </sec:authorize>
             </div>
@@ -169,7 +169,7 @@
                     </div>
                 </a>
                 <div class="card-doctor-btn">
-                    <a href="" class="btn btn-info btn-sm">
+                    <a href="" class="btn btn-info btn-sm doctor-details-link">
                         <span class="glyphicon glyphicon-pencil">Записатися на прийом</span>
                     </a>
                 </div>

@@ -1,5 +1,7 @@
 package ua.shield.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -18,11 +20,12 @@ public class Specialization {
     @Column(name = "name")
     private String name;
 
+    @JsonIgnore
     @ManyToMany
     @JoinTable(name = "specialization_details",
             joinColumns = @JoinColumn(name = "SPECIALIZATION_ID"),
-            inverseJoinColumns = @JoinColumn(name = "USER_ID"))
-    private List<User> user;
+            inverseJoinColumns = @JoinColumn(name = "DOCTOR_ID"))
+    private List<Doctor> doctors;
 
     public Specialization() {
     }
@@ -43,11 +46,26 @@ public class Specialization {
         this.name = name;
     }
 
-    public List<User> getUser() {
-        return user;
+    public List<Doctor> getDoctors() {
+        return doctors;
     }
 
-    public void setUser(List<User> user) {
-        this.user = user;
+    public void setDoctors(List<Doctor> doctors) {
+        this.doctors = doctors;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Specialization that = (Specialization) o;
+
+        return name != null ? name.equals(that.name) : that.name == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return name != null ? name.hashCode() : 0;
     }
 }

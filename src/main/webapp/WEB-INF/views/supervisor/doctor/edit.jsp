@@ -20,7 +20,7 @@
     </head>
 <body>
 <div class="container">
-    <form:form method="POST" action="/admin_hosp/doctor/save" modelAttribute="doctor">
+    <form:form method="POST" action="/supervisor/doctor/save" modelAttribute="doctorForm">
         <div class="form-group row">
             <form:hidden path="id"/>
         </div>
@@ -32,59 +32,34 @@
             </div>
         </div>
         <div class="form-group row">
-            <label for="birthday" class="col-2 col-form-label">День народження:</label>
+            <label for="birthDay" class="col-2 col-form-label">День народження:</label>
             <div class="col-6">
-                <form:input path="birthday" class="form-control"/>
+                <form:input path="birthDay" class="form-control"/>
             </div>
         </div>
         <div class="form-group row">
-            <label for="birthday" class="col-2 col-form-label">Телефон:</label>
+            <label for="phone" class="col-2 col-form-label">Телефон:</label>
             <div class="col-6">
                 <form:input path="phone" class="form-control"/>
             </div>
         </div>
         <div class="form-group row">
-            <label for="birthday" class="col-2 col-form-label">Email:</label>
+            <label for="email" class="col-2 col-form-label">Email:</label>
             <div class="col-6">
                 <form:input path="email" class="form-control"/>
             </div>
         </div>
-        <div class="form-group row">
-            <div class="parts-selector" id="parts-selector-specialization">
-                <div class="parts list">
-                    <h3 class="list-heading">Available items</h3>
-                    <ul>
-                        <li>
-                            jQuery
-                        </li>
-                        <li>
-                            Script
-                        </li>
-                        <li>
-                            Net
-                        </li>
+        <div class="checkbox checkbox-info">
+                <ul>
+                    <form:checkboxes element="li" items="${specializations}"
+                                     path="specializations" itemValue="id" itemLabel="name"/>
 
-                        <li>
-                            Plugins
-                        </li>
-                    </ul>
-                </div>
-                <div class="controls">
-                    <a class="moveto selected"><span class="icon"></span><span class="text">Add</span></a>
-                    <a class="moveto parts"><span class="icon"></span><span class="text">Remove</span></a>
-                </div>
-                <div class="selected list">
-                    <h3 class="list-heading">Chosen items</h3>
-                    <ul>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="checkbox-list">
-            <label for="roles" class="col-2 col-form-label">Дозвол:</label>
-            <div class="col-6">
-                <form:checkboxes items="${roles}" path="roles" class="form-check"/>
-            </div>
+                </ul>
+
+         </div>
+
+        <div class="checkbox checkbox-info">
+            <form:checkbox path="enable" label="Активован" />
         </div>
         <button type="submit" class="btn btn-info btn-sm">Зберегти</button>
     </form:form>

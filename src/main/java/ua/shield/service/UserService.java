@@ -18,8 +18,9 @@ public interface UserService {
     User findByUsername(String username);
     User findOne(Integer id);
     List<User> findByRolesIn(Set<Role> roles);
+    List<User> findAllByFullNameStartWith(String nameStartWith);
     List<User> findByRoles(Role role);
     List<User> findAll();
     User findByEmail(String email);
-    List<User> findByHospitalAndRoles(Hospital hospital, Role role);
+
 }

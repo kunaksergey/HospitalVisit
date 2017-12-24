@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import ua.shield.domen.AjaxResponseBody;
 import ua.shield.domen.SearchCriteria;
 import ua.shield.dto.DoctorDto;
+import ua.shield.entity.Doctor;
 import ua.shield.entity.Specialization;
 import ua.shield.entity.User;
 import ua.shield.service.DoctorService;
@@ -38,7 +39,7 @@ public class SearchController {
     @ResponseBody
     public List<DoctorDto> searchName(@ModelAttribute SearchCriteria searchCriteria,
                                       BindingResult result) {
-        List<User> doctors;
+        List<Doctor> doctors;
         if (searchCriteria.getDistrict() == null) {
             doctors = doctorService.findAllByFullNameStartsWith(searchCriteria.getSearchStr());
         } else {
@@ -52,12 +53,13 @@ public class SearchController {
     public List<DoctorDto> searchSpec(@ModelAttribute SearchCriteria searchCriteria,
                                      BindingResult result
     ) {
-        List<User> doctors;
+        List<Doctor> doctors;
         if (searchCriteria.getDistrict() == null) {
             doctors = doctorService.findAllBySpecializationStartsWith(searchCriteria.getSearchStr());
         } else {
             doctors = doctorService.findAllBySpecializationStartsWithAndDistrict(searchCriteria.getSearchStr(), searchCriteria.getDistrict());
         }
-        return doctors.stream().map(DoctorDto::new).collect(Collectors.toList());
+        List<DoctorDto> l=doctors.stream().map(DoctorDto::new).collect(Collectors.toList());
+        return l;
     }
 }

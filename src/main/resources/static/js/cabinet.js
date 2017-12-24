@@ -1,6 +1,6 @@
 $(document).ready(function () {
-    var urlGetChield = "/user/getChield";
-    var urlAddChield = "/user/addChield";
+    var urlGetChield = "/patient/getChield";
+    var urlAddChield = "/patient/addChield";
     $.ajax({
         type: "GET",
         url: urlGetChield,
@@ -21,7 +21,7 @@ $(document).ready(function () {
     });
 
     $('.datepicker').datepicker({
-        format: 'dd/mm/yyyy',
+        format: 'dd-mm-yyyy',
         minDate: -0,
         maxDate: new Date(2017, 12, 10),
         language: 'ua'
@@ -44,7 +44,6 @@ $(document).ready(function () {
 });
 
 function addTableChield(data) {
-    console.log(childToHtml(data));
     $("#childDetails").html(childToHtml(data));
 
 }
@@ -65,7 +64,5 @@ function childToHtml(data) {
 }
 
 function formatDate(date) {
-    var myDate = new Date(date);
-    return myDate.getDate() + "/" + myDate.getMonth() + "/" + myDate.getFullYear();
-
+    return date.split('-').reverse().join('-');
 }

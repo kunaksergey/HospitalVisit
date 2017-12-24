@@ -9,9 +9,13 @@ import org.springframework.web.servlet.ModelAndView;
 import ua.shield.domen.AjaxResponseBody;
 import ua.shield.domen.SearchCriteria;
 import ua.shield.dto.DoctorDto;
+import ua.shield.entity.Patient;
+import ua.shield.entity.User;
 import ua.shield.service.DistrictService;
 import ua.shield.service.NewsService;
+import ua.shield.service.UserService;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,10 +25,10 @@ import java.util.List;
 @Controller
 public class WelcomeController {
     @Autowired
-    NewsService newsService;
+    private NewsService newsService;
 
     @Autowired
-    DistrictService districtService;
+    private DistrictService districtService;
 
     @RequestMapping("/")
     public ModelAndView welcome(ModelAndView modelAndView) {
@@ -35,28 +39,4 @@ public class WelcomeController {
         return modelAndView;
     }
 
-    @RequestMapping("/admin")
-    public String welcomeAdmin() {
-        return "/admin/index";
-    }
-
-    @RequestMapping("/doctor")
-    public String welcomeDoctor() {
-        return "/doctor/index";
-    }
-
-    @RequestMapping("/mgr")
-    public String welcomeMgr() {
-        return "/mgr/index";
-    }
-
-    @RequestMapping("/patient")
-    public String welcomePatient() {
-        return "/patient/index";
-    }
-
-    // @RequestMapping("/error")
-    public String error() {
-        return "error";
-    }
 }

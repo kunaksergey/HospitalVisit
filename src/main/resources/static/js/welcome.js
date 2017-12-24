@@ -44,10 +44,11 @@ $(document).ready(function () {
         cardDoctor.find(".card-doctor-name").text(doctorObj.fullName);
         var speciality=cardDoctor.find(".card-doctor-speciality");
         $.each(doctorObj.specializations, function (index, value) {
-            speciality.append('<div>{speciality}</div>'.replace('{speciality}',value));
+            speciality.append('<div>{speciality}</div>'.replace('{speciality}',value.name));
         });
         cardDoctor.find(".card-doctor-clinic").text(doctorObj.hospitalName);
         cardDoctor.find(".сard-doctor-cabinet").text(doctorObj.address);
+        cardDoctor.find(".doctor-details-link").attr("href","/doctor/{id}".replace("{id}",doctorObj.id));
         return cardDoctor;
     }
 

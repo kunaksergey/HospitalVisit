@@ -6,9 +6,12 @@ import ua.shield.entity.*;
 
 import java.util.List;
 
-public interface DoctorRepository extends JpaRepository<User,Integer>  {
-    List<User> findAllByFullNameStartsWithAndHospitalAndRolesInOrderByFullNameAsc(String name, List<Hospital> hospitals,Role role);
-    List<User> findAllByFullNameStartsWithAndRolesOrderByFullNameAsc(String name,Role role);
-    List<User> findAllBySpecializationInAndRolesOrderByFullNameAsc(List<Specialization> specializations, Role role);
-    List<User> findAllBySpecializationInAndHospitalInAndRolesOrderByFullNameAsc(List<Specialization> specializations, List<Hospital> hospitals,Role role);
+public interface DoctorRepository extends JpaRepository<Doctor,Integer>  {
+    List<Doctor> findAllByUserStartsWithAndHospitalInOrderByUserAsc(User user, List<Hospital> hospitals);
+    List<Doctor> findAllByUserStartsWithOrderByUserAsc(User user);
+    List<Doctor> findAllBySpecializationsInOrderByUserAsc(List<Specialization> specializations);
+    List<Doctor> findAllBySpecializationsInAndHospitalInOrderByUserAsc(List<Specialization> specializations, List<Hospital> hospitals);
+    List<Doctor> findAllByUserInAndHospitalInOrderByUserAsc(List<User>users,List<Hospital> hospitals);
+    List<Doctor> findAllByUserIn(List<User> users);
+    Doctor findByUser(User user);
 }

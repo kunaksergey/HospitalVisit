@@ -23,10 +23,10 @@ import java.util.*;
 @RequestMapping("/admin")
 public class AdminController {
     @Autowired
-    UserService userService;
+   private UserService userService;
 
     @Autowired
-    HospitalService hospitalService;
+    private HospitalService hospitalService;
 
     @RequestMapping(value = "/users")
     String showAll(Model model){

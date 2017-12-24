@@ -1,13 +1,11 @@
 package ua.shield.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.format.annotation.DateTimeFormat;
 import ua.shield.enum_.RoleEnum;
 
 import javax.persistence.*;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "users")
@@ -24,41 +22,25 @@ public class User {
     @JsonIgnore
     private String password;
 
-    @Transient
-    @JsonIgnore
-    private String confirmPassword;
-
     @Column(name = "fullname")
     private String fullName;
 
-    private String birthday;
+    @Column(name = "birthday")
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "dd-mm-yyyy")
+    private Date birthday;
+
     @Column(name = "phone")
     private String phone;
 
     @Column(name = "email")
     private String email;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
-    @OrderBy(value = "fullname")
-    private Set<Chield> chields;
-
-    @ManyToMany
-    @JoinTable(name = "specialization_details",
-            joinColumns = @JoinColumn(name = "USER_ID"),
-            inverseJoinColumns = @JoinColumn(name = "SPECIALIZATION_ID"))
-    private List<Specialization> specialization;
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
-    private Set<Schedule> schedules;
-
     @ManyToMany
     @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "USER_ID"),
             inverseJoinColumns = @JoinColumn(name = "ROLE"))
     private Set<Role> roles;
-
-    @OneToOne
-    private Hospital hospital;
     private byte[] image;
     private boolean enabled;
 
@@ -86,14 +68,6 @@ public class User {
         this.password = password;
     }
 
-    public String getConfirmPassword() {
-        return confirmPassword;
-    }
-
-    public void setConfirmPassword(String confirmPassword) {
-        this.confirmPassword = confirmPassword;
-    }
-
     public String getFullName() {
         return fullName;
     }
@@ -102,11 +76,11 @@ public class User {
         this.fullName = fullName;
     }
 
-    public String getBirthday() {
+    public Date getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(String birthday) {
+    public void setBirthday(Date birthday) {
         this.birthday = birthday;
     }
 
@@ -124,14 +98,6 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public Set<Schedule> getSchedules() {
-        return schedules;
-    }
-
-    public void setSchedules(Set<Schedule> schedules) {
-        this.schedules = schedules;
     }
 
     public Set<Role> getRoles() {
@@ -162,35 +128,6 @@ public class User {
         this.enabled = enabled;
     }
 
-    public Set<Chield> getChields() {
-        return chields;
-    }
-
-    public void setChields(Set<Chield> chields) {
-        this.chields = chields;
-    }
-
-    public Hospital getHospital() {
-        return hospital;
-    }
-
-    public void setHospital(Hospital hospital) {
-        this.hospital = hospital;
-    }
-
-    public void addChield(Chield chield) {
-        chields.add(chield);
-        chield.setUser(this);
-    }
-
-    public List<Specialization> getSpecialization() {
-        return specialization;
-    }
-
-    public void setSpecialization(List<Specialization> specialization) {
-        this.specialization = specialization;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -198,19 +135,11 @@ public class User {
 
         User user = (User) o;
 
-        if (enabled != user.enabled) return false;
-        if (username != null ? !username.equals(user.username) : user.username != null) return false;
-        if (fullName != null ? !fullName.equals(user.fullName) : user.fullName != null) return false;
-        if (email != null ? !email.equals(user.email) : user.email != null) return false;
-        if (hospital != null ? !hospital.equals(user.hospital) : user.hospital != null) return false;
-        return Arrays.equals(image, user.image);
+        return username != null ? username.equals(user.username) : user.username == null;
     }
 
     @Override
     public int hashCode() {
-        int result = username != null ? username.hashCode() : 0;
-        result = 31 * result + (fullName != null ? fullName.hashCode() : 0);
-        result = 31 * result + (email != null ? email.hashCode() : 0);
-        return result;
+        return username != null ? username.hashCode() : 0;
     }
 }

@@ -3,12 +3,14 @@ package ua.shield.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import ua.shield.entity.Doctor;
 import ua.shield.entity.Hospital;
+import ua.shield.entity.User;
 import ua.shield.service.DoctorService;
 import ua.shield.service.HospitalService;
 
@@ -18,9 +20,9 @@ import java.util.List;
 @RequestMapping("/doctor")
 public class DoctorController {
     @Autowired
-    DoctorService doctorService;
+    private DoctorService doctorService;
     @Autowired
-    HospitalService hospitalService;
+    private HospitalService hospitalService;
 
     public List<Doctor> showBySpec(){
     return null;
@@ -30,11 +32,10 @@ public class DoctorController {
         return null;
     }
 
-    @RequestMapping(value="bred",method = RequestMethod.GET)
-    ModelAndView showAll(){
-        ModelAndView modelAndView=new ModelAndView();
-        modelAndView.addObject("doctors",doctorService.findAll());
-        modelAndView.setViewName("/admin/doctor/list");
+    @RequestMapping(value="/{id}",method = RequestMethod.GET)
+    ModelAndView doctorDetails(@PathVariable Integer id,ModelAndView modelAndView){
+        Doctor doctor=doctorService.findOne(id);
+        modelAndView.setViewName("/doctor/details");
         return modelAndView;
     }
 

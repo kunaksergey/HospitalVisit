@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
+import ua.shield.dto.UserDto;
 import ua.shield.entity.User;
 import ua.shield.service.UserService;
 
@@ -17,12 +18,12 @@ public class UserFormValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> aClass) {
-        return User.class.equals(aClass);
+        return UserDto.class.equals(aClass);
     }
 
     @Override
     public void validate(Object obj, Errors errors) {
-        User userForm = (User) obj;
+        UserDto userForm = (UserDto) obj;
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "userform.required");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "fullName", "userform.required");

@@ -5,8 +5,7 @@ package ua.shield.enum_;
  */
 public enum RoleEnum {
     ROLE_ADMIN,
-    ROLE_ADMIN_HOSPITAL,
+    ROLE_SUPERVISOR,
     ROLE_DOCTOR,
     ROLE_USER;
-
 }

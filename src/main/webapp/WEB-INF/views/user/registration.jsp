@@ -103,7 +103,7 @@
                     </div>
                 </sec:authorize>
 
-                <button class="btn btn-lg btn-primary btn-block" type="submit">Створити</button>
+                <button class="btn btn-lg btn-info btn-block" type="submit">Створити</button>
             </form:form>
         </div>
 

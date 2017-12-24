@@ -41,22 +41,6 @@ public class UserController {
         binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
     }
 
-
-    @RequestMapping(value = "/user/addChield", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
-    @ResponseBody
-    public Set<Chield> addChield(@ModelAttribute Chield chield, BindingResult bindingResult, Principal principal) {
-        User user = userService.findByUsername(principal.getName());
-        user.addChield(chield);
-        return userService.update(user).getChields();
-    }
-
-    @RequestMapping(value = "/user/getChield", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    @ResponseBody
-    public Set<Chield> getChield(Principal principal) {
-        User user = userService.findByUsername(principal.getName());
-        return user.getChields();
-    }
-
     @RequestMapping(value = "/user/addRoles", method = RequestMethod.PUT, produces = {MediaType.APPLICATION_JSON_VALUE})
     public void test(@RequestBody Set<RoleEnum> roles) {
         Set<Role> collect = roles.stream().map(Role::new).collect(Collectors.toSet());

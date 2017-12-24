@@ -27,8 +27,8 @@ public class Schedule {
 
     @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;//врач
+    @JoinColumn(name = "doctor_id")
+    private Doctor doctor;//врач
 
     @Column(name="room")
     private String room;//кабинет приема
@@ -56,12 +56,12 @@ public class Schedule {
         this.start = start;
     }
 
-    public User getUser() {
-        return user;
+    public Doctor getDoctor() {
+        return doctor;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setDoctor(Doctor doctor) {
+        this.doctor = doctor;
     }
 
     public String getRoom() {

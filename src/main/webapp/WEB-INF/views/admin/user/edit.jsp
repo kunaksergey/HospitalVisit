@@ -46,7 +46,7 @@
 
         <div class="checkbox-list">
             <form:checkboxes items="${roles}"
-                             path="roles"/>
+                             path="roles" />
         </div>
         <button type="submit" class="btn btn-info btn-sm">Зберегти</button>
     </form:form>
