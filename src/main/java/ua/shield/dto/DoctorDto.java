@@ -1,12 +1,14 @@
 package ua.shield.dto;
 
 import ua.shield.entity.Doctor;
+import ua.shield.entity.Schedule;
 import ua.shield.entity.Specialization;
 import ua.shield.entity.User;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -19,6 +21,7 @@ public class DoctorDto {
     private String phone;
     private String email;
     private List<Specialization> specializations;
+    private Set<Schedule> schedules;
     private String hospitalName;
     private String address;
     private boolean isEnable;
@@ -34,6 +37,7 @@ public class DoctorDto {
         this.phone=doctor.getUser().getPhone();
         this.email=doctor.getUser().getEmail();
         this.specializations=doctor.getSpecializations();
+        this.schedules=doctor.getSchedules();
         this.hospitalName=doctor.getHospital().getName();
         this.address=doctor.getHospital().getAddress();
         this.isEnable=doctor.getUser().isEnabled();
@@ -109,5 +113,13 @@ public class DoctorDto {
 
     public void setEnable(boolean enable) {
         isEnable = enable;
+    }
+
+    public Set<Schedule> getSchedules() {
+        return schedules;
+    }
+
+    public void setSchedules(Set<Schedule> schedules) {
+        this.schedules = schedules;
     }
 }

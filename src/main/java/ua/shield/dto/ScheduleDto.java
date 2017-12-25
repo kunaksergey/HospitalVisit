@@ -7,13 +7,11 @@ import ua.shield.enum_.WeekDayEnum;
 
 import java.util.*;
 
-/**
- * Created by sa on 14.12.17.
- */
 public class ScheduleDto {
     private Integer id;
     private String room;
     private Date start;
+    private String notice;
     private Map<EvenOddEnum, Map<WeekDayEnum, Set<String>>> detailsMap;
 
 
@@ -21,6 +19,7 @@ public class ScheduleDto {
         this.id = schedule.getId();
         this.room = schedule.getRoom();
         this.start = schedule.getStart();
+        this.notice=schedule.getNotice();
         this.detailsMap = detailsSetToMap(schedule.getDetailsSet());
     }
 
@@ -67,5 +66,13 @@ public class ScheduleDto {
 
     public void setDetailsMap(Map<EvenOddEnum, Map<WeekDayEnum, Set<String>>> detailsMap) {
         this.detailsMap = detailsMap;
+    }
+
+    public String getNotice() {
+        return notice;
+    }
+
+    public void setNotice(String notice) {
+        this.notice = notice;
     }
 }

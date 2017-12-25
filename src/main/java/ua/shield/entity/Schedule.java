@@ -37,6 +37,9 @@ public class Schedule {
     @JsonProperty("scheduleDetails")
     private Set<ScheduleDetail> detailsSet;
 
+    @Column(name="notice")
+    private String notice;
+
     public Schedule() {
     }
 
@@ -78,5 +81,13 @@ public class Schedule {
 
     public void setDetailsSet(Set<ScheduleDetail> detailsSet) {
         this.detailsSet = detailsSet;
+    }
+
+    public String getNotice() {
+        return notice;
+    }
+
+    public void setNotice(String notice) {
+        this.notice = notice;
     }
 }

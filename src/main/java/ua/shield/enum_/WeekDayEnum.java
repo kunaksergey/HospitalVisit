@@ -5,7 +5,7 @@ package ua.shield.enum_;
  */
 public enum WeekDayEnum {
     MONDAY,TUESDAY,WEDNESDAY,
-    THUSDAY,FRIDAY,SATURDAY,
+    THURSDAY,FRIDAY,SATURDAY,
     SANDAY;
 
 }

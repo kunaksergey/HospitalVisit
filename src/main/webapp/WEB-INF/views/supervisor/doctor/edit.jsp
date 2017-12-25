@@ -4,12 +4,13 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html>
 <head>
-    <title>Список мед.закладів</title>
+    <title>Облікова картка лікаря</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/parts-selector.css">
     <link rel="stylesheet" href="/css/style.css">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.5/umd/popper.min.js"></script>
     <script src="/js/bootstrap.js"></script>
@@ -20,6 +21,7 @@
     </head>
 <body>
 <div class="container">
+    <h5>Облікова картка лікаря: <c:out value="${doctorForm.fullName}"/></h5>
     <form:form method="POST" action="/supervisor/doctor/save" modelAttribute="doctorForm">
         <div class="form-group row">
             <form:hidden path="id"/>
@@ -69,12 +71,9 @@
     <div id="schedule-menu" class="list-group border rounded">
         <a id="schedule-add" class="list-group-item"
            data-toggle="modal" data-target="#scheduleModal" href=''>Розклад:додати</a>
-        <c:forEach var="schedule" items="${doctor.schedules}">
-            <a class="schedule-loaded list-group-item"
-               data-toggle="modal" data-target="#scheduleModal" href="/schedule/${schedule.id}">
-                <c:out value="Розклад:${schedule.start}"/>
-            </a>
-        </c:forEach>
+        <div id="schedule-list">
+            <%--hear we add schedules --%>
+        </div>
     </div>
     <%--End menu schedules --%>
 </div>
@@ -91,7 +90,7 @@
             </div>
             <div class="modal-body">
                 <div id="table-content">
-                    <%--Сюда вставляем склонировынные таблицы--%>
+                    <%--Сюда вставляем склонированные таблицы--%>
                 </div>
                 <p><a href="#" data-toggle="modal" data-target="#timeModal">Час:додати</a></p>
             </div>
@@ -122,7 +121,7 @@
                                 <option value="even_monday">Понеділок</option>
                                 <option value="even_tuesday">Вівторок</option>
                                 <option value="even_wednesday">Середа</option>
-                                <option value="even_thusday"> Четверг</option>
+                                <option value="even_thursday"> Четверг</option>
                                 <option value="even_friday">П'ятниця</option>
                                 <option value="even_saturday">Субота</option>
                                 <option value="even_sanday">Неділя</option>
@@ -131,7 +130,7 @@
                                 <option value="odd_monday">Понеділок</option>
                                 <option value="odd_tuesday">Вівторок</option>
                                 <option value="odd_wednesday">Середа</option>
-                                <option value="odd_thusday">Четверг</option>
+                                <option value="odd_thursday">Четверг</option>
                                 <option value="odd_friday">П'ятниця</option>
                                 <option value="odd_saturday">Субота</option>
                                 <option value="odd_sanday">Неділя</option>
@@ -142,10 +141,11 @@
                     <div class="form-group">
                         <input class="form-control" type="text" name="time" placeholder="00:00">
                     </div>
-                </form>
-            </div>
+
             <div class="modal-footer">
                 <button type="submit" class="btn btn-info btn-sm">Додати</button>
+            </div>
+                </form>
             </div>
         </div>
     </div>
@@ -200,7 +200,7 @@
             </td>
             <td id="even_wednesday"><!--СР-->
             </td>
-            <td id="even_thusday"><!--ЧТ-->
+            <td id="even_thursday"><!--ЧТ-->
             </td>
             <td id="even_friday"><!--ПН-->
             </td>
@@ -235,7 +235,7 @@
             </td>
             <td id="odd_wednesday"><!--СР-->
             </td>
-            <td id="odd_thusday"><!--ЧТ-->
+            <td id="odd_thursday"><!--ЧТ-->
             </td>
             <td id="odd_friday"><!--ПН-->
             </td>
@@ -248,11 +248,5 @@
     </table>
 </div>
 <%--End Table body for clone --%>
-<script>
-    $(function() {
-        $( "#parts-selector-specialization" ).partsSelector();
-    });
-
-</script>
 </body>
 </html>

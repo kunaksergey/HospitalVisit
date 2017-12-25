@@ -83,7 +83,7 @@ public class DoctorServiceImpl implements DoctorService {
 
     @Override
     public Doctor findOne(int id) {
-        return null;
+        return doctorRepository.findOne(id);
     }
 
     @Override
