@@ -35,6 +35,7 @@ public class DoctorController {
     @RequestMapping(value="/{id}",method = RequestMethod.GET)
     ModelAndView doctorDetails(@PathVariable Integer id,ModelAndView modelAndView){
         Doctor doctor=doctorService.findOne(id);
+        modelAndView.addObject("doctor",doctor);
         modelAndView.setViewName("/doctor/details");
         return modelAndView;
     }

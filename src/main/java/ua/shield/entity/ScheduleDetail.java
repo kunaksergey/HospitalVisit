@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import ua.shield.enum_.EvenOddEnum;
 import ua.shield.enum_.WeekDayEnum;
-import ua.shield.enum_.WeekDayEnum_old;
+
 
 import javax.persistence.*;
 

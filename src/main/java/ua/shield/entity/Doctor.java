@@ -81,4 +81,8 @@ public class Doctor{
         this.schedules = schedules;
     }
 
+    public void addTicket(Ticket ticket) {
+        ticket.setDoctor(this);
+        tickets.add(ticket);
+    }
 }

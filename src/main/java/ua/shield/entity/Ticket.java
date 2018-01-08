@@ -1,37 +1,91 @@
 package ua.shield.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
 import ua.shield.enum_.StatusTicket;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
-
-/**
- * Created by sa on 30.11.17.
- */
-
+@Entity
+@Table(name="ticket")
 public class Ticket {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @Column(name = "date__ticket", nullable = false)
-    @Temporal(TemporalType.DATE)
-    @DateTimeFormat(pattern = "dd-mm-yyyy")
-    private Date date;
+    @Column(name = "date_", nullable = false)
+//    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    private LocalDate date;
 
     @Column(name = "time")
     private String time;
 
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private StatusTicket status;
 
+    @JsonIgnore
     @ManyToOne
-    private User doctor;
+    private Doctor doctor;
 
+    @JsonIgnore
     @ManyToOne
-    private User patient;
+    private Patient patient;
+
+    public Ticket() {
+    }
+
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public StatusTicket getStatus() {
+        return status;
+    }
+
+    public void setStatus(StatusTicket status) {
+        this.status = status;
+    }
+
+    public Doctor getDoctor() {
+        return doctor;
+    }
+
+    public void setDoctor(Doctor doctor) {
+        this.doctor = doctor;
+    }
+
+    public Patient getPatient() {
+        return patient;
+    }
+
+    public void setPatient(Patient patient) {
+        this.patient = patient;
+    }
 
     @Override
     public boolean equals(Object o) {

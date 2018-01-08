@@ -5,9 +5,6 @@ import org.springframework.stereotype.Component;
 import ua.shield.entity.Role;
 import ua.shield.enum_.RoleEnum;
 
-/**
- * Created by sa on 10.12.17.
- */
 @Component
 public class RoleToString implements Converter<String,Role> {
     @Override
