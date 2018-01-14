@@ -1,16 +1,17 @@
 package ua.shield.dto;
 
 import ua.shield.entity.Schedule;
-import ua.shield.entity.ScheduleDetail;
+import ua.shield.entity.ScheduleDay;
 import ua.shield.enum_.EvenOddEnum;
 import ua.shield.enum_.WeekDayEnum;
 
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class ScheduleDto {
     private Integer id;
     private String room;
-    private Date start;
+    private String start;
     private String notice;
     private Map<EvenOddEnum, Map<WeekDayEnum, Set<String>>> detailsMap;
 
@@ -18,21 +19,22 @@ public class ScheduleDto {
     public ScheduleDto(Schedule schedule) {
         this.id = schedule.getId();
         this.room = schedule.getRoom();
-        this.start = schedule.getStart();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        this.start = schedule.getStart().format(formatter);
         this.notice=schedule.getNotice();
-        this.detailsMap = detailsSetToMap(schedule.getDetailsSet());
+        this.detailsMap = detailsSetToMap(schedule.getScheduleDaySet());
     }
 
-    //превращаем ScheduleDetail в map
-    private Map<EvenOddEnum, Map<WeekDayEnum, Set<String>>> detailsSetToMap(Set<ScheduleDetail> detailsSet) {
+    //превращаем ScheduleDay в map
+    private Map<EvenOddEnum, Map<WeekDayEnum, Set<String>>> detailsSetToMap(Set<ScheduleDay> detailsSet) {
         Map<EvenOddEnum, Map<WeekDayEnum, Set<String>>> detailsMap = new HashMap<>();
-        for (ScheduleDetail detail : detailsSet) {
-            Map<WeekDayEnum, Set<String>> orDefaultEven = detailsMap.getOrDefault(detail.getEvenOrOdd(), new HashMap<>());
-            detailsMap.put(detail.getEvenOrOdd(), orDefaultEven);
-            Set<String> orDefaultWeekDay = orDefaultEven.getOrDefault(detail.getWeekDay(), new TreeSet<>());
-            orDefaultEven.put(detail.getWeekDay(), orDefaultWeekDay);
-            orDefaultWeekDay.add(detail.getTime());
-        }
+//        for (ScheduleDay detail : detailsSet) {
+//            Map<WeekDayEnum, Set<String>> orDefaultEven = detailsMap.getOrDefault(detail.getEvenOrOdd(), new HashMap<>());
+//            detailsMap.put(detail.getEvenOrOdd(), orDefaultEven);
+//            Set<String> orDefaultWeekDay = orDefaultEven.getOrDefault(detail.getWeekDay(), new TreeSet<>());
+//            orDefaultEven.put(detail.getWeekDay(), orDefaultWeekDay);
+//            orDefaultWeekDay.add(detail.);
+//        }
         return detailsMap;
     }
 
@@ -52,11 +54,11 @@ public class ScheduleDto {
         this.room = room;
     }
 
-    public Date getStart() {
+    public String getStart() {
         return start;
     }
 
-    public void setStart(Date start) {
+    public void setStart(String start) {
         this.start = start;
     }
 

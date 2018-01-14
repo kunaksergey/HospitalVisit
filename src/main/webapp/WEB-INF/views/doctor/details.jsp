@@ -14,7 +14,10 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
     <script src="/js/bootstrap.js"></script>
     <script src="/js/bootstrap.bundle.js"></script>
+    <script src="/js/jquery-ui.js"></script>
+    <script src="/js/week-carusel.js"></script>
     <script src="/js/enroll.js"></script>
+    <link rel="stylesheet" href="/css/style.css"/>
 </head>
 
 <body>
@@ -46,13 +49,80 @@
             </div>
         </div>
     </div>
-    <div ng-app="enrollApp" ng-controller="enrollCtrl">
-        <div id="doctorId" data-doctorId="${doctor.id}">Test</div>
-        <div ng-repeat="ticket in tickets">
-         <button ng-click="enroll(ticket)">{{ticket.date}}:{{ticket.time}}</button>
 
+
+    <div id="detail-content" ng-app="enrollApp" ng-controller="enrollCtrl">
+        <div id="doctorId" data-id="${doctor.id}">
         </div>
+        <%--First week--%>
+        <div id="first-week-schedule" class="week-schedule" ng-if="true" ng-init="start = 0; end = 7;">
+            <div class="week-header">
+                <button class="bt-next-week">></button>
+            </div>
+            <div class="week-content">
+                <table class="table table-striped table-week-schedule">
+                    <thead>
+                    <tr>
+                        <th ng-repeat="ticketSlot in ticketSlotList | slice:start:end">
+                            <div>
+                            {{ticketSlot.date}}
+                            </div>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td ng-repeat="ticketSlot in ticketSlotList | slice:start:end" class="td-table-week-schedule">
+                            <div ng-repeat='ticket in ticketSlot.ticketDtoList'>
+                                  <button ng-click="enroll(ticket)"
+                                                  class="bt btn-sm ng-class:{'btn-info':!ticket.busy,'btn-secondary':ticket.busy}" ng-disabled="ticket.busy">{{ticket.time}}</button>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+            </div>
+            <div class="week-footer"></div>
+        </div>
+        <%--!First week--%>
+
+        <%--Second week--%>
+        <div id="second-week-schedule" class="week-schedule" ng-if="true" ng-init="start = 7; end = 14;">
+            <div class="week-header">
+                <button class="bt-next-week"><</button>
+            </div>
+            <div class="week-content">
+                <table class="table table-striped table-week-schedule">
+                    <thead>
+                    <tr>
+                        <th ng-repeat="ticketSlot in ticketSlotList | slice:start:end">
+                            <div>
+                                {{ticketSlot.date}}
+                            </div>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td ng-repeat="ticketSlot in ticketSlotList | slice:start:end" class="td-table-week-schedule">
+                            <div ng-repeat='ticket in ticketSlot.ticketDtoList'>
+                                <button ng-click="enroll(ticket)"
+                                        class="bt btn-sm ng-class:{'btn-info':!ticket.busy,'btn-secondary':ticket.busy}" ng-disabled="ticket.busy">{{ticket.time}}</button>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+            </div>
+            <div class="week-footer"></div>
+        </div>
+        <%--!Second week--%>
+
     </div>
+
+
 </div>
 
 </body>

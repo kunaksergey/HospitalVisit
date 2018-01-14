@@ -170,3 +170,22 @@
     -o-text-overflow:ellipsis;
     text-overflow:ellipsis
 }
+
+#detail-content{
+    position: relative;
+}
+.td-table-week-schedule{
+    min-height: 100px;
+}
+#first-week-schedule, #second-week-schedule {
+    position: absolute;
+    width: 100%;
+    top: 0;
+}
+#second-week-schedule {
+    display: none;
+}
+
+.bt-disable{
+
+}

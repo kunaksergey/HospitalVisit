@@ -2,17 +2,12 @@ package ua.shield.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.Set;
 
-/**
- * Created by sa on 30.11.17.
- * Расписание врача
- */
 @Entity
 @Table(name="schedule")
 public class Schedule {
@@ -21,9 +16,8 @@ public class Schedule {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @Temporal(TemporalType.DATE)
-    @DateTimeFormat(pattern = "dd-mm-yyyy")
-    private Date start;//начало работы расписания
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    private LocalDate start;//начало работы расписания
 
     @JsonIgnore
     @ManyToOne
@@ -33,9 +27,9 @@ public class Schedule {
     @Column(name="room")
     private String room;//кабинет приема
 
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "schedule", orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL,fetch=FetchType.EAGER,mappedBy = "schedule", orphanRemoval = true)
     @JsonProperty("scheduleDetails")
-    private Set<ScheduleDetail> detailsSet;
+    private Set<ScheduleDay> scheduleDaySet;
 
     @Column(name="notice")
     private String notice;
@@ -51,12 +45,13 @@ public class Schedule {
         this.id = id;
     }
 
-    public Date getStart() {
-        return start;
+    public void setStart(LocalDate start) {
+        this.start = start;
+
     }
 
-    public void setStart(Date start) {
-        this.start = start;
+    public LocalDate getStart() {
+        return start;
     }
 
     public Doctor getDoctor() {
@@ -75,12 +70,12 @@ public class Schedule {
         this.room = room;
     }
 
-    public Set<ScheduleDetail> getDetailsSet() {
-        return detailsSet;
+    public Set<ScheduleDay> getScheduleDaySet() {
+        return scheduleDaySet;
     }
 
-    public void setDetailsSet(Set<ScheduleDetail> detailsSet) {
-        this.detailsSet = detailsSet;
+    public void setScheduleDaySet(Set<ScheduleDay> scheduleDaySet) {
+        this.scheduleDaySet = scheduleDaySet;
     }
 
     public String getNotice() {

@@ -8,7 +8,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import ua.shield.enum_.RoleEnum;
 
 /**
  * Created by sa on 03.12.17.
@@ -23,7 +22,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests().
                 antMatchers("/cabinet/**").hasRole("USER").
-                antMatchers("/").permitAll();
+                antMatchers("/").permitAll()
+                .and()
+                .exceptionHandling().accessDeniedPage("/error-page");;
         http
                 .formLogin()
                 .loginPage("/login")

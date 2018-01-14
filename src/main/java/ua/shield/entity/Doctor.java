@@ -25,7 +25,7 @@ public class Doctor{
     @OneToOne
     private User user;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "doctor", orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL,fetch=FetchType.EAGER, mappedBy = "doctor", orphanRemoval = true)
     private Set<Schedule> schedules;
 
     @Transient
@@ -84,5 +84,20 @@ public class Doctor{
     public void addTicket(Ticket ticket) {
         ticket.setDoctor(this);
         tickets.add(ticket);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Doctor doctor = (Doctor) o;
+
+        return user != null ? user.equals(doctor.user) : doctor.user == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return user != null ? user.hashCode() : 0;
     }
 }

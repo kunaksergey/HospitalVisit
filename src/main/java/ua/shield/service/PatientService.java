@@ -10,4 +10,5 @@ public interface PatientService {
     Patient add(Patient patient);
     Patient findByUser(User enteredUser);
     Patient update(Patient patient);
+    Patient findByName(String name);
 }

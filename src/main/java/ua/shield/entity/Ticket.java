@@ -17,7 +17,6 @@ public class Ticket {
     private Integer id;
 
     @Column(name = "date_", nullable = false)
-//    @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "dd-MM-yyyy")
     private LocalDate date;
 
@@ -105,5 +104,14 @@ public class Ticket {
         result = 31 * result + (time != null ? time.hashCode() : 0);
         result = 31 * result + (doctor != null ? doctor.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Ticket{" +
+                "date=" + date +
+                ", time='" + time + '\'' +
+                ", status=" + status +
+                '}';
     }
 }

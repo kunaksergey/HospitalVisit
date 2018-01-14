@@ -10,9 +10,6 @@ import ua.shield.service.UserService;
 
 import java.security.Principal;
 
-/**
- * Created by sa on 09.12.17.
- */
 @Controller
 public class CabinetController {
     @Autowired

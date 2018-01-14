@@ -3,10 +3,10 @@ package ua.shield.service;
 import ua.shield.entity.Doctor;
 import ua.shield.entity.Schedule;
 
-/**
- * Created by sa on 14.12.17.
- */
+import java.time.LocalDate;
+import java.util.List;
+
 public interface ScheduleService {
     Schedule findOne(Integer id);
-    Schedule getCurrentSchedule(Doctor doctor);
+    List<Schedule> findAllByDoctor(Doctor doctor);
 }

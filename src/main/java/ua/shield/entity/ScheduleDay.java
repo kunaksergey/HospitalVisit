@@ -1,20 +1,20 @@
 package ua.shield.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import ua.shield.enum_.EvenOddEnum;
 import ua.shield.enum_.WeekDayEnum;
 
 
 import javax.persistence.*;
+import java.util.List;
+import java.util.Set;
 
-/**
- * Created by sa on 14.12.17.
- */
 @Entity
-@Table(name = "schedule_details")
-@JsonPropertyOrder(value={ "id","evenOrOdd", "weekDay", "time"})
-public class ScheduleDetail {
+@Table(name = "schedule_day")
+@JsonPropertyOrder(value={ "id","evenOrOdd", "weekDay" })
+public class ScheduleDay {
     @Id
     @Column(name="id")
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -28,16 +28,13 @@ public class ScheduleDetail {
     @Column(name="weekday")
     private WeekDayEnum weekDay;//день недели
 
-    @Column(name="time")
-    private String time;//время приема
-
     @Column(name="notice")
     private String notice; //заметки
 
-//    @ManyToOne
-//    @JoinColumn(name = "user_id")
-//    @OrderBy(value = "time")
-//    private Set<TimeTicket> timeTickets;
+    @Column(name="time")
+    @OneToMany(cascade = CascadeType.ALL,fetch=FetchType.EAGER,mappedBy = "scheduleDay", orphanRemoval = true)
+    @JsonProperty("scheduleTime")
+    private Set<ScheduleTime> scheduleTime;//время приема
 
     @JsonIgnore
     @ManyToOne
@@ -84,11 +81,11 @@ public class ScheduleDetail {
         this.weekDay = weekDay;
     }
 
-    public String getTime() {
-        return time;
+    public Set<ScheduleTime> getScheduleTime() {
+        return scheduleTime;
     }
 
-    public void setTime(String time) {
-        this.time = time;
+    public void setScheduleTime(Set<ScheduleTime> scheduleTime) {
+        this.scheduleTime = scheduleTime;
     }
 }
