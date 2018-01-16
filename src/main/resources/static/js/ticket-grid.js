@@ -1,3 +1,12 @@
+$(document).ready(function () {
+    // ticket-grid carusel
+    $(".bt-next-ticket-grid").click(function () {
+        $("#first-ticket-grid").toggle("slide", {direction: "left"}, 500);
+        $("#second-ticket-grid").toggle("slide", {direction: "right"}, 500);
+    });
+    // !ticket-grid carusel
+});
+
 var app = angular.module("enrollApp", []);
 
 app.filter('slice', function () {
@@ -8,14 +17,14 @@ app.filter('slice', function () {
 
 app.controller("enrollCtrl", function ($scope, $http) {
     var doctorId = angular.element($('#doctorId')).data('id');
-    var urlTickets = "/api/v1/ticket/doctor/" + doctorId;
-    var urlEnroll = "/api/v1/ticket";
-    console.log(urlTickets);
+    var urlTicketListData = "/api/v1/ticket/listdata/doctor/" + doctorId;
+    var urlTicketAdd = "/api/v1/ticket";
+    console.log(urlTicketListData);
 
 
     $http({
         method: 'get',
-        url: urlTickets
+        url: urlTicketListData
     }).then(function (response) {
         $scope.ticketSlotList = response.data;
         console.log($scope.ticketSlotList);
@@ -24,11 +33,11 @@ app.controller("enrollCtrl", function ($scope, $http) {
     });
 
 
-    $scope.enroll = function (ticket) {
+    $scope.add = function (ticket) {
 
         $http({
             method: 'post',
-            url: urlEnroll,
+            url: urlTicketAdd,
             data: JSON.stringify(ticket)
         }).then(function (response) {
             update(response.data);
@@ -36,6 +45,7 @@ app.controller("enrollCtrl", function ($scope, $http) {
             console.log(error, 'can not get data.');
         });
 
+        // Update data model
         function update(data) {
             for (var i = 0; i < $scope.ticketSlotList.length; i++) {
                 for (var j = 0; j < $scope.ticketSlotList[i].ticketDtoList.length; j++) {

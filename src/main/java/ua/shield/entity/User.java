@@ -41,7 +41,11 @@ public class User {
             joinColumns = @JoinColumn(name = "USER_ID"),
             inverseJoinColumns = @JoinColumn(name = "ROLE"))
     private Set<Role> roles;
+
+    @Lob
+    @Column(name="image")
     private byte[] image;
+
     private boolean enabled;
 
     public Integer getId() {

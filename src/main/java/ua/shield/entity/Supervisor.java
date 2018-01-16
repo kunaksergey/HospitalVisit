@@ -2,9 +2,6 @@ package ua.shield.entity;
 
 import javax.persistence.*;
 
-/**
- * Created by sa on 30.11.17.
- */
 @Entity
 @Table(name="supervisor")
 public class Supervisor {

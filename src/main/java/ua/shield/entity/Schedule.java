@@ -17,15 +17,15 @@ public class Schedule {
     private Integer id;
 
     @DateTimeFormat(pattern = "dd-MM-yyyy")
-    private LocalDate start;//начало работы расписания
+    private LocalDate start;
 
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "doctor_id")
-    private Doctor doctor;//врач
+    private Doctor doctor;
 
     @Column(name="room")
-    private String room;//кабинет приема
+    private String room;
 
     @OneToMany(cascade = CascadeType.ALL,fetch=FetchType.EAGER,mappedBy = "schedule", orphanRemoval = true)
     @JsonProperty("scheduleDetails")

@@ -13,29 +13,9 @@ public class ScheduleDto {
     private String room;
     private String start;
     private String notice;
-    private Map<EvenOddEnum, Map<WeekDayEnum, Set<String>>> detailsMap;
+    private List<ScheduleDay> scheduleDays;
 
-
-    public ScheduleDto(Schedule schedule) {
-        this.id = schedule.getId();
-        this.room = schedule.getRoom();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        this.start = schedule.getStart().format(formatter);
-        this.notice=schedule.getNotice();
-        this.detailsMap = detailsSetToMap(schedule.getScheduleDaySet());
-    }
-
-    //превращаем ScheduleDay в map
-    private Map<EvenOddEnum, Map<WeekDayEnum, Set<String>>> detailsSetToMap(Set<ScheduleDay> detailsSet) {
-        Map<EvenOddEnum, Map<WeekDayEnum, Set<String>>> detailsMap = new HashMap<>();
-//        for (ScheduleDay detail : detailsSet) {
-//            Map<WeekDayEnum, Set<String>> orDefaultEven = detailsMap.getOrDefault(detail.getEvenOrOdd(), new HashMap<>());
-//            detailsMap.put(detail.getEvenOrOdd(), orDefaultEven);
-//            Set<String> orDefaultWeekDay = orDefaultEven.getOrDefault(detail.getWeekDay(), new TreeSet<>());
-//            orDefaultEven.put(detail.getWeekDay(), orDefaultWeekDay);
-//            orDefaultWeekDay.add(detail.);
-//        }
-        return detailsMap;
+    public ScheduleDto() {
     }
 
     public Integer getId() {
@@ -62,12 +42,12 @@ public class ScheduleDto {
         this.start = start;
     }
 
-    public Map<EvenOddEnum, Map<WeekDayEnum, Set<String>>> getDetailsMap() {
-        return detailsMap;
+    public List<ScheduleDay> getScheduleDays() {
+        return scheduleDays;
     }
 
-    public void setDetailsMap(Map<EvenOddEnum, Map<WeekDayEnum, Set<String>>> detailsMap) {
-        this.detailsMap = detailsMap;
+    public void setScheduleDays(List<ScheduleDay> scheduleDays) {
+        this.scheduleDays = scheduleDays;
     }
 
     public String getNotice() {

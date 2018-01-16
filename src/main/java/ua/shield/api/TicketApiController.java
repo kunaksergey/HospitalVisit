@@ -5,23 +5,24 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ua.shield.converter.TicketConverter;
-import ua.shield.converter.TicketSlotAssambler;
+import ua.shield.converter.TicketPickerConverter;
 import ua.shield.domen.DateRange;
+import ua.shield.domen.TicketPicker;
 import ua.shield.dto.TicketDto;
-import ua.shield.dto.TicketSlotDto;
+import ua.shield.dto.TicketPickerDto;
 import ua.shield.entity.Doctor;
 import ua.shield.entity.Patient;
-import ua.shield.entity.ScheduleDay;
 import ua.shield.entity.Ticket;
-import ua.shield.repository.DoctorRepository;
 import ua.shield.service.DoctorService;
 import ua.shield.service.PatientService;
-import ua.shield.service.ScheduleService;
+import ua.shield.service.TicketPickerService;
 import ua.shield.service.TicketService;
 
 import java.security.Principal;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
@@ -30,43 +31,38 @@ public class TicketApiController {
     private final int range = 14;
 
     @Autowired
-    TicketConverter ticketConverter;
+    private PatientService patientService;
 
     @Autowired
-    PatientService patientService;
+    private DoctorService doctorService;
 
     @Autowired
-    DoctorService doctorService;
-
-
-    @Autowired
-    TicketService ticketService;
+    private TicketPickerService ticketPickerService;
 
     @Autowired
-    ScheduleService scheduleService;
+    private TicketService ticketService;
 
     @Autowired
-    TicketSlotAssambler scheduleAssambler;
+    private TicketConverter ticketConverter;
 
     @Autowired
-    DoctorRepository doctorRepository;
+    private TicketPickerConverter ticketPickerConverter;
 
-    @RequestMapping(value = "/doctor/{doctorId}", method = RequestMethod.GET)
-    ResponseEntity<List<TicketSlotDto>> findAllDailyInfoByDoctor(@PathVariable Integer doctorId) {
+
+    @RequestMapping(value = "listdata/doctor/{doctorId}", method = RequestMethod.GET)
+    ResponseEntity<List<TicketPickerDto>> findAllDailyInfoByDoctor(@PathVariable Integer doctorId) {
         Doctor doctor = doctorService.findOne(doctorId);
         if (doctor == null) {
             return new ResponseEntity<>(new ArrayList<>(), HttpStatus.NOT_FOUND);
         }
         DateRange dateRange = new DateRange(LocalDate.now(), LocalDate.now().plusDays(range));
-        List<Ticket> ticketList = ticketService.assambledInRangeByDoctor(dateRange, doctor);
-        List<TicketSlotDto> ticketSlotDtoList =scheduleAssambler.toList(
-                scheduleService.findAllByDoctor(doctor),
-                ticketList,
-                dateRange);
+        List<TicketPicker> ticketPickerList= ticketPickerService.findAllInRangeByDoctor(dateRange,doctor);
 
-        return new ResponseEntity<>(ticketSlotDtoList
+        List<TicketPickerDto> ticketPickerDtoList = ticketPickerConverter.createFromEntities(ticketPickerList);
+
+        return new ResponseEntity<>(ticketPickerDtoList
                 .stream()
-                .sorted(Comparator.comparing(TicketSlotDto::getDate))
+                .sorted(Comparator.comparing(TicketPickerDto::getDate))
                 .collect(Collectors.toList())
                 , HttpStatus.OK);
     }

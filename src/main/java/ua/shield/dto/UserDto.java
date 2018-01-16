@@ -8,9 +8,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Set;
 
-/**
- * Created by sa on 20.12.17.
- */
 public class UserDto {
     private Integer id;
     private String username;

@@ -63,6 +63,7 @@ public class TicketServiceImpl implements TicketService {
             final DayOfWeek dayOfWeek = currentDay.getDayOfWeek();
             Schedule currentSchedule = ScheduleHelper.defineCurrentSchedule(scheduleList, currentDay);
             final EvenOddEnum evenOrOddDay = (currentDay.getDayOfMonth() % 2 == 0) ? EvenOddEnum.EVEN : EvenOddEnum.ODD;
+
             currentSchedule.getScheduleDaySet()
                     .stream()
                     .filter(sd -> sd.getEvenOrOdd().equals(evenOrOddDay) && sd.getWeekDay().name().equals(dayOfWeek.name()))

@@ -31,16 +31,10 @@ function createTablesFromRequest(data) {
     var cloneNode = $("#tables-for-clone").clone();
 
     //заполняем данными из запроса
-    $.each(data.detailsMap, function (index, value) {
-        var evenOrOdd = index;
-        $.each(value, function (index, value) {
-            var weekDay = index;
-            $.each(value, function (index, value) {
-                var idNode = evenOrOdd + '_' + weekDay;
-                cloneNode.find('#' + idNode).append(createScheduleTime(value));
-            });
-        });
-    });
+    $.each(data.scheduleDays, function (index, value) {
+        var idNode = value.evenOrOdd + '_' + value.weekDay;
+        cloneNode.find('#' + idNode).append(createScheduleTime(value.scheduleTime));
+  });
 
     //End each
     return cloneNode.children();
@@ -52,12 +46,14 @@ function createEmptyScheduleTables() {
     return clone.children();
 }
 
-function createScheduleTime(value) {
+function createScheduleTime(scheduleTime) {
     var html = '';
-    html += '<div class="schedule-time m-1 p-1 text-success border border-info rounded">' +
-        '<span>{value}</span>'.replace('{value}', value) +
-        '  <a href="#" class="del-time fa fa-trash-o pull-right" aria-hidden="true" data-toggle="modal" data-target="#confirm-delete"/>' +
-        '</div>';
+    $.each(scheduleTime, function (index, value) {
+        html += '<div class="schedule-time m-1 p-1 text-success border border-info rounded">' +
+            '<span>{time}</span>'.replace('{time}', value.time) +
+            '  <a href="#" class="del-time fa fa-trash-o pull-right" aria-hidden="true" data-toggle="modal" data-target="#confirm-delete"/>' +
+            '</div>';
+    });
     return $.parseHTML(html);
 }
 

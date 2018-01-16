@@ -171,21 +171,23 @@
     text-overflow:ellipsis
 }
 
+/*ticket-grid*/
 #detail-content{
     position: relative;
 }
-.td-table-week-schedule{
+.td-table-ticket-grid{
     min-height: 100px;
 }
-#first-week-schedule, #second-week-schedule {
+#first-ticket-grid, #second-ticket-grid {
     position: absolute;
     width: 100%;
     top: 0;
 }
-#second-week-schedule {
+#second-ticket-grid {
     display: none;
 }
 
 .bt-disable{
 
 }
+/*!ticket-grid*/

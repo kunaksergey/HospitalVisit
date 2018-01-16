@@ -3,6 +3,7 @@ package ua.shield.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.hibernate.annotations.SortNatural;
 import ua.shield.enum_.EvenOddEnum;
 import ua.shield.enum_.WeekDayEnum;
 
@@ -10,6 +11,7 @@ import ua.shield.enum_.WeekDayEnum;
 import javax.persistence.*;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 @Entity
 @Table(name = "schedule_day")
@@ -18,23 +20,26 @@ public class ScheduleDay {
     @Id
     @Column(name="id")
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @JsonIgnore
     private Integer id;
 
     @Column(name="even_or_odd")
     @Enumerated(EnumType.STRING)
-    private EvenOddEnum evenOrOdd;//четная/нечетная неделя
+    private EvenOddEnum evenOrOdd;
 
     @Enumerated(EnumType.STRING)
     @Column(name="weekday")
-    private WeekDayEnum weekDay;//день недели
+    private WeekDayEnum weekDay;
 
     @Column(name="notice")
-    private String notice; //заметки
+    private String notice;
 
     @Column(name="time")
     @OneToMany(cascade = CascadeType.ALL,fetch=FetchType.EAGER,mappedBy = "scheduleDay", orphanRemoval = true)
     @JsonProperty("scheduleTime")
-    private Set<ScheduleTime> scheduleTime;//время приема
+    @SortNatural
+    @OrderBy("time ASC")
+    private Set<ScheduleTime> scheduleTime;
 
     @JsonIgnore
     @ManyToOne

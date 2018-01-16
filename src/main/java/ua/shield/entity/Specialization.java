@@ -5,10 +5,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import java.util.List;
 
-/**
- * Created by sa on 30.11.17.
- * Справочник специализаций врачей
- */
 @Entity
 @Table(name = "specialization")
 public class Specialization {

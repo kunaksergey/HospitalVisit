@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import ua.shield.converter.ScheduleConverter;
 import ua.shield.dto.ScheduleDto;
 import ua.shield.entity.Doctor;
 import ua.shield.service.DoctorService;
@@ -26,10 +27,14 @@ public class ScheduleController {
     @Autowired
     private DoctorService doctorService;
 
+    @Autowired
+    private ScheduleConverter scheduleConverter;
+
+
     @RequestMapping("/{id}")
     @ResponseBody
     ScheduleDto findOne(@PathVariable Integer id) {
-        return new ScheduleDto(scheduleService.findOne(id));
+        return scheduleConverter.createFromEntity(scheduleService.findOne(id));
     }
 
     @RequestMapping("/doctor/{id}")
@@ -38,10 +43,9 @@ public class ScheduleController {
         Doctor doctor = doctorService.findOne(id);
         return doctor.getSchedules()
                 .stream()
-                .map(ScheduleDto::new)
+                .map(scheduleConverter::createFromEntity)
                 .sorted(Comparator.comparing(ScheduleDto::getStart))
                 .collect(Collectors.toList());
-
     }
 
 }

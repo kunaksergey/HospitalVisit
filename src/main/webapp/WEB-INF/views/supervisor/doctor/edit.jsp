@@ -15,10 +15,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.5/umd/popper.min.js"></script>
     <script src="/js/bootstrap.js"></script>
     <script src="/js/bootstrap.bundle.js"></script>
+    <script src="/js/image-upload.js"></script>
     <script src="/js/user.js"></script>
     <script src="/js/parts-selector.js"></script>
     <script src="/js/schedule.js"></script>
-    </head>
+</head>
 <body>
 <div class="container">
     <h5>Облікова картка лікаря: <c:out value="${doctorForm.fullName}"/></h5>
@@ -27,41 +28,59 @@
             <form:hidden path="id"/>
         </div>
 
-        <div class="form-group row">
-            <label for="fullName" class="col-2 col-form-label">ПІБ:</label>
-            <div class="col-6">
-                <form:input path="fullName" class="form-control"/>
+        <div class="row">
+            <div class="col-8" style="background-color: green">
+                <div class="form-group row">
+                    <label for="fullName" class="col-2 col-form-label">ПІБ:</label>
+                    <div class="col-6">
+                        <form:input path="fullName" class="form-control"/>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="birthDay" class="col-2 col-form-label">День народження:</label>
+                    <div class="col-6">
+                        <form:input path="birthDay" class="form-control"/>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="phone" class="col-2 col-form-label">Телефон:</label>
+                    <div class="col-6">
+                        <form:input path="phone" class="form-control"/>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="email" class="col-2 col-form-label">Email:</label>
+                    <div class="col-6">
+                        <form:input path="email" class="form-control"/>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4" style="background-color: yellow">
+                <div class="photo-doctor">
+                    <img class="photo-doctor-img" src="/img/no_photo.png" ngf-src="imgFile"  draggable="false"/>
+                </div>
+                <form name="ImageUpload" method="POST" enctype="multipart/form-data">
+                    <div>
+                        Виберить фото:
+                        <input type="file" id="upload-image" ng-click="uploadImg(imgFile)" name="uploadImage"  accept="image/*" />
+                        <br><br>
+                        <input type="submit" value="Зберегти" /><br><br>
+                    </div>
+                </form>
             </div>
         </div>
-        <div class="form-group row">
-            <label for="birthDay" class="col-2 col-form-label">День народження:</label>
-            <div class="col-6">
-                <form:input path="birthDay" class="form-control"/>
-            </div>
-        </div>
-        <div class="form-group row">
-            <label for="phone" class="col-2 col-form-label">Телефон:</label>
-            <div class="col-6">
-                <form:input path="phone" class="form-control"/>
-            </div>
-        </div>
-        <div class="form-group row">
-            <label for="email" class="col-2 col-form-label">Email:</label>
-            <div class="col-6">
-                <form:input path="email" class="form-control"/>
-            </div>
-        </div>
+
         <div class="checkbox checkbox-info">
-                <ul>
-                    <form:checkboxes element="li" items="${specializations}"
-                                     path="specializations" itemValue="id" itemLabel="name"/>
+            <ul>
+                <form:checkboxes element="li" items="${specializations}"
+                                 path="specializations" itemValue="id" itemLabel="name"/>
 
-                </ul>
+            </ul>
 
-         </div>
+        </div>
 
         <div class="checkbox checkbox-info">
-            <form:checkbox path="enable" label="Активован" />
+            <form:checkbox path="enable" label="Активован"/>
         </div>
         <button type="submit" class="btn btn-info btn-sm">Зберегти</button>
     </form:form>
@@ -142,9 +161,9 @@
                         <input class="form-control" type="text" name="time" placeholder="00:00">
                     </div>
 
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-info btn-sm">Додати</button>
-            </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-info btn-sm">Додати</button>
+                    </div>
                 </form>
             </div>
         </div>

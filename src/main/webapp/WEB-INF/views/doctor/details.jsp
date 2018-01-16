@@ -15,15 +15,13 @@
     <script src="/js/bootstrap.js"></script>
     <script src="/js/bootstrap.bundle.js"></script>
     <script src="/js/jquery-ui.js"></script>
-    <script src="/js/week-carusel.js"></script>
-    <script src="/js/enroll.js"></script>
+      <script src="/js/ticket-grid.js"></script>
     <link rel="stylesheet" href="/css/style.css"/>
 </head>
 
 <body>
 <div class="container">
     <div class="card-doctor-big">
-
         <div class="doctor-card__content">
             <div class="doctor-card__top">
                 <div class="doctor-photo doctor-photo_big user-photo user-photo_loaded">
@@ -54,76 +52,50 @@
     <div id="detail-content" ng-app="enrollApp" ng-controller="enrollCtrl">
         <div id="doctorId" data-id="${doctor.id}">
         </div>
-        <%--First week--%>
-        <div id="first-week-schedule" class="week-schedule" ng-if="true" ng-init="start = 0; end = 7;">
-            <div class="week-header">
-                <button class="bt-next-week">></button>
+        <%--First ticket-grid--%>
+        <div id="first-ticket-grid" class="ticket-grid" ng-if="true" ng-init="start = 0; end = 7;">
+            <div class="ticket-grid-header">
+                <button class="bt-next-ticket-grid">></button>
             </div>
-            <div class="week-content">
-                <table class="table table-striped table-week-schedule">
-                    <thead>
-                    <tr>
-                        <th ng-repeat="ticketSlot in ticketSlotList | slice:start:end">
-                            <div>
-                            {{ticketSlot.date}}
-                            </div>
-                        </th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td ng-repeat="ticketSlot in ticketSlotList | slice:start:end" class="td-table-week-schedule">
-                            <div ng-repeat='ticket in ticketSlot.ticketDtoList'>
-                                  <button ng-click="enroll(ticket)"
-                                                  class="bt btn-sm ng-class:{'btn-info':!ticket.busy,'btn-secondary':ticket.busy}" ng-disabled="ticket.busy">{{ticket.time}}</button>
-                            </div>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-
-            </div>
-            <div class="week-footer"></div>
+            <%@include file="../templates/ticket-grid-content.jspf" %>
+            <div class="ticket-grid-footer"></div>
         </div>
-        <%--!First week--%>
+        <%--!First ticket-grid--%>
 
-        <%--Second week--%>
-        <div id="second-week-schedule" class="week-schedule" ng-if="true" ng-init="start = 7; end = 14;">
-            <div class="week-header">
-                <button class="bt-next-week"><</button>
+        <%--Second ticket-grid--%>
+        <div id="second-ticket-grid" class="ticket-grid" ng-if="true" ng-init="start = 7; end = 14;">
+            <div class="ticket-grid-header">
+                <button class="bt-next-ticket-grid"><</button>
             </div>
-            <div class="week-content">
-                <table class="table table-striped table-week-schedule">
-                    <thead>
-                    <tr>
-                        <th ng-repeat="ticketSlot in ticketSlotList | slice:start:end">
-                            <div>
-                                {{ticketSlot.date}}
-                            </div>
-                        </th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td ng-repeat="ticketSlot in ticketSlotList | slice:start:end" class="td-table-week-schedule">
-                            <div ng-repeat='ticket in ticketSlot.ticketDtoList'>
-                                <button ng-click="enroll(ticket)"
-                                        class="bt btn-sm ng-class:{'btn-info':!ticket.busy,'btn-secondary':ticket.busy}" ng-disabled="ticket.busy">{{ticket.time}}</button>
-                            </div>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-
-            </div>
-            <div class="week-footer"></div>
+            <%@include file="../templates/ticket-grid-content.jspf" %>
+            <div class="ticket-grid-footer"></div>
         </div>
-        <%--!Second week--%>
+        <%--!Second ticket-grid--%>
 
     </div>
 
 
 </div>
+<div class="modal fade" id="confirm-enroll" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Підтверження!</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
 
+            <div class="modal-body">
+                <p>Ви бажаєте зареєструватися?</p>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Ні</button>
+                <a class="btn btn-danger btn-ok" data-dismiss="modal">Так</a>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

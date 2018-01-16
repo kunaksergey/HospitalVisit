@@ -11,6 +11,7 @@ public class ScheduleTime {
     @Id
     @Column(name="id")
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @JsonIgnore
     private Integer id;
 
     @Column(name="time")
