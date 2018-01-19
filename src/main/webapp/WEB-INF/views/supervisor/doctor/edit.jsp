@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="/css/parts-selector.css">
     <link rel="stylesheet" href="/css/style.css">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.7/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.5/umd/popper.min.js"></script>
     <script src="/js/bootstrap.js"></script>
@@ -18,9 +19,10 @@
     <script src="/js/image-upload.js"></script>
     <script src="/js/user.js"></script>
     <script src="/js/parts-selector.js"></script>
+    <script src="/js/schedule-angular.js"></script>
     <script src="/js/schedule.js"></script>
 </head>
-<body>
+<body ng-app="myApp" ng-controller="myCtrl">
 <div class="container">
     <h5>Облікова картка лікаря: <c:out value="${doctorForm.fullName}"/></h5>
     <form:form method="POST" action="/supervisor/doctor/save" modelAttribute="doctorForm">
@@ -88,7 +90,7 @@
 
     <%--Menu schedules --%>
     <div id="schedule-menu" class="list-group border rounded">
-        <a id="schedule-add" class="list-group-item"
+        <a id="schedule-add" class="list-group-item" ng-click="addSchedule()"
            data-toggle="modal" data-target="#scheduleModal" href=''>Розклад:додати</a>
         <div id="schedule-list">
             <%--hear we add schedules --%>
@@ -109,7 +111,8 @@
             </div>
             <div class="modal-body">
                 <div id="table-content">
-                    <%--Сюда вставляем склонированные таблицы--%>
+                    <week even-or-odd="EVEN" title="Парні"></week>
+                    <week even-or-odd="ODD" title="Непарні"></week>
                 </div>
                 <p><a href="#" data-toggle="modal" data-target="#timeModal">Час:додати</a></p>
             </div>
@@ -133,43 +136,44 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form id="add-time" role="form" method="post">
+                <form id="add-time" name="addTime" role="form" method="post">
                     <div class="form-group">
-                        <select name="day" class="form-control" data-header="Виберіть день" data-width="75%">
+                        <select ng-model="selected" name="day" class="form-control" data-header="Виберіть день" data-width="75%" required>
                             <optgroup label="Парні">
-                                <option value="even_monday">Понеділок</option>
-                                <option value="even_tuesday">Вівторок</option>
-                                <option value="even_wednesday">Середа</option>
-                                <option value="even_thursday"> Четверг</option>
-                                <option value="even_friday">П'ятниця</option>
-                                <option value="even_saturday">Субота</option>
-                                <option value="even_sanday">Неділя</option>
+                                <option value='{"evenOrOdd":"EVEN","weekDay":"MONDAY"}'>Понеділок</option>
+                                <option value='{"evenOrOdd":"EVEN","weekDay":"TUESDAY"}'>Вівторок</option>
+                                <option value='{"evenOrOdd":"EVEN","weekDay":"WEDNESDAY"}'>Середа</option>
+                                <option value='{"evenOrOdd":"EVEN","weekDay":"THURSDAY"}'> Четверг</option>
+                                <option value='{"evenOrOdd":"EVEN","weekDay":"FRIDAY"}'>П'ятниця</option>
+                                <option value='{"evenOrOdd":"EVEN","weekDay":"SATURDAY"}'>Субота</option>
+                                <option value='{"evenOrOdd":"EVEN","weekDay":"SANDAY"}'>Неділя</option>
                             </optgroup>
                             <optgroup label="Непарні">
-                                <option value="odd_monday">Понеділок</option>
-                                <option value="odd_tuesday">Вівторок</option>
-                                <option value="odd_wednesday">Середа</option>
-                                <option value="odd_thursday">Четверг</option>
-                                <option value="odd_friday">П'ятниця</option>
-                                <option value="odd_saturday">Субота</option>
-                                <option value="odd_sanday">Неділя</option>
+                                <option value='{"evenOrOdd":"ODD","weekDay":"MONDAY"}'>Понеділок</option>
+                                <option value='{"evenOrOdd":"ODD","weekDay":"TUESDAY"}'>Вівторок</option>
+                                <option value='{"evenOrOdd":"ODD","weekDay":"WEDNESDAY"}'>Середа</option>
+                                <option value='{"evenOrOdd":"ODD","weekDay":"THURSDAY"}'>Четверг</option>
+                                <option value='{"evenOrOdd":"ODD","weekDay":"FRIDAY"}'>П'ятниця</option>
+                                <option value='{"evenOrOdd":"ODD","weekDay":"SATURDAY"}'>Субота</option>
+                                <option value='{"evenOrOdd":"ODD","weekDay":"SANDAY"}'>Неділя</option>
                             </optgroup>
                         </select>
                     </div>
 
                     <div class="form-group">
-                        <input class="form-control" type="text" name="time" placeholder="00:00">
+                        <input ng-model="time" class="form-control" type="text" name="time" placeholder="00:00" required validate-time>
                     </div>
 
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-info btn-sm">Додати</button>
+                        <button type="submit" ng-click="addTime_()" class="btn btn-info btn-sm" ng-disabled="addTime.$invalid">Додати</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
-<!-- End time modal -->
+<!-- !Time modal -->
+
 
 <!-- Delete modal -->
 <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-hidden="true">
@@ -194,78 +198,80 @@
     </div>
 </div>
 <!-- End delete modal -->
+
+
 <%--Table body for clone --%>
-<div id="tables-for-clone" class="d-none">
-    <table class="table">
-        <thead>
-        <tr>
-            <th colspan="7">Парні</th>
-        </tr>
-        <tr>
-            <th>Понеділок</th>
-            <th>Вівторок</th>
-            <th>Середа</th>
-            <th>Четверг</th>
-            <th>П'ятниця</th>
-            <th>Субота</th>
-            <th>Неділя</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td id="even_monday"><!--ПН-->
-            </td>
-            <td id="even_tuesday"><!--ВТ-->
-            </td>
-            <td id="even_wednesday"><!--СР-->
-            </td>
-            <td id="even_thursday"><!--ЧТ-->
-            </td>
-            <td id="even_friday"><!--ПН-->
-            </td>
-            <td id="even_saturday"><!--СБ-->
-            </td>
-            <td id="even_sanday"><!--НД-->
-            </td>
-        </tr>
-        </tbody>
-    </table>
-    <%--Не парні--%>
-    <table class="table">
-        <thead>
-        <tr>
-            <th colspan="7">Непарні</th>
-        </tr>
-        <tr>
-            <th>Понеділок</th>
-            <th>Вівторок</th>
-            <th>Середа</th>
-            <th>Четверг</th>
-            <th>П'ятниця</th>
-            <th>Субота</th>
-            <th>Неділя</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td id="odd_monday"><!--ПН-->
-            </td>
-            <td id="odd_tuesday"><!--ВТ-->
-            </td>
-            <td id="odd_wednesday"><!--СР-->
-            </td>
-            <td id="odd_thursday"><!--ЧТ-->
-            </td>
-            <td id="odd_friday"><!--ПН-->
-            </td>
-            <td id="odd_saturday"><!--СБ-->
-            </td>
-            <td id="odd_sanday"><!--НД-->
-            </td>
-        </tr>
-        </tbody>
-    </table>
-</div>
-<%--End Table body for clone --%>
+<%--<div id="tables-for-clone" class="d-none">--%>
+    <%--<table class="table">--%>
+        <%--<thead>--%>
+        <%--<tr>--%>
+            <%--<th colspan="7">Парні</th>--%>
+        <%--</tr>--%>
+        <%--<tr>--%>
+            <%--<th>Понеділок</th>--%>
+            <%--<th>Вівторок</th>--%>
+            <%--<th>Середа</th>--%>
+            <%--<th>Четверг</th>--%>
+            <%--<th>П'ятниця</th>--%>
+            <%--<th>Субота</th>--%>
+            <%--<th>Неділя</th>--%>
+        <%--</tr>--%>
+        <%--</thead>--%>
+        <%--<tbody>--%>
+        <%--<tr>--%>
+            <%--<td id="even_monday"><!--ПН-->--%>
+            <%--</td>--%>
+            <%--<td id="even_tuesday"><!--ВТ-->--%>
+            <%--</td>--%>
+            <%--<td id="even_wednesday"><!--СР-->--%>
+            <%--</td>--%>
+            <%--<td id="even_thursday"><!--ЧТ-->--%>
+            <%--</td>--%>
+            <%--<td id="even_friday"><!--ПН-->--%>
+            <%--</td>--%>
+            <%--<td id="even_saturday"><!--СБ-->--%>
+            <%--</td>--%>
+            <%--<td id="even_sanday"><!--НД-->--%>
+            <%--</td>--%>
+        <%--</tr>--%>
+        <%--</tbody>--%>
+    <%--</table>--%>
+    <%--&lt;%&ndash;Не парні&ndash;%&gt;--%>
+    <%--<table class="table">--%>
+        <%--<thead>--%>
+        <%--<tr>--%>
+            <%--<th colspan="7">Непарні</th>--%>
+        <%--</tr>--%>
+        <%--<tr>--%>
+            <%--<th>Понеділок</th>--%>
+            <%--<th>Вівторок</th>--%>
+            <%--<th>Середа</th>--%>
+            <%--<th>Четверг</th>--%>
+            <%--<th>П'ятниця</th>--%>
+            <%--<th>Субота</th>--%>
+            <%--<th>Неділя</th>--%>
+        <%--</tr>--%>
+        <%--</thead>--%>
+        <%--<tbody>--%>
+        <%--<tr>--%>
+            <%--<td id="odd_monday"><!--ПН-->--%>
+            <%--</td>--%>
+            <%--<td id="odd_tuesday"><!--ВТ-->--%>
+            <%--</td>--%>
+            <%--<td id="odd_wednesday"><!--СР-->--%>
+            <%--</td>--%>
+            <%--<td id="odd_thursday"><!--ЧТ-->--%>
+            <%--</td>--%>
+            <%--<td id="odd_friday"><!--ПН-->--%>
+            <%--</td>--%>
+            <%--<td id="odd_saturday"><!--СБ-->--%>
+            <%--</td>--%>
+            <%--<td id="odd_sanday"><!--НД-->--%>
+            <%--</td>--%>
+        <%--</tr>--%>
+        <%--</tbody>--%>
+    <%--</table>--%>
+<%--</div>--%>
+<%--!Table body for clone --%>
 </body>
 </html>

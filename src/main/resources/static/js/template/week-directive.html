@@ -1,0 +1,23 @@
+<table class="table">
+    <thead>
+    <tr>
+        <th colspan="7">{{title}}</th>
+    </tr>
+    <tr>
+        <th>Понеділок</th>
+        <th>Вівторок</th>
+        <th>Середа</th>
+        <th>Четверг</th>
+        <th>П\ятниця</th>
+        <th>Субота</th>
+        <th>Неділя</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td ng-repeat="item in weekDays">
+            <time even-or-odd={{evenOrOdd}} week-day={{item}}></time>
+        </td>
+    </tr>
+    </tbody>
+</table>

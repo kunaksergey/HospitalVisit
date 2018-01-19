@@ -1,0 +1,10 @@
+<div class="schedule-time m-1 p-1 text-success border border-info rounded"
+     ng-repeat="item in (schedule | filter:{evenOrOdd:evenOrOdd,weekDay:weekDay})[0].scheduleTime">
+   <span> {{item.time}}</span>
+    <a href="#" class="del-time fa fa-trash-o pull-right"
+                ng-click="removeTime_(evenOrOdd,weekDay,item.time)"
+                aria-hidden="true"
+       data-toggle="modal" data-target="#confirm-delete"></a>
+</div>
+
+
