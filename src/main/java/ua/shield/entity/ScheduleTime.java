@@ -11,8 +11,7 @@ public class ScheduleTime {
     @Id
     @Column(name="id")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @JsonIgnore
-    private Integer id;
+     private Integer id;
 
     @Column(name="time")
     private String time;
@@ -44,5 +43,23 @@ public class ScheduleTime {
 
     public void setScheduleDay(ScheduleDay scheduleDay) {
         this.scheduleDay = scheduleDay;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ScheduleTime that = (ScheduleTime) o;
+
+        if (time != null ? !time.equals(that.time) : that.time != null) return false;
+        return scheduleDay != null ? scheduleDay.equals(that.scheduleDay) : that.scheduleDay == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = time != null ? time.hashCode() : 0;
+        result = 31 * result + (scheduleDay != null ? scheduleDay.hashCode() : 0);
+        return result;
     }
 }

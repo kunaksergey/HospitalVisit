@@ -2,6 +2,7 @@ package ua.shield.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ua.shield.domen.DateRange;
 import ua.shield.entity.Doctor;
 import ua.shield.entity.Schedule;
@@ -20,6 +21,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service("ticketService")
+@Transactional
 public class TicketServiceImpl implements TicketService {
     @Autowired
     ScheduleService scheduleService;
@@ -27,12 +29,14 @@ public class TicketServiceImpl implements TicketService {
     private TicketRepository ticketRepository;
 
     @Override
+    @Transactional(readOnly = true)
     public List<Ticket> findAllForTwoWeek(Doctor doctor, LocalDate start, LocalDate end) {
         return ticketRepository.findAllByDoctorAndDateGreaterThanEqualAndDateLessThanEqual(
                 doctor, start, end);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Ticket> findAllInRangeByDoctor(DateRange range, Doctor doctor) {
         return ticketRepository.findAllByDoctorAndDateGreaterThanEqualAndDateLessThanEqual(
                 doctor,
@@ -42,6 +46,7 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Ticket> assambledInRangeByDoctor(DateRange range, Doctor doctor) {
         Set<Ticket> ticketSet = new HashSet<>();
         ticketSet.addAll(findAllInRangeByDoctor(range, doctor)); //db tickets
@@ -68,7 +73,7 @@ public class TicketServiceImpl implements TicketService {
                     .stream()
                     .filter(sd -> sd.getEvenOrOdd().equals(evenOrOddDay) && sd.getWeekDay().name().equals(dayOfWeek.name()))
                     .forEach(s -> {
-                        List<Ticket> collect = s.getScheduleTime().stream().map(t -> {
+                        List<Ticket> collect = s.getScheduleTimeSet().stream().map(t -> {
                             Ticket ticket = new Ticket();
                             ticket.setDate(currentDay);
                             ticket.setTime(t.getTime());

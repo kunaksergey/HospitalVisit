@@ -1,19 +1,16 @@
 package ua.shield.dto;
 
-import ua.shield.entity.Schedule;
 import ua.shield.entity.ScheduleDay;
-import ua.shield.enum_.EvenOddEnum;
-import ua.shield.enum_.WeekDayEnum;
 
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class ScheduleDto {
     private Integer id;
+    private Integer doctorId;
     private String room;
     private String start;
     private String notice;
-    private List<ScheduleDay> scheduleDays;
+    private Set<ScheduleDay> scheduleDaySet;
 
     public ScheduleDto() {
     }
@@ -42,12 +39,12 @@ public class ScheduleDto {
         this.start = start;
     }
 
-    public List<ScheduleDay> getScheduleDays() {
-        return scheduleDays;
+    public Set<ScheduleDay> getScheduleDaySet() {
+        return scheduleDaySet;
     }
 
-    public void setScheduleDays(List<ScheduleDay> scheduleDays) {
-        this.scheduleDays = scheduleDays;
+    public void setScheduleDaySet(Set<ScheduleDay> scheduleDaySet) {
+        this.scheduleDaySet = scheduleDaySet;
     }
 
     public String getNotice() {
@@ -56,5 +53,13 @@ public class ScheduleDto {
 
     public void setNotice(String notice) {
         this.notice = notice;
+    }
+
+    public Integer getDoctorId() {
+        return doctorId;
+    }
+
+    public void setDoctorId(Integer doctorId) {
+        this.doctorId = doctorId;
     }
 }

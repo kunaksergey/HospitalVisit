@@ -25,7 +25,7 @@ public class Doctor{
     @OneToOne
     private User user;
 
-    @OneToMany(cascade = CascadeType.ALL,fetch=FetchType.EAGER, mappedBy = "doctor", orphanRemoval = true)
+    @OneToMany(cascade={CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE},fetch=FetchType.EAGER, mappedBy = "doctor", orphanRemoval = true)
     private Set<Schedule> schedules;
 
     @Transient

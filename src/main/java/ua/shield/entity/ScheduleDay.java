@@ -9,9 +9,7 @@ import ua.shield.enum_.WeekDayEnum;
 
 
 import javax.persistence.*;
-import java.util.List;
 import java.util.Set;
-import java.util.TreeSet;
 
 @Entity
 @Table(name = "schedule_day")
@@ -20,7 +18,6 @@ public class ScheduleDay {
     @Id
     @Column(name="id")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @JsonIgnore
     private Integer id;
 
     @Column(name="even_or_odd")
@@ -36,10 +33,10 @@ public class ScheduleDay {
 
     @Column(name="time")
     @OneToMany(cascade = CascadeType.ALL,fetch=FetchType.EAGER,mappedBy = "scheduleDay", orphanRemoval = true)
-    @JsonProperty("scheduleTime")
+    @JsonProperty("scheduleTimeSet")
     @SortNatural
     @OrderBy("time ASC")
-    private Set<ScheduleTime> scheduleTime;
+    private Set<ScheduleTime> scheduleTimeSet;
 
     @JsonIgnore
     @ManyToOne
@@ -86,11 +83,31 @@ public class ScheduleDay {
         this.weekDay = weekDay;
     }
 
-    public Set<ScheduleTime> getScheduleTime() {
-        return scheduleTime;
+    public Set<ScheduleTime> getScheduleTimeSet() {
+        return scheduleTimeSet;
     }
 
-    public void setScheduleTime(Set<ScheduleTime> scheduleTime) {
-        this.scheduleTime = scheduleTime;
+    public void setScheduleTimeSet(Set<ScheduleTime> scheduleTimeSet) {
+        this.scheduleTimeSet = scheduleTimeSet;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ScheduleDay that = (ScheduleDay) o;
+
+        if (evenOrOdd != that.evenOrOdd) return false;
+        if (weekDay != that.weekDay) return false;
+        return schedule != null ? schedule.equals(that.schedule) : that.schedule == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = evenOrOdd != null ? evenOrOdd.hashCode() : 0;
+        result = 31 * result + (weekDay != null ? weekDay.hashCode() : 0);
+        result = 31 * result + (schedule != null ? schedule.hashCode() : 0);
+        return result;
     }
 }

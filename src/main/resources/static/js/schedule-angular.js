@@ -1,4 +1,8 @@
-var app = angular.module("myApp", []);
+var app = angular.module("myApp", ['ui.bootstrap']);
+app.config(function (uibDropdownConfig) {
+    uibDropdownConfig.openClass = 'show';
+});
+
 app.controller("myCtrl", myCtrl);
 
 // directive for week(Even or Odd)
@@ -15,7 +19,7 @@ app.directive("week", function () {
 });
 
 
-// directive for scheduleTime in ticketPicker
+// directive for scheduleTimeSet in ticketPicker
 app.directive("time", function () {
     return {
         restrict: 'E',
@@ -44,19 +48,42 @@ app.directive('validateTime', function () {
 });
 
 
-function myCtrl($scope, $http) {
+function myCtrl($scope, $http, $uibModal) {
     $scope.weekDays = ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SANDAY"];
-    $scope.addSchedule = function () {
-        $scope.schedule = [];
-    };
 
-    //load particular schedule from REST
-    $scope.loadSchedule = function (scheduleUrl) {
+    $scope.$watch('doctorId', function () {
+        var scheduleUrl = '/api/v1/schedule/doctor/{id}'.replace('{id}', $scope.doctorId);
         $http({
             method: 'GET',
             url: scheduleUrl
         }).then(function successCallback(response) {
-            $scope.schedule = response.data.scheduleDays;
+            $scope.scheduleList = response.data;
+        }, function errorCallback(response) {
+            // called asynchronously if an error occurs
+            // or server returns response with an error status.
+        });
+    });
+
+    $scope.addSchedule = function () {
+        $scope.schedule = {
+            id: null,
+            doctorId: $scope.doctorId,
+            room: $scope.room,
+            notice: $scope.notice,
+            scheduleDaySet: []
+        };
+        $scope.scheduleDaySet = $scope.schedule.scheduleDaySet;
+    };
+
+    //load particular schedule from REST
+    $scope.loadSchedule = function (scheduleId) {
+        scheduleUrl='/api/v1/schedule/{id}'.replace('{id}',scheduleId);
+        $http({
+            method: 'GET',
+            url: scheduleUrl
+        }).then(function successCallback(response) {
+            $scope.schedule = response.data;
+            $scope.scheduleDaySet = response.data.scheduleDaySet;
         }, function errorCallback(response) {
             // called asynchronously if an error occurs
             // or server returns response with an error status.
@@ -68,16 +95,16 @@ function myCtrl($scope, $http) {
         var evenOrOdd = JSON.parse($scope.selected).evenOrOdd;
         var weekDay = JSON.parse($scope.selected).weekDay;
         var time = new Date('1970-01-01T' + $scope.time + 'Z');
-        var currentSchedule = null;
-        angular.forEach($scope.schedule, function (value, key) {
+        var currentScheduleDaySet = null;
+        angular.forEach($scope.scheduleDaySet, function (value, key) {
             if ((evenOrOdd === value.evenOrOdd) && (weekDay === value.weekDay)) {
-                currentSchedule = value;
+                currentScheduleDaySet = value;
             }
         });
-        if (currentSchedule !== null) {
+        if (currentScheduleDaySet !== null) {
             var index = 0;
             var hasTime = false;
-            angular.forEach(currentSchedule.scheduleTime, function (value, key) {
+            angular.forEach(currentScheduleDaySet.scheduleTimeSet, function (value, key) {
                 var currentTime = new Date('1970-01-01T' + value.time + 'Z');
                 if (time > currentTime) {
                     index = key + 1;
@@ -88,10 +115,14 @@ function myCtrl($scope, $http) {
             });
 
             if (index >= 0 && !hasTime) {
-                currentSchedule.scheduleTime.splice(index, 0, {"time": $scope.time});
+                currentScheduleDaySet.scheduleTimeSet.splice(index, 0, {"time": $scope.time});
             }
         } else {
-            $scope.schedule.push({"evenOrOdd": evenOrOdd, "weekDay": weekDay, "scheduleTime": [{"time": $scope.time}]});
+            $scope.scheduleDaySet.push({
+                "evenOrOdd": evenOrOdd,
+                "weekDay": weekDay,
+                "scheduleTimeSet": [{"time": $scope.time}]
+            });
         }
 
         $scope.selected = null;
@@ -99,21 +130,88 @@ function myCtrl($scope, $http) {
 
     };
 
-
-    //remove time from schedule
+    //remove time from scheduleDaySet
     $scope.removeTime_ = function (evenOrOdd, weekDay, time) {
-        angular.forEach($scope.schedule, function (value, key) {
-            var ticketPicker = value;
-            var scheduleTimeList = value.scheduleTime;
-            angular.forEach(scheduleTimeList, function (value, key) {
-                if ((evenOrOdd === ticketPicker.evenOrOdd) && (weekDay === ticketPicker.weekDay) && (time === value.time)) {
-                    console.log("удаляем");
-                    console.log("key:" + key);
-                    scheduleTimeList.splice(key, 1);
-                }
-            });
+        var scheduleDaySet = $scope.scheduleDaySet;
+
+        $uibModal.open({
+            templateUrl: '/js/template/delete-modal.html',
+            windowClass: 'modal-zindex',
+            controller: function ($scope, $uibModalInstance) {
+
+                $scope.delete = function () {
+
+                    angular.forEach(scheduleDaySet, function (value, key) {
+                        var ticketPicker = value;
+                        var scheduleTimeSetList = value.scheduleTimeSet;
+                        angular.forEach(scheduleTimeSetList, function (value, key) {
+                            if ((evenOrOdd === ticketPicker.evenOrOdd) && (weekDay === ticketPicker.weekDay) && (time === value.time)) {
+                                console.log("удаляем");
+                                console.log("key:" + key);
+                                scheduleTimeSetList.splice(key, 1);
+                            }
+                        });
+                    });
+                    $uibModalInstance.close();
+                };
+
+                $scope.cancel = function () {
+                    $uibModalInstance.dismiss('cancel');
+                };
+            }
         });
 
+
     };
+    $scope.save = function () {
+        if ($scope.schedule.id === null) {
+            add();
+        } else {
+            update();
+        }
+    };
+
+    function add() {
+        scheduleUrl = "/api/v1/schedule";
+        $http({
+            method: 'POST',
+            url: scheduleUrl,
+            data: $scope.schedule
+        }).then(function successCallback(response) {
+            $scope.schedule = response.data;
+            $scope.scheduleDaySet = response.data.scheduleDaySet;
+        }, function errorCallback(response) {
+            // called asynchronously if an error occurs
+            // or server returns response with an error status.
+        });
+    }
+
+    function update() {
+        scheduleUrl = "/api/v1/schedule";
+        $http({
+            method: 'PUT',
+            url: scheduleUrl,
+            data: $scope.schedule
+        }).then(function successCallback(response) {
+            $scope.schedule = response.data;
+            $scope.scheduleDaySet = response.data.scheduleDaySet;
+        }, function errorCallback(response) {
+            // called asynchronously if an error occurs
+            // or server returns response with an error status.
+        });
+    }
+
+    $scope.deleteSchedule = function (scheduleId) {
+        scheduleUrl='/api/v1/schedule/{id}'.replace('{id}',scheduleId);
+        $http({
+            method: 'DELETE',
+            url: scheduleUrl
+        }).then(function successCallback(response) {
+
+        }, function errorCallback(response) {
+            // called asynchronously if an error occurs
+            // or server returns response with an error status.
+        });
+    }
 
 }

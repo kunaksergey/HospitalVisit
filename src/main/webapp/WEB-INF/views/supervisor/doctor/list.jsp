@@ -26,7 +26,7 @@
         </tr>
         <tr>
             <td>
-                <a href="doctor/edit/${doctor.id}" class="btn btn-info btn-sm">
+                <a href="doctor/card/${doctor.id}" class="btn btn-info btn-sm">
                     <span class="glyphicon glyphicon-pencil">Редагувати</span>
                 </a>
             </td>

@@ -28,7 +28,7 @@ public class Schedule {
     private String room;
 
     @OneToMany(cascade = CascadeType.ALL,fetch=FetchType.EAGER,mappedBy = "schedule", orphanRemoval = true)
-    @JsonProperty("scheduleDetails")
+    @JsonProperty("scheduleDaySet")
     private Set<ScheduleDay> scheduleDaySet;
 
     @Column(name="notice")
@@ -84,5 +84,23 @@ public class Schedule {
 
     public void setNotice(String notice) {
         this.notice = notice;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Schedule schedule = (Schedule) o;
+
+        if (start != null ? !start.equals(schedule.start) : schedule.start != null) return false;
+        return doctor != null ? doctor.equals(schedule.doctor) : schedule.doctor == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = start != null ? start.hashCode() : 0;
+        result = 31 * result + (doctor != null ? doctor.hashCode() : 0);
+        return result;
     }
 }

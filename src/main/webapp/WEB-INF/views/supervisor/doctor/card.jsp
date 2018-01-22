@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="/css/style.css">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.7/angular.min.js"></script>
+    <script src="https://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-1.2.4.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.5/umd/popper.min.js"></script>
     <script src="/js/bootstrap.js"></script>
@@ -20,11 +21,11 @@
     <script src="/js/user.js"></script>
     <script src="/js/parts-selector.js"></script>
     <script src="/js/schedule-angular.js"></script>
-    <script src="/js/schedule.js"></script>
 </head>
-<body ng-app="myApp" ng-controller="myCtrl">
+<body ng-app="myApp" ng-controller="myCtrl" ng-init="doctorId=${doctorForm.id}">
 <div class="container">
     <h5>Облікова картка лікаря: <c:out value="${doctorForm.fullName}"/></h5>
+
     <form:form method="POST" action="/supervisor/doctor/save" modelAttribute="doctorForm">
         <div class="form-group row">
             <form:hidden path="id"/>
@@ -87,18 +88,20 @@
         <button type="submit" class="btn btn-info btn-sm">Зберегти</button>
     </form:form>
 
-
     <%--Menu schedules --%>
     <div id="schedule-menu" class="list-group border rounded">
-        <a id="schedule-add" class="list-group-item" ng-click="addSchedule()"
-           data-toggle="modal" data-target="#scheduleModal" href=''>Розклад:додати</a>
-        <div id="schedule-list">
-            <%--hear we add schedules --%>
+        <a href='' class="list-group-item" ng-click="addSchedule()"
+           data-toggle="modal" data-target="#scheduleModal"  >Розклад:додати</a>
+        <div ng-repeat="schedule in scheduleList">
+            <a href='' class="list-group-item" ng-click="loadSchedule(schedule.id)"
+               data-toggle="modal" data-target="#scheduleModal">
+                Розклад:{{schedule.start}} -{{schedule.notice}}
+            </a>
+            <a href='' ng-click="deleteSchedule(schedule.id)">delete</a>
         </div>
     </div>
-    <%--End menu schedules --%>
+    <%--!Menu schedules --%>
 </div>
-
 <!-- Schedule modal -->
 <div class="modal fade" id="scheduleModal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
@@ -110,6 +113,20 @@
                 </button>
             </div>
             <div class="modal-body">
+                <div class="input-group">
+                    <span class="input-group-addon" id="basic-addon1">Кабінет</span>
+                    <input ng-model="schedule.room" class="form-control" placeholder="номер кабінету" aria-describedby="basic-addon1">
+                </div>
+
+                <div class="input-group">
+                    <span class="input-group-addon" id="basic-addon2">Дата</span>
+                    <input ng-model="schedule.start" class="form-control" placeholder="дата початку" aria-describedby="basic-addon2">
+                </div>
+
+                <div class="input-group">
+                    <span class="input-group-addon" id="basic-addon3">Замітки</span>
+                    <input ng-model="schedule.notice" class="form-control" placeholder="замітки" aria-describedby="basic-addon3">
+                </div>
                 <div id="table-content">
                     <week even-or-odd="EVEN" title="Парні"></week>
                     <week even-or-odd="ODD" title="Непарні"></week>
@@ -118,7 +135,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Відміна</button>
-                <button type="button" class="btn btn-info btn-sm">Зберегти</button>
+                <button type="button" class="btn btn-info btn-sm"  data-toggle="modal" data-target="#confirm-save">Зберегти</button>
             </div>
         </div>
     </div>
@@ -192,86 +209,36 @@
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <a class="btn btn-danger btn-ok" data-dismiss="modal">Delete</a>
+                <a class="btn btn-danger btn-ok" data-dismiss="modal" >Delete</a>
             </div>
         </div>
     </div>
 </div>
-<!-- End delete modal -->
+<!-- !Delete modal -->
 
+<!-- Save schedule modal -->
+<div class="modal fade" id="confirm-save" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Підтверження!</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
 
-<%--Table body for clone --%>
-<%--<div id="tables-for-clone" class="d-none">--%>
-    <%--<table class="table">--%>
-        <%--<thead>--%>
-        <%--<tr>--%>
-            <%--<th colspan="7">Парні</th>--%>
-        <%--</tr>--%>
-        <%--<tr>--%>
-            <%--<th>Понеділок</th>--%>
-            <%--<th>Вівторок</th>--%>
-            <%--<th>Середа</th>--%>
-            <%--<th>Четверг</th>--%>
-            <%--<th>П'ятниця</th>--%>
-            <%--<th>Субота</th>--%>
-            <%--<th>Неділя</th>--%>
-        <%--</tr>--%>
-        <%--</thead>--%>
-        <%--<tbody>--%>
-        <%--<tr>--%>
-            <%--<td id="even_monday"><!--ПН-->--%>
-            <%--</td>--%>
-            <%--<td id="even_tuesday"><!--ВТ-->--%>
-            <%--</td>--%>
-            <%--<td id="even_wednesday"><!--СР-->--%>
-            <%--</td>--%>
-            <%--<td id="even_thursday"><!--ЧТ-->--%>
-            <%--</td>--%>
-            <%--<td id="even_friday"><!--ПН-->--%>
-            <%--</td>--%>
-            <%--<td id="even_saturday"><!--СБ-->--%>
-            <%--</td>--%>
-            <%--<td id="even_sanday"><!--НД-->--%>
-            <%--</td>--%>
-        <%--</tr>--%>
-        <%--</tbody>--%>
-    <%--</table>--%>
-    <%--&lt;%&ndash;Не парні&ndash;%&gt;--%>
-    <%--<table class="table">--%>
-        <%--<thead>--%>
-        <%--<tr>--%>
-            <%--<th colspan="7">Непарні</th>--%>
-        <%--</tr>--%>
-        <%--<tr>--%>
-            <%--<th>Понеділок</th>--%>
-            <%--<th>Вівторок</th>--%>
-            <%--<th>Середа</th>--%>
-            <%--<th>Четверг</th>--%>
-            <%--<th>П'ятниця</th>--%>
-            <%--<th>Субота</th>--%>
-            <%--<th>Неділя</th>--%>
-        <%--</tr>--%>
-        <%--</thead>--%>
-        <%--<tbody>--%>
-        <%--<tr>--%>
-            <%--<td id="odd_monday"><!--ПН-->--%>
-            <%--</td>--%>
-            <%--<td id="odd_tuesday"><!--ВТ-->--%>
-            <%--</td>--%>
-            <%--<td id="odd_wednesday"><!--СР-->--%>
-            <%--</td>--%>
-            <%--<td id="odd_thursday"><!--ЧТ-->--%>
-            <%--</td>--%>
-            <%--<td id="odd_friday"><!--ПН-->--%>
-            <%--</td>--%>
-            <%--<td id="odd_saturday"><!--СБ-->--%>
-            <%--</td>--%>
-            <%--<td id="odd_sanday"><!--НД-->--%>
-            <%--</td>--%>
-        <%--</tr>--%>
-        <%--</tbody>--%>
-    <%--</table>--%>
-<%--</div>--%>
-<%--!Table body for clone --%>
+            <div class="modal-body">
+                <p>Зберегти?</p>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-default" data-dismiss="modal">Відмінити</button>
+                <button class="btn btn-success btn-ok" data-dismiss="modal" ng-click="save()">Зберегти</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- !Save schedule modal -->
+
 </body>
 </html>

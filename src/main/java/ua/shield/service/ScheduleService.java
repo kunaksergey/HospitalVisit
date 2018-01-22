@@ -9,4 +9,6 @@ import java.util.List;
 public interface ScheduleService {
     Schedule findOne(Integer id);
     List<Schedule> findAllByDoctor(Doctor doctor);
+    Schedule save(Schedule schedule);
+    void delete(Integer id);
 }

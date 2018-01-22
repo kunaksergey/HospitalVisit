@@ -85,7 +85,7 @@ public class DoctorManageController {
     }
 
 //    @PreAuthorize("hasRole('ROLE_SUPERVISOR')")
-    @RequestMapping(value = "doctor/edit/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "doctor/card/{id}", method = RequestMethod.GET)
     String edit(@PathVariable Integer id, Model model, Principal principal) {
 //        User enteredUser = userService.findByUsername(principal.getName());
 //        Supervisor supervisor = supervisorService.findByUser(enteredUser);
@@ -99,7 +99,7 @@ public class DoctorManageController {
         }
         model.addAttribute("doctorForm", new DoctorDto(doctor));
         model.addAttribute("specializations", specializationService.findAll());
-        return "/supervisor/doctor/edit";
+        return "/supervisor/doctor/card";
     }
 
     @PreAuthorize("hasRole('ROLE_SUPERVISOR')")
