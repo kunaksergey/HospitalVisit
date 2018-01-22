@@ -1,3 +1,27 @@
+/*for modal bootstrap 4*/
+.fade.in {
+    opacity: 1;
+}
+.modal.in .modal-dialog {
+    -webkit-transform: translate(0, 0);
+    -o-transform: translate(0, 0);
+    transform: translate(0, 0);
+}
+
+.modal-backdrop .fade .in {
+    opacity: 0.5 !important;
+}
+
+
+.modal-backdrop.fade {
+    opacity: 0.5 !important;
+}
+
+.modal-zindex{
+    z-index: 99000 !important;
+}
+/*!for modal bootstrap 4*/
+
 .main-navbar {
     display: -webkit-box;
     display: -ms-flexbox;
