@@ -17,93 +17,107 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.5/umd/popper.min.js"></script>
     <script src="/js/bootstrap.js"></script>
     <script src="/js/bootstrap.bundle.js"></script>
-    <script src="/js/image-upload.js"></script>
+    <script src="/js/photo-upload.js"></script>
     <script src="/js/user.js"></script>
     <script src="/js/parts-selector.js"></script>
-    <script src="/js/schedule-angular.js"></script>
+    <script src="/js/app/app.js"></script>
+    <script src="/js/app/photoCtrl.js"></script>
+    <script src="/js/app/scheduleCtrl.js"></script>
+    <style>
+
+    </style>
 </head>
-<body ng-app="myApp" ng-controller="myCtrl" ng-init="doctorId=${doctorForm.id}">
+<body ng-app="myApp" ng-controller="myCtrl" ng-init="doctorId=${doctorForm.id}; userId=${doctorForm.userId}">
 <div class="container">
     <h5>Облікова картка лікаря: <c:out value="${doctorForm.fullName}"/></h5>
 
     <form:form method="POST" action="/supervisor/doctor/save" modelAttribute="doctorForm">
-        <div class="form-group row">
+        <div class="row form-group">
             <form:hidden path="id"/>
         </div>
 
         <div class="row">
-            <div class="col-8" style="background-color: green">
+            <div class="col-6" style="background-color: green">
                 <div class="form-group row">
-                    <label for="fullName" class="col-2 col-form-label">ПІБ:</label>
-                    <div class="col-6">
+                    <div class="col-4">
+                        <label for="fullName" class="col-form-label">ПІБ:</label>
+                    </div>
+                    <div class="col-8">
                         <form:input path="fullName" class="form-control"/>
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="birthDay" class="col-2 col-form-label">День народження:</label>
-                    <div class="col-6">
+                    <div class="col-4">
+                        <label for="birthDay" class="col-form-label">День народження:</label>
+                    </div>
+                    <div class="col-8">
                         <form:input path="birthDay" class="form-control"/>
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="phone" class="col-2 col-form-label">Телефон:</label>
-                    <div class="col-6">
+                    <div class="col-4">
+                        <label for="phone" class="col-form-label">Телефон:</label>
+                    </div>
+                    <div class="col-8">
                         <form:input path="phone" class="form-control"/>
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="email" class="col-2 col-form-label">Email:</label>
-                    <div class="col-6">
+                    <div class="col-4">
+                        <label for="email" class=" col-form-label">Email:</label>
+                    </div>
+                    <div class="col-8">
                         <form:input path="email" class="form-control"/>
                     </div>
                 </div>
             </div>
-            <div class="col-4" style="background-color: yellow">
-                <div class="photo-doctor">
-                    <img class="photo-doctor-img" src="/img/no_photo.png" ngf-src="imgFile"  draggable="false"/>
-                </div>
-                <form name="ImageUpload" method="POST" enctype="multipart/form-data">
-                    <div>
-                        Виберить фото:
-                        <input type="file" id="upload-image" ng-click="uploadImg(imgFile)" name="uploadImage"  accept="image/*" />
-                        <br><br>
-                        <input type="submit" value="Зберегти" /><br><br>
-                    </div>
-                </form>
+            <!-- Photo upload -->
+            <div ng-controller="photoCtrl" class="col-2" style="background-color: yellow">
+                   <photo-upload user-id="{{userId}}"></photo-upload>
+            </div>
+            <!-- !Photo upload -->
+        </div>
+        <div class="row">
+            <div class="checkbox checkbox-info">
+                <ul>
+                    <form:checkboxes element="li" items="${specializations}"
+                                     path="specializations" itemValue="id" itemLabel="name"/>
+                </ul>
             </div>
         </div>
-
-        <div class="checkbox checkbox-info">
-            <ul>
-                <form:checkboxes element="li" items="${specializations}"
-                                 path="specializations" itemValue="id" itemLabel="name"/>
-
-            </ul>
-
+        <div class="row">
+            <div class="checkbox checkbox-info">
+                <form:checkbox path="enable" label="Активован"/>
+            </div>
         </div>
-
-        <div class="checkbox checkbox-info">
-            <form:checkbox path="enable" label="Активован"/>
+        <div class="row">
+            <button type="submit" class="btn btn-info btn-sm">Зберегти</button>
         </div>
-        <button type="submit" class="btn btn-info btn-sm">Зберегти</button>
     </form:form>
 
-    <%--Menu schedules --%>
+    <%--ScheduleList --%>
     <div id="schedule-menu" class="list-group border rounded">
-        <a href='' class="list-group-item" ng-click="addSchedule()"
-           data-toggle="modal" data-target="#scheduleModal"  >Розклад:додати</a>
-        <div ng-repeat="schedule in scheduleList">
-            <a href='' class="list-group-item" ng-click="loadSchedule(schedule.id)"
+        <div class="list-group-item">
+            <a href='' ng-click="addSchedule()"
+               data-toggle="modal" data-target="#scheduleModal">Розклад:додати</a>
+        </div>
+
+        <div class="list-group-item" ng-repeat="schedule in scheduleList | orderBy:orderByDate:false">
+            <a href='' ng-click="loadSchedule(schedule.id)"
                data-toggle="modal" data-target="#scheduleModal">
-                Розклад:{{schedule.start}} -{{schedule.notice}}
+                Розклад:&nbsp{{schedule.start}} ({{schedule.notice}})
             </a>
-            <a href='' ng-click="deleteSchedule(schedule.id)">delete</a>
+            <a href='' class="remove-schedule fa fa-trash-o pull-right" title="Видалити"
+               ng-click="removeSchedule(schedule)">
+            </a>
         </div>
     </div>
-    <%--!Menu schedules --%>
+    <%--!ScheduleList --%>
 </div>
+
 <!-- Schedule modal -->
 <div class="modal fade" id="scheduleModal" tabindex="-1" role="dialog" aria-hidden="true">
+
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -112,30 +126,48 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                <div class="input-group">
-                    <span class="input-group-addon" id="basic-addon1">Кабінет</span>
-                    <input ng-model="schedule.room" class="form-control" placeholder="номер кабінету" aria-describedby="basic-addon1">
+            <div class="modal-body" ng-form name="scheduleForm">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="input-group">
+                            <span class="input-group-addon" id="basic-addon1">Кабінет</span>
+                            <input ng-model="schedule.room" class="form-control" placeholder="номер кабінету"
+                                   aria-describedby="basic-addon1" required>
+                        </div>
+                    </div>
                 </div>
-
-                <div class="input-group">
-                    <span class="input-group-addon" id="basic-addon2">Дата</span>
-                    <input ng-model="schedule.start" class="form-control" placeholder="дата початку" aria-describedby="basic-addon2">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="input-group">
+                            <span class="input-group-addon" id="basic-addon2">Дата</span>
+                            <input ng-model="schedule.start" class="form-control" placeholder="dd-MM-yyyy"
+                                   aria-describedby="basic-addon2" required validate-date>
+                        </div>
+                    </div>
                 </div>
-
-                <div class="input-group">
-                    <span class="input-group-addon" id="basic-addon3">Замітки</span>
-                    <input ng-model="schedule.notice" class="form-control" placeholder="замітки" aria-describedby="basic-addon3">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="input-group">
+                            <span class="input-group-addon" id="basic-addon3">Замітки</span>
+                            <input ng-model="schedule.notice" class="form-control" placeholder="замітки"
+                                   aria-describedby="basic-addon3">
+                        </div>
+                    </div>
                 </div>
+                <!--Week Even or Odd-->
                 <div id="table-content">
                     <week even-or-odd="EVEN" title="Парні"></week>
                     <week even-or-odd="ODD" title="Непарні"></week>
                 </div>
+                <!--!Week Even or Odd-->
                 <p><a href="#" data-toggle="modal" data-target="#timeModal">Час:додати</a></p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Відміна</button>
-                <button type="button" class="btn btn-info btn-sm"  data-toggle="modal" data-target="#confirm-save">Зберегти</button>
+                <button type="button" class="btn btn-info btn-sm" ng-disabled="scheduleForm.$invalid"
+                        data-toggle="modal" data-target="#confirm-save">
+                    Зберегти
+                </button>
             </div>
         </div>
     </div>
@@ -155,7 +187,8 @@
             <div class="modal-body">
                 <form id="add-time" name="addTime" role="form" method="post">
                     <div class="form-group">
-                        <select ng-model="selected" name="day" class="form-control" data-header="Виберіть день" data-width="75%" required>
+                        <select ng-model="selected" name="day" class="form-control" data-header="Виберіть день"
+                                data-width="75%" required>
                             <optgroup label="Парні">
                                 <option value='{"evenOrOdd":"EVEN","weekDay":"MONDAY"}'>Понеділок</option>
                                 <option value='{"evenOrOdd":"EVEN","weekDay":"TUESDAY"}'>Вівторок</option>
@@ -178,11 +211,14 @@
                     </div>
 
                     <div class="form-group">
-                        <input ng-model="time" class="form-control" type="text" name="time" placeholder="00:00" required validate-time>
+                        <input ng-model="time" class="form-control" type="text" name="time" placeholder="00:00" required
+                               validate-time>
                     </div>
 
                     <div class="modal-footer">
-                        <button type="submit" ng-click="addTime_()" class="btn btn-info btn-sm" ng-disabled="addTime.$invalid">Додати</button>
+                        <button type="submit" ng-click="addTime_()" class="btn btn-info btn-sm"
+                                ng-disabled="addTime.$invalid">Додати
+                        </button>
                     </div>
                 </form>
             </div>
@@ -209,7 +245,7 @@
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <a class="btn btn-danger btn-ok" data-dismiss="modal" >Delete</a>
+                <a class="btn btn-danger btn-ok" data-dismiss="modal">Delete</a>
             </div>
         </div>
     </div>

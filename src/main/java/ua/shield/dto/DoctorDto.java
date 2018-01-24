@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
  */
 public class DoctorDto {
     private Integer id;
+    private Integer userId;
     private String fullName;
     private Date birthDay;
     private String phone;
@@ -32,6 +33,7 @@ public class DoctorDto {
 
     public DoctorDto(Doctor doctor) {
         this.id=doctor.getId();
+        this.userId=doctor.getUser().getId();
         this.fullName=doctor.getUser().getFullName();
         this.birthDay=doctor.getUser().getBirthday();
         this.phone=doctor.getUser().getPhone();
@@ -121,5 +123,13 @@ public class DoctorDto {
 
     public void setSchedules(Set<Schedule> schedules) {
         this.schedules = schedules;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 }

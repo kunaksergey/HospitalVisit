@@ -43,8 +43,8 @@ public class User {
     private Set<Role> roles;
 
     @Lob
-    @Column(name="image")
-    private byte[] image;
+    @Column(name="photo")
+    private byte[] photo;
 
     private boolean enabled;
 
@@ -112,12 +112,12 @@ public class User {
         this.roles = roles;
     }
 
-    public byte[] getImage() {
-        return image;
+    public byte[] getPhoto() {
+        return photo;
     }
 
-    public void setImage(byte[] image) {
-        this.image = image;
+    public void setPhoto(byte[] photo) {
+        this.photo = photo;
     }
 
     public boolean isEnabled() {

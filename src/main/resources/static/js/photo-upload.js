@@ -11,7 +11,7 @@ $(document).ready(function() {
             reader.readAsDataURL(input.files[0]);
         }
     }
-    $("#upload-image").change(function() {
+    $("#upload-photo").change(function() {
         readURL(this);
     });
 });

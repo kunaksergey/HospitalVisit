@@ -214,4 +214,7 @@
 .bt-disable{
 
 }
+.remove-schedule, .remove-time{
+    color: #f44336;
+}
 /*!ticket-grid*/

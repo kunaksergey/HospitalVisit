@@ -34,7 +34,7 @@ public class UserDto {
         user.setPhone(this.phone);
         user.setEmail(this.email);
         user.setRoles(this.roles);
-        user.setImage(this.image);
+        user.setPhoto(this.image);
         user.setEnabled(this.enabled);
 
         if (this.birthday != null) {

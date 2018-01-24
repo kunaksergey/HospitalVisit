@@ -1,9 +1,8 @@
 <div class="schedule-time m-1 p-1 text-success border border-info rounded"
      ng-repeat="item in (scheduleDaySet | filter:{evenOrOdd:evenOrOdd,weekDay:weekDay})[0].scheduleTimeSet">
    <span> {{item.time}}</span>
-    <a href="#" class="del-time fa fa-trash-o pull-right" aria-hidden="true"
+    <a href='' class="remove-time fa fa-trash-o pull-right" aria-hidden="true" title="Видалити"
                 ng-click="removeTime_(evenOrOdd,weekDay,item.time)">
-
     </a>
 </div>
 
