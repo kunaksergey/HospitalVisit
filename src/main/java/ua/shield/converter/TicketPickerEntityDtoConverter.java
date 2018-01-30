@@ -8,10 +8,10 @@ import ua.shield.dto.TicketPickerDto;
 import java.time.format.DateTimeFormatter;
 
 @Component
-public class TicketPickerConverter implements GenericConverter<TicketPicker,TicketPickerDto> {
+public class TicketPickerEntityDtoConverter implements GenericEntityDtoConverter<TicketPicker,TicketPickerDto> {
 
     @Autowired
-    private TicketConverter ticketConverter;
+    private TicketEntityDtoConverter ticketConverter;
 
     @Override
     public TicketPicker createFromDto(TicketPickerDto dto) {

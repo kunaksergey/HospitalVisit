@@ -7,10 +7,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.5/umd/popper.min.js"></script>
     <script src="/js/bootstrap.js"></script>
     <script src="/js/bootstrap.bundle.js"></script>
+    <link rel="stylesheet" href="/css/style.css"/>
 </head>
 <body>
 <div class="container">
@@ -22,10 +24,12 @@
                 <th>Найменування</th>
                 <th>Адреса</th>
                 <th>Район</th>
-                <%--<th> <span class="glyphicon">&#x270f;</span></th>--%>
-                <th><a href="hospital/add" class="btn btn-info btn-sm">
-                    <span class="glyphicon glyphicon-pencil">Створити</span>
-                </a></th>
+                <th>
+                    <a href="hospital/add" class="btn btn-success btn-sm">
+                        <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                        <span>Створити</span>
+                    </a>
+                </th>
             </tr>
             </thead>
             <tbody>
@@ -35,8 +39,10 @@
                     <td><c:out value="${hospital.address}"/></td>
                     <td><c:out value="${hospital.district.name}"/></td>
                     <td>
-                        <a href="hospital/edit/${hospital.id}" class="btn btn-info btn-sm">
-                            <span class="glyphicon glyphicon-pencil">Зберегти</span>
+                        <a href="hospital/edit/${hospital.id}">
+                                <%--class="btn btn-info btn-sm"--%>
+                                <%--<span class="glyphicon glyphicon-pencil">Зберегти</span>--%>
+                            <i class="fa fa-pencil" aria-hidden="true"></i>
                         </a>
                     </td>
                 </tr>

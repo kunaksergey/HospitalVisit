@@ -31,8 +31,8 @@
             <td><c:out value="${doctor.hospital.name}"/></td>
 
             <td>
-                <a href="doctor/edit/${doctor.id}" class="btn btn-info btn-sm">
-                    <span class="glyphicon glyphicon-pencil">Edit</span>
+                <a href="doctor/edit/${doctor.id}">
+                    <i class="fa fa-pencil" aria-hidden="true"></i>
                 </a>
             </td>
         </tr>

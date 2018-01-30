@@ -17,7 +17,6 @@ public class Ticket {
     private Integer id;
 
     @Column(name = "date_", nullable = false)
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
     private LocalDate date;
 
     @Column(name = "time")
@@ -25,6 +24,10 @@ public class Ticket {
 
     @Enumerated(EnumType.STRING)
     private StatusTicket status;
+
+
+    @Column(name = "note")
+    private String note;
 
     @JsonIgnore
     @ManyToOne
@@ -68,6 +71,14 @@ public class Ticket {
 
     public void setStatus(StatusTicket status) {
         this.status = status;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
     }
 
     public Doctor getDoctor() {

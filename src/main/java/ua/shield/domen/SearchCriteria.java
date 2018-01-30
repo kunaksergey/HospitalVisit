@@ -2,9 +2,6 @@ package ua.shield.domen;
 
 import ua.shield.entity.District;
 
-/**
- * Created by sa on 04.12.17.
- */
 public class SearchCriteria {
     private District district;
     private String searchStr;

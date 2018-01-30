@@ -6,21 +6,34 @@ import ua.shield.enum_.StatusTicket;
 import java.time.format.DateTimeFormatter;
 
 public class TicketDto {
+    private Integer id;
     private Integer doctorId;
     private String time;
     private String date;
+    private String note;
+    private StatusTicket status;
     private boolean isBusy;
 
     public TicketDto() {
     }
 
     public TicketDto(Ticket ticket) {
-        this.doctorId=ticket.getDoctor().getId();
-        this.time=ticket.getTime();
-        this.date=ticket.getDate().toString();
+        this.id = ticket.getId();
+        this.doctorId = ticket.getDoctor().getId();
+        this.time = ticket.getTime();
+        this.date = ticket.getDate().toString();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        this.date=ticket.getDate().format(formatter);
-        this.isBusy= ticket.getStatus() != StatusTicket.NEW;
+        this.date = ticket.getDate().format(formatter);
+        this.isBusy = ticket.getStatus() != StatusTicket.NEW;
+        this.status = ticket.getStatus();
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public Integer getDoctorId() {
@@ -55,6 +68,22 @@ public class TicketDto {
         isBusy = busy;
     }
 
+    public StatusTicket getStatus() {
+        return status;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
+
+    public void setStatus(StatusTicket status) {
+        this.status = status;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -74,4 +103,5 @@ public class TicketDto {
         result = 31 * result + (date != null ? date.hashCode() : 0);
         return result;
     }
+
 }

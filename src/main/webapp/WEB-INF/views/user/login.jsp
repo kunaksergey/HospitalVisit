@@ -35,7 +35,7 @@
         </div>
         <span class="${error != null ? 'has-error' : ''}">${error}</span>
         <div class="form-group">
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Війти</button>
+            <button class="btn btn-lg btn-info btn-block" type="submit">Війти</button>
         </div>
 
     </form>

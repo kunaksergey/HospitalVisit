@@ -6,7 +6,7 @@ import ua.shield.entity.Role;
 import ua.shield.enum_.RoleEnum;
 
 @Component
-public class RoleToStringConverter implements Converter<String,Role> {
+public class StringToRoleConverter implements Converter<String,Role> {
     @Override
     public Role convert(String source) {
         return new Role(RoleEnum.valueOf(source));

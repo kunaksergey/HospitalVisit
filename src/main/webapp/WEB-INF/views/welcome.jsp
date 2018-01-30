@@ -91,7 +91,7 @@
         <div class="col-lg-2">
             <div class="list-group">
                 <sec:authorize access="hasRole('ROLE_USER')">
-                    <a href="/patient" class="list-group-item">Особистий кабінет</a>
+                    <a href="/patient/cabinet" class="list-group-item">Особистий кабінет</a>
                 </sec:authorize>
                 <sec:authorize access="hasRole('ROLE_DOCTOR')">
                     <a href="/doctor" class="list-group-item">Кабінет лікаря</a>

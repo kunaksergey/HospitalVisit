@@ -5,20 +5,18 @@ import ua.shield.entity.Schedule;
 import ua.shield.entity.Specialization;
 import ua.shield.entity.User;
 
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-/**
- * Created by sa on 04.12.17.
- */
 public class DoctorDto {
     private Integer id;
     private Integer userId;
     private String fullName;
-    private Date birthDay;
+    private String birthDay;
     private String phone;
     private String email;
     private List<Specialization> specializations;
@@ -35,7 +33,8 @@ public class DoctorDto {
         this.id=doctor.getId();
         this.userId=doctor.getUser().getId();
         this.fullName=doctor.getUser().getFullName();
-        this.birthDay=doctor.getUser().getBirthday();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        this.birthDay=doctor.getUser().getBirthday().format(formatter);
         this.phone=doctor.getUser().getPhone();
         this.email=doctor.getUser().getEmail();
         this.specializations=doctor.getSpecializations();
@@ -61,11 +60,11 @@ public class DoctorDto {
         this.fullName = fullName;
     }
 
-    public Date getBirthDay() {
+    public String getBirthDay() {
         return birthDay;
     }
 
-    public void setBirthDay(Date birthDay) {
+    public void setBirthDay(String birthDay) {
         this.birthDay = birthDay;
     }
 

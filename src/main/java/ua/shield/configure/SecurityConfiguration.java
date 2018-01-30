@@ -1,7 +1,10 @@
 package ua.shield.configure;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.Http401AuthenticationEntryPoint;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -9,22 +12,35 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-/**
- * Created by sa on 03.12.17.
- */
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+
+    @Bean
+    public Http401AuthenticationEntryPoint securityException401EntryPoint(){
+
+        return new Http401AuthenticationEntryPoint("Bearer realm=\"webrealm\"");
+    }
+
+    @Autowired
+    private Http401AuthenticationEntryPoint authEntrypoint;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
-                .authorizeRequests().
-                antMatchers("/cabinet/**").hasRole("USER").
-                antMatchers("/").permitAll()
+                .authorizeRequests()
+                .antMatchers("/patient/**").hasRole("USER")
+                .antMatchers("/api/secured/**").authenticated()
+                .antMatchers(HttpMethod.POST,"/api/**").authenticated()
+                .antMatchers(HttpMethod.PUT,"/api/**").authenticated()
+                .antMatchers(HttpMethod.DELETE,"/api/**").authenticated()
+                .antMatchers("/").permitAll()
                 .and()
-                .exceptionHandling().accessDeniedPage("/error-page");;
+                .exceptionHandling()
+                .authenticationEntryPoint(authEntrypoint)
+                .accessDeniedPage("/error-page");
         http
                 .formLogin()
                 .loginPage("/login")

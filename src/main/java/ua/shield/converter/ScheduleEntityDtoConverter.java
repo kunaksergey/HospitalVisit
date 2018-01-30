@@ -6,10 +6,9 @@ import ua.shield.entity.Schedule;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 
 @Component
-public class ScheduleConverter implements GenericConverter<Schedule,ScheduleDto>{
+public class ScheduleEntityDtoConverter implements GenericEntityDtoConverter<Schedule,ScheduleDto> {
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
     @Override

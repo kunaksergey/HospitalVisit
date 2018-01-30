@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.shield.domen.DateRange;
 import ua.shield.entity.Doctor;
+import ua.shield.entity.Patient;
 import ua.shield.entity.Schedule;
 import ua.shield.entity.Ticket;
 import ua.shield.enum_.EvenOddEnum;
@@ -24,9 +25,25 @@ import java.util.stream.Collectors;
 @Transactional
 public class TicketServiceImpl implements TicketService {
     @Autowired
-    ScheduleService scheduleService;
+    private ScheduleService scheduleService;
     @Autowired
     private TicketRepository ticketRepository;
+
+    @Override
+    public Ticket findOne(Integer id){
+        return ticketRepository.findOne(id);
+    }
+
+    @Override
+    public Ticket add(Ticket ticket) {
+        ticket.setStatus(StatusTicket.PROCESED);
+        return ticketRepository.save(ticket);
+    }
+
+    @Override
+    public Ticket update(Ticket ticket) {
+        return ticketRepository.save(ticket);
+    }
 
     @Override
     @Transactional(readOnly = true)
@@ -37,7 +54,40 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Ticket> findAllInRangeByDoctor(DateRange range, Doctor doctor) {
+    public List<Ticket> assambledInRangeByDoctor(DateRange range, Doctor doctor) {
+        Set<Ticket> ticketSet = new HashSet<>();
+        ticketSet.addAll(findAllByDoctorInRange(doctor,range)); //db tickets
+        ticketSet.addAll(virtualTicketList(doctor,range)); //virtual tickets
+        return new ArrayList<>(ticketSet);
+    }
+
+    @Override
+    public Ticket save(Ticket ticket) {
+        return ticketRepository.save(ticket);
+    }
+
+    @Override
+    public List<Ticket> findAllByPatient(Patient patient) {
+        return ticketRepository.findAllByPatient(patient);
+    }
+
+    @Override
+    public List<Ticket> findAllByDoctor(Doctor doctor) {
+        return ticketRepository.findAllByDoctor(doctor);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Ticket> findAllByPatientInRange(Patient patient,DateRange range) {
+        return ticketRepository.findAllByPatientAndDateBetween(
+                patient,
+                range.getStart(),
+                range.getEnd());
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Ticket> findAllByDoctorInRange(Doctor doctor,DateRange range) {
         return ticketRepository.findAllByDoctorAndDateGreaterThanEqualAndDateLessThanEqual(
                 doctor,
                 range.getStart(),
@@ -47,20 +97,30 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Ticket> assambledInRangeByDoctor(DateRange range, Doctor doctor) {
-        Set<Ticket> ticketSet = new HashSet<>();
-        ticketSet.addAll(findAllInRangeByDoctor(range, doctor)); //db tickets
-        ticketSet.addAll(virtualTicketList(range, doctor)); //virtual tickets
-        return new ArrayList<>(ticketSet);
+    public List<Ticket> findAllByPatientAndDateStartWith(Patient patient, DateRange range) {
+        return ticketRepository.findAllByPatientAndDateGreaterThanEqual(patient,range.getStart());
     }
 
     @Override
-    public Ticket save(Ticket ticket) {
-        return ticketRepository.save(ticket);
+    @Transactional(readOnly = true)
+    public List<Ticket> findAllByDoctorAndDateStartWith(Doctor doctor, DateRange range) {
+        return ticketRepository.findAllByPatientAndDateGreaterThanEqual(doctor,range.getStart());
     }
 
 
-    private List<Ticket> virtualTicketList(DateRange dateRange, Doctor doctor) {
+    @Override
+    @Transactional(readOnly = true)
+    public List<Ticket> findAllByDoctorAndStatus(Doctor doctor, StatusTicket statusTicket) {
+        return ticketRepository.findAllByDoctorAndStatus(doctor,statusTicket);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Ticket> findAllByPatientAndStatus(Patient patient, StatusTicket statusTicket) {
+        return ticketRepository.findAllByPatientAndStatus(patient,statusTicket);
+    }
+
+    private List<Ticket> virtualTicketList(Doctor doctor,DateRange dateRange) {
         List<Ticket> ticketList = new ArrayList<>();
         List<Schedule> scheduleList = scheduleService.findAllByDoctor(doctor);
         for (int i = 0; i < dateRange.between(); i++) {

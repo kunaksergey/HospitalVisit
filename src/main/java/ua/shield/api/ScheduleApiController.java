@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import ua.shield.converter.ScheduleConverter;
+import ua.shield.converter.ScheduleEntityDtoConverter;
 import ua.shield.dto.ScheduleDto;
 import ua.shield.entity.Doctor;
 import ua.shield.entity.Schedule;
@@ -26,7 +26,7 @@ public class ScheduleApiController {
     private DoctorService doctorService;
 
     @Autowired
-    private ScheduleConverter scheduleConverter;
+    private ScheduleEntityDtoConverter scheduleConverter;
 
 
     @RequestMapping(value="/{id}",method = RequestMethod.GET)

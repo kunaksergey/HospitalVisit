@@ -21,6 +21,8 @@ import ua.shield.service.UserService;
 import ua.shield.validator.UserFormValidator;
 
 import java.security.Principal;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 import static ua.shield.controller.supervisor.DoctorManageController.BASE_URI;
@@ -116,7 +118,8 @@ public class DoctorManageController {
         }
         User doctorUser = doctor.getUser();
         doctorUser.setFullName(doctorDto.getFullName());
-        doctorUser.setBirthday(doctorDto.getBirthDay());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        doctorUser.setBirthday(LocalDate.parse(doctorDto.getBirthDay(),formatter));
         doctorUser.setPhone(doctorDto.getPhone());
         doctorUser.setEmail(doctorDto.getEmail());
         doctorUser.setEnabled(doctorDto.isEnable());

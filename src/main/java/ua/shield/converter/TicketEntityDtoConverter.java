@@ -11,14 +11,16 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 @Component
-public class TicketConverter implements GenericConverter<Ticket,TicketDto> {
+public class TicketEntityDtoConverter implements GenericEntityDtoConverter<Ticket,TicketDto> {
     @Override
     public Ticket createFromDto(TicketDto dto) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         Ticket ticket=new Ticket();
+        ticket.setId(dto.getId());
         ticket.setTime(dto.getTime());
         ticket.setDate(LocalDate.parse(dto.getDate(),formatter));
-        ticket.setStatus(StatusTicket.PROCESED);
+        ticket.setStatus(dto.getStatus());
+        ticket.setNote(dto.getNote());
         return ticket;
     }
 
@@ -34,10 +36,13 @@ public class TicketConverter implements GenericConverter<Ticket,TicketDto> {
     public TicketDto createFromEntity(Ticket entity) {
         TicketDto ticketDto=new TicketDto();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        ticketDto.setId(entity.getId());
         ticketDto.setDoctorId(entity.getDoctor().getId());
         ticketDto.setDate(entity.getDate().format(formatter));
         ticketDto.setTime(entity.getTime());
         ticketDto.setBusy(entity.getPatient()!=null);
+        ticketDto.setStatus(entity.getStatus());
+        ticketDto.setNote(entity.getNote());
         return ticketDto;
     }
 

@@ -5,6 +5,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import ua.shield.enum_.RoleEnum;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.*;
 
 @Entity
@@ -26,9 +27,7 @@ public class User {
     private String fullName;
 
     @Column(name = "birthday")
-    @Temporal(TemporalType.DATE)
-    @DateTimeFormat(pattern = "dd-mm-yyyy")
-    private Date birthday;
+    private LocalDate birthday;
 
     @Column(name = "phone")
     private String phone;
@@ -80,11 +79,11 @@ public class User {
         this.fullName = fullName;
     }
 
-    public Date getBirthday() {
+    public LocalDate getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(Date birthday) {
+    public void setBirthday(LocalDate birthday) {
         this.birthday = birthday;
     }
 

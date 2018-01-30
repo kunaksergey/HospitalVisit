@@ -4,8 +4,8 @@ import ua.shield.entity.Hospital;
 import ua.shield.entity.Role;
 import ua.shield.entity.User;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Set;
 
 public class UserDto {
@@ -38,11 +38,8 @@ public class UserDto {
         user.setEnabled(this.enabled);
 
         if (this.birthday != null) {
-            try {
-                user.setBirthday(new SimpleDateFormat("dd-MM-yyyy").parse(this.birthday));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+            user.setBirthday(LocalDate.parse(this.birthday, formatter));
         }
         return user;
     }

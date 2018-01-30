@@ -49,6 +49,7 @@ $(document).ready(function () {
         cardDoctor.find(".card-doctor-clinic").text(doctorObj.hospitalName);
         cardDoctor.find(".сard-doctor-cabinet").text(doctorObj.address);
         cardDoctor.find(".doctor-details-link").attr("href","/doctor/{id}".replace("{id}",doctorObj.id));
+        cardDoctor.find(".photo-doctor-img").attr("src","/photo/user/{userId}".replace("{userId}",doctorObj.userId));
         return cardDoctor;
     }
 

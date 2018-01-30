@@ -27,25 +27,6 @@ import java.util.Set;
 @RequestMapping("/patient")
 public class PatientController {
     @Autowired
-    private UserService userService;
-
-    @Autowired
     private PatientService patientService;
 
-    @RequestMapping(value = "/addChield", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
-    @ResponseBody
-    public Set<Chield> addChield(@ModelAttribute Chield chield, BindingResult bindingResult, Principal principal) {
-        User enteredUser = userService.findByUsername(principal.getName());
-        Patient patient = patientService.findByUser(enteredUser);
-        patient.addChield(chield);
-        return patientService.update(patient).getChields();
-    }
-
-    @RequestMapping(value = "getChield", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    @ResponseBody
-    public Set<Chield> getChield(Principal principal) {
-        User enteredUser = userService.findByUsername(principal.getName());
-        Patient patient = patientService.findByUser(enteredUser);
-        return patient.getChields();
-    }
 }

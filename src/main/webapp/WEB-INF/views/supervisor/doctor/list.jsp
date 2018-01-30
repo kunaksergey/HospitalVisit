@@ -7,33 +7,26 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.5/umd/popper.min.js"></script>
     <script src="/js/bootstrap.js"></script>
     <script src="/js/bootstrap.bundle.js"></script>
+    <link rel="stylesheet" href="/css/style.css"/>
 </head>
 <body>
-<h2>Лист лікарів</h2>
-<table class="table table-condensed">
-    <thead>
-    </thead>
-    <tbody>
-   <c:forEach var="doctor" items="${doctors}">
-    <table class="table table-bordered">
-        <tr>
-            <td>ПІБ:</td>
-            <td>${doctor.user.fullName}</td>
-        </tr>
-        <tr>
-            <td>
-                <a href="doctor/card/${doctor.id}" class="btn btn-info btn-sm">
-                    <span class="glyphicon glyphicon-pencil">Редагувати</span>
+<div class="container">
+    <h2>Лист лікарів</h2>
+    <div class=" list-group border rounded">
+        <c:forEach var="doctor" items="${doctors}">
+            <div class="list-group-item">
+                ПІБ:${doctor.user.fullName}
+                <a href="doctor/card/${doctor.id}">
+                    <i class="fa fa-pencil pull-right" aria-hidden="true"></i>
                 </a>
-            </td>
-        </tr>
+            </div>
         </c:forEach>
-    </table>
-    </tbody>
-</table>
+    </div>
+</div>
 </body>
 </html>

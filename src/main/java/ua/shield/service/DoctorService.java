@@ -21,4 +21,5 @@ public interface DoctorService {
     Doctor update(Doctor doctor);
     Doctor disable(Doctor doctor);
     Doctor enable(Doctor doctor);
- }
+    Doctor findByName(String name);
+}

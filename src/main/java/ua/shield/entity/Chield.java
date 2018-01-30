@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -18,9 +19,7 @@ public class Chield {
     private String fullName;
 
     @Column(name = "birthday")
-    @Temporal(TemporalType.DATE)
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
-    private Date birthDay;
+    private LocalDate birthDay;
 
     @ManyToOne
     @JoinColumn(name = "patient_id")
@@ -43,11 +42,11 @@ public class Chield {
         this.fullName = fullName;
     }
 
-    public Date getBirthDay() {
+    public LocalDate getBirthDay() {
         return birthDay;
     }
 
-    public void setBirthDay(Date birthDay) {
+    public void setBirthDay(LocalDate birthDay) {
         this.birthDay = birthDay;
     }
 

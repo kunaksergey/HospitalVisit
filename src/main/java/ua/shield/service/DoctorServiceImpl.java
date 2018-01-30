@@ -1,9 +1,6 @@
 package ua.shield.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import ua.shield.entity.*;
 import ua.shield.enum_.RoleEnum;
@@ -58,7 +55,8 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
-    public List<Doctor> findAllByUserIn(List<User> users) {
+    public List<Doctor> findAllByUserIn(List<User> users)
+    {
         return doctorRepository.findAllByUserIn(users);
     }
 
@@ -112,5 +110,10 @@ public class DoctorServiceImpl implements DoctorService {
         return null;
     }
 
-    ;
+    @Override
+    public Doctor findByName(String name) {
+        return doctorRepository.findByUserUsername(name);
+    }
+
+
 }

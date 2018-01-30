@@ -1,0 +1,28 @@
+<div class="ticket-grid-content">
+    <table class="table table-striped table-ticket-grid">
+        <thead>
+        <tr>
+            <th ng-repeat="ticketSlot in ticketSlotSubList">
+                <div>
+                    {{ticketSlot.date}}
+                </div>
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td ng-repeat="ticketSlot in ticketSlotSubList" class="td-table-ticket-grid">
+                <div ng-repeat='ticket in ticketSlot.ticketDtoList'>
+                    <button ng-click="selectTicket(ticket)"
+                            class="bt btn-sm ng-class:{'btn-info':!ticket.busy,'btn-secondary':ticket.busy}"
+                            aria-hidden="true" data-toggle="modal" data-target="#confirm-enroll"
+                            ng-disabled="ticket.busy">
+                        {{ticket.time}}
+                    </button>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+

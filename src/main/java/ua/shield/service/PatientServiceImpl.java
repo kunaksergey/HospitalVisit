@@ -12,9 +12,6 @@ import ua.shield.repository.UserRepository;
 import java.util.Collections;
 import java.util.HashSet;
 
-/**
- * Created by sa on 20.12.17.
- */
 @Service("patientService")
 public class PatientServiceImpl implements PatientService {
     @Autowired
@@ -41,6 +38,6 @@ public class PatientServiceImpl implements PatientService {
 
     @Override
     public Patient findByName(String name) {
-        return patientRepository.findByUser(userRepository.findByUsername(name));
+        return patientRepository.findByUserUsername(name);
     }
 }

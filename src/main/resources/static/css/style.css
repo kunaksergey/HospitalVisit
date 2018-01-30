@@ -50,7 +50,7 @@
 }
 
 .form-group {
-    padding: 10px;
+    /*padding: 10px;*/
 }
 
 .search-query {
@@ -210,11 +210,20 @@
 #second-ticket-grid {
     display: none;
 }
+/*!ticket-grid*/
 
-.bt-disable{
-
-}
-.remove-schedule, .remove-time{
+/*Edit icon*/
+.fa-trash-o{
     color: #f44336;
 }
-/*!ticket-grid*/
+
+.fa-pencil{
+    color: #FFC107;
+}
+.fa-plus-circle{
+    color: white;
+}
+/*!Edit icon*/
+.card-title{
+    margin-left: 10px;
+}
