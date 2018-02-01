@@ -15,7 +15,7 @@ var app = angular.module("enrollApp", ['ui.bootstrap'])
 
 app.controller("enrollCtrl", function ($scope, $http, $window) {
     var urlTicketListData = "/api/v1/ticket/listdata/doctor/{doctorId}";
-    var urlTicketAdd = "/api/v1/ticket";
+    var urlTicketAdd = "/api/secured/v1/ticket";
 
     $scope.$watch('doctorId', function () {
         $http({

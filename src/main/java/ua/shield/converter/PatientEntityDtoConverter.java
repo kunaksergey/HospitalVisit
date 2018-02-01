@@ -4,7 +4,7 @@ package ua.shield.converter;
 import ua.shield.dto.PatientDto;
 import ua.shield.entity.Patient;
 
-public class PatientConverter implements GenericEntityDtoConverter<Patient,PatientDto>{
+public class PatientEntityDtoConverter implements GenericEntityDtoConverter<Patient,PatientDto>{
     @Override
     public Patient createFromDto(PatientDto dto) {
         return null;

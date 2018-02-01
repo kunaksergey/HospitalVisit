@@ -127,19 +127,20 @@ public class TicketSecApiController {
     }
 
     @RequestMapping(value = "/listdata/doctor", method = RequestMethod.GET)
-    @PreAuthorize("hasRole('ROLE_DOCTOR')")
+//    @PreAuthorize("hasRole('ROLE_DOCTOR')")
     ResponseEntity<List<TicketDto>> findAllByDoctor(
             @RequestParam(name = "status", required = false) StatusTicket status,
             @RequestParam(name = "start", required = false) LocalDate start,
             @RequestParam(name = "end", required = false) LocalDate end,
             Principal principal) {
-        Doctor doctor = doctorService.findByName(principal.getName());
+//        Doctor doctor = doctorService.findByName(principal.getName());
+        Doctor doctor = doctorService.findByName("kostyakunak");
         Condition condition = new Condition(status, new DateRange(start, end));
         UnitMethodServiceAdapter doctorMethodServiceAdapter = unitMethodServiceAdapterFactory.getDoctorMethodServiceAdapter(doctor);
         List<Ticket> ticketList = findAllByCondition(doctorMethodServiceAdapter, condition);
         return (ticketList.size() > 0) ?
                 new ResponseEntity<>(ticketConverter.createFromEntities(ticketList), HttpStatus.OK) :
-                new ResponseEntity<>(HttpStatus.NO_CONTENT);
+                new ResponseEntity<>(new ArrayList<>(),HttpStatus.NO_CONTENT);
     }
 
 

@@ -8,6 +8,7 @@ import java.time.format.DateTimeFormatter;
 public class TicketDto {
     private Integer id;
     private Integer doctorId;
+    private String patientFullName;
     private String time;
     private String date;
     private String note;
@@ -24,6 +25,7 @@ public class TicketDto {
         this.date = ticket.getDate().toString();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         this.date = ticket.getDate().format(formatter);
+        this.patientFullName=ticket.getPatient().getUser().getFullName();
         this.isBusy = ticket.getStatus() != StatusTicket.NEW;
         this.status = ticket.getStatus();
     }
@@ -82,6 +84,14 @@ public class TicketDto {
 
     public void setStatus(StatusTicket status) {
         this.status = status;
+    }
+
+    public String getPatientFullName() {
+        return patientFullName;
+    }
+
+    public void setPatientFullName(String patientFullName) {
+        this.patientFullName = patientFullName;
     }
 
     @Override

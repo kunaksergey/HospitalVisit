@@ -40,6 +40,7 @@ public class TicketEntityDtoConverter implements GenericEntityDtoConverter<Ticke
         ticketDto.setDoctorId(entity.getDoctor().getId());
         ticketDto.setDate(entity.getDate().format(formatter));
         ticketDto.setTime(entity.getTime());
+        ticketDto.setPatientFullName(entity.getPatient().getUser().getFullName());
         ticketDto.setBusy(entity.getPatient()!=null);
         ticketDto.setStatus(entity.getStatus());
         ticketDto.setNote(entity.getNote());

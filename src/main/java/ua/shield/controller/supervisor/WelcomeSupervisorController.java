@@ -12,9 +12,6 @@ import ua.shield.service.UserService;
 
 import java.security.Principal;
 
-/**
- * Created by sa on 21.12.17.
- */
 @Controller
 public class WelcomeSupervisorController {
     @Autowired

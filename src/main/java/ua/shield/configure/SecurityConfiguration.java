@@ -32,7 +32,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/patient/**").hasRole("USER")
-                .antMatchers("/api/secured/**").authenticated()
+//                .antMatchers("/api/secured/**").authenticated()
                 .antMatchers(HttpMethod.POST,"/api/**").authenticated()
                 .antMatchers(HttpMethod.PUT,"/api/**").authenticated()
                 .antMatchers(HttpMethod.DELETE,"/api/**").authenticated()

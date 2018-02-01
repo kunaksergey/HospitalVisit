@@ -28,8 +28,16 @@
     </style>
 </head>
 <body ng-app="myApp" ng-controller="myCtrl" ng-init="doctorId=${doctorForm.id}; userId=${doctorForm.userId}">
+<!-- Nav -->
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <ul class="nav navbar-nav">
+            <li class="active"><a href="/">Головна</a></li>
+        </ul>
+    </div>
+</nav>
+<!-- !Nav -->
     <div class="container">
-
         <%--Card doctor--%>
         <div class="card">
             <h3 class="card-header">Облікова картка лікаря:</h3>

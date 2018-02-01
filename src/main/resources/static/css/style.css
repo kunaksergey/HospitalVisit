@@ -20,6 +20,9 @@
 .modal-zindex{
     z-index: 99000 !important;
 }
+.modal-zindex-confirm{
+    z-index: 99001 !important;
+}
 /*!for modal bootstrap 4*/
 
 .main-navbar {

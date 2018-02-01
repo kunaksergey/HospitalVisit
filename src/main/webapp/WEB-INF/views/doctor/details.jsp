@@ -20,6 +20,17 @@
 </head>
 
 <body>
+
+<!-- Nav -->
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <ul class="nav navbar-nav">
+            <li class="active"><a href="/">Головна</a></li>
+        </ul>
+    </div>
+</nav>
+<!-- !Nav -->
+
 <div class="container">
     <div class="card-doctor-big">
         <div class="doctor-card__content">

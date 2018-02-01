@@ -20,9 +20,6 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
-/**
- * Created by sa on 06.12.17.
- */
 @Controller
 public class UserController {
     @Autowired

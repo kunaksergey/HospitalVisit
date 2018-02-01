@@ -29,6 +29,15 @@
 </head>
 
 <body ng-app="myApp" ng-controller="patientCtrl" ng-init="userId=${user.id}">
+<!-- Nav -->
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <ul class="nav navbar-nav">
+            <li class="active"><a href="/">Головна</a></li>
+        </ul>
+    </div>
+</nav>
+<!-- !Nav -->
 
 <div class="container">
     <h3>Особистий кабінет пацієнта:</h3>
@@ -57,7 +66,7 @@
                     <div class="row">
                         <!-- Form -->
                         <div class="col-6">
-                            <form:form method="POST" action="/patient/save" modelAttribute="user">
+                            <form:form method="POST" action="/patient/cabinet" modelAttribute="user">
                                 <div class="form-group">
                                     <form:hidden path="id"/>
                                 </div>
