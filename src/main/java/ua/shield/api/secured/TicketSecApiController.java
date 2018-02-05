@@ -5,11 +5,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import ua.shield.converter.TicketEntityDoctorDtoConverter;
 import ua.shield.converter.TicketEntityDtoConverter;
 import ua.shield.converter.TicketPickerEntityDtoConverter;
 import ua.shield.domen.Condition;
 import ua.shield.domen.DateRange;
 import ua.shield.domen.TicketPicker;
+import ua.shield.dto.TicketDoctorDto;
 import ua.shield.dto.TicketDto;
 import ua.shield.dto.TicketPickerDto;
 import ua.shield.entity.Doctor;
@@ -51,6 +53,9 @@ public class TicketSecApiController {
     private TicketEntityDtoConverter ticketConverter;
 
     @Autowired
+    private TicketEntityDoctorDtoConverter ticketDoctorConverter;
+
+    @Autowired
     private TicketPickerEntityDtoConverter ticketPickerConverter;
     @Autowired
     private UnitMethodServiceAdapterFactory unitMethodServiceAdapterFactory;
@@ -88,25 +93,44 @@ public class TicketSecApiController {
 
     @RequestMapping(value = "/cancel",method = RequestMethod.PUT, consumes = "application/json")
             @PreAuthorize("!isAnonymous()")
-    ResponseEntity<TicketDto> cancel(@RequestBody TicketDto ticketDto, Principal principal) {
-        Ticket ticket=ticketService.findOne(ticketDto.getId());
+    ResponseEntity<TicketDoctorDto> cancel(@RequestBody TicketDoctorDto ticketDoctorDto, Principal principal) {
+        Ticket ticket=ticketService.findOne(ticketDoctorDto.getTicketDto().getId());
         ticket.setStatus(StatusTicket.CANCELED);
         Ticket updatedTicket = ticketService.update(ticket);
-        return new ResponseEntity<>(ticketConverter.createFromEntity(updatedTicket),
+        return new ResponseEntity<>(ticketDoctorConverter.createFromEntity(updatedTicket),
                 HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/done",method = RequestMethod.PUT, consumes = "application/json")
-    @PreAuthorize("hasRole('ROLE_DOCTOR')")
-    ResponseEntity<TicketDto> updateByDoctor(@RequestBody TicketDto ticketDto, Principal principal) {
-        Ticket ticket=ticketService.findOne(ticketDto.getId());
-        ticket.setStatus(StatusTicket.DONE);
-        ticket.setNote(ticketDto.getNote());
+    @RequestMapping(value = "/edit",method = RequestMethod.PUT, consumes = "application/json")
+    @PreAuthorize("hasRole('ROLE_DOCTOR') OR hasRole('ROLE_ADMIN')")
+    ResponseEntity<TicketDoctorDto> edit(@RequestBody TicketDoctorDto ticketDoctorDto, Principal principal) {
+        Ticket ticket=ticketService.findOne(ticketDoctorDto.getTicketDto().getId());
+        ticket.setNote(ticketDoctorDto.getTicketDto().getNote());
         Ticket updatedTicket = ticketService.update(ticket);
-        return new ResponseEntity<>(ticketConverter.createFromEntity(updatedTicket),
+        return new ResponseEntity<>(ticketDoctorConverter.createFromEntity(updatedTicket),
                 HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/lock",method = RequestMethod.PUT, consumes = "application/json")
+    @PreAuthorize("hasRole('ROLE_DOCTOR') OR hasRole('ROLE_ADMIN')")
+    ResponseEntity<TicketDoctorDto> lock(@RequestBody TicketDoctorDto ticketDoctorDto, Principal principal) {
+        Ticket ticket=ticketService.findOne(ticketDoctorDto.getTicketDto().getId());
+        ticket.setStatus(StatusTicket.DONE);
+        Ticket lockedTicket = ticketService.update(ticket);
+        return new ResponseEntity<>(ticketDoctorConverter.createFromEntity(lockedTicket),
+                HttpStatus.OK);
+    }
+
+
+    @RequestMapping(value = "/unlock",method = RequestMethod.PUT, consumes = "application/json")
+    @PreAuthorize("hasRole('ROLE_DOCTOR') OR hasRole('ROLE_ADMIN')")
+    ResponseEntity<TicketDoctorDto> unlock(@RequestBody TicketDoctorDto ticketDoctorDto, Principal principal) {
+        Ticket ticket=ticketService.findOne(ticketDoctorDto.getTicketDto().getId());
+        ticket.setStatus(StatusTicket.PROCESED);
+        Ticket unlockedTicket = ticketService.update(ticket);
+        return new ResponseEntity<>(ticketDoctorConverter.createFromEntity(unlockedTicket),
+                HttpStatus.OK);
+    }
 
     @RequestMapping(value = "/listdata/patient", method = RequestMethod.GET)
     @PreAuthorize("hasRole('ROLE_USER')")
@@ -128,7 +152,7 @@ public class TicketSecApiController {
 
     @RequestMapping(value = "/listdata/doctor", method = RequestMethod.GET)
 //    @PreAuthorize("hasRole('ROLE_DOCTOR')")
-    ResponseEntity<List<TicketDto>> findAllByDoctor(
+    ResponseEntity<List<TicketDoctorDto>> findAllByDoctor(
             @RequestParam(name = "status", required = false) StatusTicket status,
             @RequestParam(name = "start", required = false) LocalDate start,
             @RequestParam(name = "end", required = false) LocalDate end,
@@ -139,7 +163,7 @@ public class TicketSecApiController {
         UnitMethodServiceAdapter doctorMethodServiceAdapter = unitMethodServiceAdapterFactory.getDoctorMethodServiceAdapter(doctor);
         List<Ticket> ticketList = findAllByCondition(doctorMethodServiceAdapter, condition);
         return (ticketList.size() > 0) ?
-                new ResponseEntity<>(ticketConverter.createFromEntities(ticketList), HttpStatus.OK) :
+                new ResponseEntity<>(ticketDoctorConverter.createFromEntities(ticketList), HttpStatus.OK) :
                 new ResponseEntity<>(new ArrayList<>(),HttpStatus.NO_CONTENT);
     }
 

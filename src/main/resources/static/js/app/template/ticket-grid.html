@@ -13,12 +13,13 @@
         <tr>
             <td ng-repeat="ticketSlot in ticketSlotSubList" class="td-table-ticket-grid">
                 <div ng-repeat='ticket in ticketSlot.ticketDtoList'>
-                    <button ng-click="selectTicket(ticket)"
+                    <input type="submit"
                             class="bt btn-sm ng-class:{'btn-info':!ticket.busy,'btn-secondary':ticket.busy}"
-                            aria-hidden="true" data-toggle="modal" data-target="#confirm-enroll"
-                            ng-disabled="ticket.busy">
-                        {{ticket.time}}
-                    </button>
+                            aria-hidden="true"
+                            ng-disabled="ticket.busy" value="{{ticket.time}}"
+                            confirm-click="reserve(ticket)" template="confirm-modal.html"/>
+
+
                 </div>
             </td>
         </tr>
@@ -26,3 +27,6 @@
     </table>
 </div>
 
+<input type="submit" value="Зберегти"
+       class="btn btn-success btn-sm"
+       ng-click="save()" confirm-dialog template="confirm-modal.html"

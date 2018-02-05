@@ -16,9 +16,6 @@ import ua.shield.service.UserService;
 
 import java.util.*;
 
-/**
- * Created by sa on 03.12.17.
- */
 @Controller
 @RequestMapping("/admin")
 public class AdminController {

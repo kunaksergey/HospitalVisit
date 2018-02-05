@@ -31,6 +31,6 @@ public class WelcomeDoctorController {
     @RequestMapping("/doctor")
     public String welcomeDoctor(Model model, Principal principal) {
         model.addAttribute("doctor",doctorConverter.createFromEntity(doctorService.findByName(principal.getName())));
-        return "/doctor/index";
+        return "/doctor/cabinet";
     }
 }

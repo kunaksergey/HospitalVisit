@@ -21,7 +21,8 @@
     <script src="/js/app/app.js"></script>
     <script src="/js/app/common/constants.js"></script>
     <script src="/js/app/service/ticket-service.js"></script>
-    <script src="/js/app/directive/confirm-dialog-directive.js"></script>
+    <script src="/js/app/directive/history-ticket-directive.js"></script>
+    <script src="/js/app/directive/confirm-click-directive.js"></script>
     <script src="/js/app/doctorCtrl.js"></script>
     <script src="/js/app/lib/dateFormat.js"></script>
 
@@ -60,7 +61,7 @@
 
         <!-- Tab Profile -->
         <div class="tab-pane active" id="tab_profile" role="tabpanel">
-           <!-- Card Doctor -->
+            <!-- Card Doctor -->
             <div class="card">
                 <div class="card-block">
                     <div class="row">
@@ -105,66 +106,13 @@
 
                 </div>
             </div>
-           <%--!Card Doctor--%>
+            <%--!Card Doctor--%>
         </div>
         <!-- !Tab Profile -->
 
         <!-- Tab History -->
         <div class="tab-pane" id="tab_history" role="tabpanel">
-            <!--Data picker-->
-            {{start}}-{{end}}
-            <div class="input-daterange input-group">
-                <input type="text" class="form-control form-control-sm datepicker" name="start" ng-model="start"/>
-                <span class="input-group-addon">-</span>
-                <input type="text" class="form-control form-control-sm datepicker" name="end" ng-model="end"/>
-                <button type="button" class="btn btn-info btn-sm" ng-click="reload()">
-                    <i class="fa fa-search" aria-hidden="true"></i>
-                </button>
-            </div>
-            <!--!Data picker-->
-
-            <!--History menu-->
-            <ul class="nav justify-content-center">
-                <li class="nav-item">
-                    <a class="nav-link" href='' ng-click='currentTickets()'>Поточні</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href='' ng-click='completedTickets()'>Завершені</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href='' ng-click='canceledTickets()'>Відмінені</a>
-                </li>
-            </ul>
-            <!--!History menu-->
-
-            <!-- History content-->
-            <div ng-repeat="item in ticketList | orderBy:['date','time']">
-                <div class="row">
-                    <div class="col-4">
-                        <i class="fa fa-calendar" aria-hidden="true"> {{item.date}}</i>
-                        <i class="fa fa-clock-o" aria-hidden="true"> {{item.time}}</i>
-                        <span>({{item.patientFullName}})</span>
-                        <span ng-if='isProcesed(item.status)' class="pull-right">
-                            <i class="fa fa-pencil" aria-hidden="true"
-                               ng-click='editTicket(item)'>
-                            </i>
-                            <i class="fa fa-trash-o" aria-hidden="true"
-                               ng-click='cancelTicket(item)' confirm-dialog template="delete-modal.html">
-                            </i>
-                        </span>
-                        <i ng-if='isDone(item.status)' class="fa fa-eye pull-right" aria-hidden="true"
-                           data-toggle="collapse"
-                           data-target="#collapse_{{$index}}">
-                        </i>
-                    </div>
-                </div>
-                <div class="collapse" id="collapse_{{$index}}">
-                    <div class="card card-block">
-                        {{item.note}}
-                    </div>
-                </div>
-            </div>
-
+            <history-ticket target-history-user="doctor" template="history-ticket-doctor.html"/>
         </div>
         <!-- !Tab History -->
 

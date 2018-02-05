@@ -8,11 +8,9 @@ import java.time.format.DateTimeFormatter;
 public class TicketDto {
     private Integer id;
     private Integer doctorId;
-    private String patientFullName;
     private String time;
     private String date;
     private String note;
-    private StatusTicket status;
     private boolean isBusy;
 
     public TicketDto() {
@@ -23,11 +21,10 @@ public class TicketDto {
         this.doctorId = ticket.getDoctor().getId();
         this.time = ticket.getTime();
         this.date = ticket.getDate().toString();
+        this.note = ticket.getNote();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         this.date = ticket.getDate().format(formatter);
-        this.patientFullName=ticket.getPatient().getUser().getFullName();
         this.isBusy = ticket.getStatus() != StatusTicket.NEW;
-        this.status = ticket.getStatus();
     }
 
     public Integer getId() {
@@ -70,28 +67,12 @@ public class TicketDto {
         isBusy = busy;
     }
 
-    public StatusTicket getStatus() {
-        return status;
-    }
-
     public String getNote() {
         return note;
     }
 
     public void setNote(String note) {
         this.note = note;
-    }
-
-    public void setStatus(StatusTicket status) {
-        this.status = status;
-    }
-
-    public String getPatientFullName() {
-        return patientFullName;
-    }
-
-    public void setPatientFullName(String patientFullName) {
-        this.patientFullName = patientFullName;
     }
 
     @Override

@@ -1,25 +1,24 @@
 var app = angular.module("myApp");
-app.directive("confirmDialog", confirmDialog);
+app.directive("confirmClick", confirmClick);
 
-function confirmDialog() {
+function confirmClick() {
     return {
         restrict: 'A',
-        priority: 1,
-        terminal: true,
+        priority: 1000,
         scope: {
             template: '@',
-            ngClick: '&'
+            confirmClick: '&'
         },
         link: function (scope, element, attr) {
             element.bind('click', function (event) {
                 scope.openModal();
             });
         },
-        controller: confirmDialogCtrl
+        controller: confirmClickCtrl
     }
 }
 
-function confirmDialogCtrl($scope, $uibModal, constants) {
+function confirmClickCtrl($scope, $uibModal, constants) {
 
     $scope.openModal = function () {
         $uibModal.open({
@@ -29,7 +28,7 @@ function confirmDialogCtrl($scope, $uibModal, constants) {
             resolve: {
                 clickAction: function () {
                     return function () {
-                        $scope.$eval($scope.ngClick)
+                         $scope.$eval($scope.confirmClick);
                     }
                 }
             },

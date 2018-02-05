@@ -65,22 +65,25 @@
                 <div class="tab-content" id="myTabContent">
                     <%--Tab search --%>
                     <form:form modelAttribute="searchCriteria" action="/search/spec" id="f_search"
-                               class="form-search form-inline" role="form" method="post">
-                        <div class="input-group col-lg-4">
-                            <form:input path="searchStr" type="text" class="form-control search-query"
-                                        placeholder="Спеціалізація"/>
-                        </div>
-                        <%--Select district--%>
-                        <div class="form-group">
-                            <label for="district">Район:</label>
-                            <form:select class="form-control" path="district">
-                                <form:option value="-1">Вибрати усі</form:option>
-                                <form:options items="${districts}" itemLabel="name" itemValue="id"/>
-                            </form:select>
-                        </div>
-                        <%--End select district--%>
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-info btn-sm">Знайти</button>
+                               class="form-search" role="form" method="post">
+                        <div class="row">
+                            <div class="form-group col-lg-4">
+                                <form:input path="searchStr" type="text"
+                                            class="form-control form-control-sm search-query"
+                                            placeholder="Спеціалізація"/>
+                            </div>
+                                <%--Select district--%>
+                            <div class="input-group col-lg-5">
+                                <label for="district">Район:</label>
+                                <form:select class="form-control form-control-sm" path="district">
+                                    <form:option value="-1">Вибрати усі</form:option>
+                                    <form:options items="${districts}" itemLabel="name" itemValue="id"/>
+                                </form:select>
+                            </div>
+                                <%--End select district--%>
+                            <div class="form-group col-lg-3">
+                                <button type="submit" class="btn btn-info btn-sm">Знайти</button>
+                            </div>
                         </div>
                     </form:form>
                     <%--End search --%>
@@ -139,42 +142,42 @@
 
 
     </div>
-        <div id="card-doctor-for-clone" class="d-none">
-            <div class="card-doctor">
-                <a href="">
-                    <div class="card-doctor-content">
-                        <div class="card-doctor-top">
-                            <div class="photo-doctor">
-                                <img class="photo-doctor-img" src="/img/no_photo.png" draggable="false"/>
-                            </div>
-                            <div class="card-doctor-info">
-                                <h3 class="card-doctor-name">
-                                    <%--ПІБ--%>
-                                </h3>
-                                <div class="card-doctor-speciality">
-                                    <%--Спеціалізація--%>
-                                </div>
-                            </div>
+    <div id="card-doctor-for-clone" class="d-none">
+        <div class="card-doctor">
+            <a href="">
+                <div class="card-doctor-content">
+                    <div class="card-doctor-top">
+                        <div class="photo-doctor">
+                            <img class="photo-doctor-img" src="/img/no_photo.png" draggable="false"/>
                         </div>
-                        <div class="card-doctor-button">
-                            <div class="card-doctor-address">
-                                <div class="card-doctor-clinic">
-                                  <%--Лікарня--%>
-                                </div>
-                                <div class="сard-doctor-cabinet">
-                                    <%--Кабінет--%>
-                                </div>
+                        <div class="card-doctor-info">
+                            <h3 class="card-doctor-name">
+                                <%--ПІБ--%>
+                            </h3>
+                            <div class="card-doctor-speciality">
+                                <%--Спеціалізація--%>
                             </div>
                         </div>
                     </div>
-                </a>
-                <div class="card-doctor-btn">
-                    <a href="" class="btn btn-info btn-sm doctor-details-link">
-                        <span class="glyphicon glyphicon-pencil">Записатися на прийом</span>
-                    </a>
+                    <div class="card-doctor-button">
+                        <div class="card-doctor-address">
+                            <div class="card-doctor-clinic">
+                                <%--Лікарня--%>
+                            </div>
+                            <div class="сard-doctor-cabinet">
+                                <%--Кабінет--%>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+            </a>
+            <div class="card-doctor-btn">
+                <a href="" class="btn btn-info btn-sm doctor-details-link">
+                    <span class="glyphicon glyphicon-pencil">Записатися на прийом</span>
+                </a>
             </div>
         </div>
+    </div>
 </div>
 
 </body>

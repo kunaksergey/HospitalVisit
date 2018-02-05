@@ -19,8 +19,6 @@ public class TicketEntityDtoConverter implements GenericEntityDtoConverter<Ticke
         ticket.setId(dto.getId());
         ticket.setTime(dto.getTime());
         ticket.setDate(LocalDate.parse(dto.getDate(),formatter));
-        ticket.setStatus(dto.getStatus());
-        ticket.setNote(dto.getNote());
         return ticket;
     }
 
@@ -34,17 +32,7 @@ public class TicketEntityDtoConverter implements GenericEntityDtoConverter<Ticke
 
     @Override
     public TicketDto createFromEntity(Ticket entity) {
-        TicketDto ticketDto=new TicketDto();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        ticketDto.setId(entity.getId());
-        ticketDto.setDoctorId(entity.getDoctor().getId());
-        ticketDto.setDate(entity.getDate().format(formatter));
-        ticketDto.setTime(entity.getTime());
-        ticketDto.setPatientFullName(entity.getPatient().getUser().getFullName());
-        ticketDto.setBusy(entity.getPatient()!=null);
-        ticketDto.setStatus(entity.getStatus());
-        ticketDto.setNote(entity.getNote());
-        return ticketDto;
+           return new TicketDto(entity);
     }
 
     @Override

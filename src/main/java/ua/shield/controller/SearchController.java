@@ -21,9 +21,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-/**
- * Created by sa on 16.12.17.
- */
 @Controller
 @RequestMapping("/search")
 public class SearchController {

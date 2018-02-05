@@ -11,9 +11,6 @@ import ua.shield.entity.Hospital;
 import ua.shield.entity.Specialization;
 import ua.shield.service.SpecializationService;
 
-/**
- * Created by sa on 08.12.17.
- */
 @Controller
 @RequestMapping("/specialization")
 public class SpecializationController {

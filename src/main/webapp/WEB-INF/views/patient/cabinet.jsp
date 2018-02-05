@@ -14,15 +14,20 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.7/angular.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.5/umd/popper.min.js"></script>
     <script src="https://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-1.2.4.js"></script>
-    <script src="/js/bootstrap.bundle.js"></script>
-    <script src="/js/bootstrap.js"></script>
-    <script src="/js/cabinet.js"></script>
-    <script src="/js/app/app.js"></script>
-    <script src="/js/app/patientCtrl.js"></script>
-    <script src="/js/app/chieldCtrl.js"></script>
-    <script src="/js/app/photoUploadDirective.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.min.js"></script>
     <script src="/js/bootstrap-datepicker.ua.js" charset="UTF-8"></script>
+    <script src="/js/bootstrap.bundle.js"></script>
+    <script src="/js/bootstrap.js"></script>
+    <script src="/js/app/app.js"></script>
+    <script src="/js/app/common/constants.js"></script>
+    <script src="/js/app/service/ticket-service.js"></script>
+    <script src="/js/app/service/chield-service.js"></script>
+    <script src="/js/app/directive/history-ticket-directive.js"></script>
+    <script src="/js/app/directive/confirm-click-directive.js"></script>
+    <script src="/js/app/directive/photo-upload-directive.js"></script>
+    <script src="/js/app/controller/patientCtrl.js"></script>
+    <script src="/js/app/controller/chieldCtrl.js"></script>
+    <script src="/js/app/lib/dateFormat.js"></script>
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.standalone.min.css"/>
@@ -157,12 +162,12 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Відміна
-                                </button>
-                                <button type="button" class="btn btn-info btn-sm" ng-click="save()">
+                                <a href='' class="btn btn-default btn-sm" ng-click="closeModal()" data-dismiss="modal">Відміна
+                                </a>
+                                <a href='' class="btn btn-info btn-sm" confirm-click="save()" template="confirm-modal.html">
                                     <%--ng-disabled="chieldForm.$invalid"--%>
                                     Зберегти
-                                </button>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -175,41 +180,7 @@
 
         <!-- Tab History -->
         <div class="tab-pane" id="tab_history" role="tabpanel">
-            <!-- History menu-->
-            <ul class="nav justify-content-center">
-                <li class="nav-item">
-                    <a class="nav-link" href='' ng-click='currentTickets()'>Поточні</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href='' ng-click='completedTickets()'>Завершені</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href='' ng-click='canceledTickets()'>Відмінені</a>
-                </li>
-            </ul>
-            <!-- !History menu-->
-
-            <!-- History content-->
-            <div ng-repeat="item in ticketList | orderBy:['date','time']">
-                <div class="row">
-                    <div class="col-4">
-                        <i class="fa fa-calendar" aria-hidden="true"> {{item.date}}</i>
-                        <i class="fa fa-clock-o" aria-hidden="true"> {{item.time}}</i>
-                        <i ng-if='isProcesed(item.status)' class="fa fa-trash-o pull-right" aria-hidden="true"
-                           ng-click='cancelTicket(item)'>
-                        </i>
-                        <i ng-if='isDone(item.status)' class="fa fa-eye pull-right" aria-hidden="true"
-                           data-toggle="collapse"
-                           data-target="#collapse_{{$index}}"></i>
-                    </div>
-                </div>
-                <div class="collapse" id="collapse_{{$index}}">
-                    <div class="card card-block">
-                        {{item.note}}
-                    </div>
-                </div>
-            </div>
-
+            <history-ticket target-history-user="patient" template="history-ticket-patient.html"/>
         </div>
         <!-- !Tab History -->
 

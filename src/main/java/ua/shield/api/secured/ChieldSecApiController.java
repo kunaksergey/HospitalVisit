@@ -30,7 +30,7 @@ public class ChieldSecApiController {
         this.chieldService = chieldService;
     }
 
-    @RequestMapping(value = "/listdata",method= RequestMethod.GET)
+    @RequestMapping(value = "/listdata/patient",method= RequestMethod.GET)
     @PreAuthorize("hasRole('ROLE_USER')")
     ResponseEntity<List<ChieldDto>> listdata(Principal principal){
         Set<Chield> chields = patientService.findByName(principal.getName()).getChields();
@@ -40,7 +40,7 @@ public class ChieldSecApiController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @RequestMapping(value = "/add", method = RequestMethod.POST,consumes = "application/json")
+    @RequestMapping(method = RequestMethod.POST,consumes = "application/json")
     @ResponseBody
     public ResponseEntity<ChieldDto> add(@RequestBody ChieldDto chieldDto, Principal principal) {
         Patient patient=patientService.findByName(principal.getName());
