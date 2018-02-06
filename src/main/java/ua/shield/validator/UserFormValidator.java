@@ -13,8 +13,12 @@ import java.util.regex.Pattern;
 
 @Component
 public class UserFormValidator implements Validator {
+    private final UserService userService;
+
     @Autowired
-    UserService userService;
+    public UserFormValidator(UserService userService) {
+        this.userService = userService;
+    }
 
     @Override
     public boolean supports(Class<?> aClass) {

@@ -10,8 +10,12 @@ import ua.shield.service.TicketService;
 
 @Component
 public class UnitMethodServiceAdapterFactory {
+    private final TicketService ticketService;
+
     @Autowired
-    private TicketService ticketService;
+    public UnitMethodServiceAdapterFactory(TicketService ticketService) {
+        this.ticketService = ticketService;
+    }
 
     public DoctorMethodServiceAdapter getDoctorMethodServiceAdapter(Doctor doctor){
         return new DoctorMethodServiceAdapter(doctor,ticketService);

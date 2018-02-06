@@ -103,7 +103,6 @@
                         </div>
                         <!-- !Photo upload -->
                     </div>
-
                 </div>
             </div>
             <%--!Card Doctor--%>

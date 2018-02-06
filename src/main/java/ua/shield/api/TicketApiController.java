@@ -53,6 +53,7 @@ public class TicketApiController {
 
     @RequestMapping(value = "listdata/doctor/{doctorId}", method = RequestMethod.GET)
     ResponseEntity<List<TicketPickerDto>> findAllDailyInfoByDoctor(@PathVariable Integer doctorId) {
+
         Doctor doctor = doctorService.findOne(doctorId);
         if (doctor == null) {
             return new ResponseEntity<>(new ArrayList<>(), HttpStatus.NOT_FOUND);

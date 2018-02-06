@@ -10,9 +10,6 @@ import org.springframework.web.servlet.ModelAndView;
 import ua.shield.entity.District;
 import ua.shield.service.DistrictService;
 
-/**
- * Created by sa on 03.12.17.
- */
 @Controller
 @RequestMapping("/district")
 public class DistrictController {

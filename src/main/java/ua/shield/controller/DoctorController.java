@@ -55,11 +55,4 @@ public class DoctorController {
         return "redirect:/admin/doctor/list";
     }
 
-//    @RequestMapping(value="schedule",method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
-//    @ResponseBody
-//    ShedDel shedule(){
-//        ShedDel shedDel = new ShedDel();
-//        return shedDel;
-//    }
-
 }

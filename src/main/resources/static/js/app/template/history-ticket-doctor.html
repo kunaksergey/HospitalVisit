@@ -1,0 +1,65 @@
+<div>
+    <div class="input-daterange input-group">
+        <input type="text" class="form-control form-control-sm datepicker" name="start" ng-model="start"/>
+        <span class="input-group-addon">-</span>
+        <input type="text" class="form-control form-control-sm datepicker" name="end" ng-model="end"/>
+        <button type="button" class="btn btn-info btn-sm" ng-click="reload()">
+            <i class="fa fa-search" aria-hidden="true"></i>
+        </button>
+    </div>
+    <!--!Data picker-->
+
+    <!--History menu-->
+    <ul class="nav justify-content-center">
+        <li class="nav-item">
+            <a class="nav-link" href='' ng-click='currentTickets()'>Поточні</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href='' ng-click='completedTickets()'>Завершені</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href='' ng-click='canceledTickets()'>Відмінені</a>
+        </li>
+    </ul>
+    <!--!History menu-->
+
+    <!-- History content-->
+    <div ng-repeat="item in ticketList | orderBy:['date','time']">
+        <div class="row">
+            <div class="col-4">
+                <i class="fa fa-calendar" aria-hidden="true"> {{item.ticketDto.date}}</i>
+                <i class="fa fa-clock-o" aria-hidden="true"> {{item.ticketDto.time}}</i>
+                <span>({{item.patientFullName}})</span>
+                <span ng-if='isProcesed(item.status)' class="pull-right">
+                            <i class="fa fa-eye pull-right" aria-hidden="true"
+                               data-toggle="collapse"
+                               data-target="#collapse_{{$index}}">
+                            </i>
+                            <i class="fa fa-pencil" aria-hidden="true"
+                               ng-click='editTicket(item)'>
+                            </i>
+                            <i class="fa fa-trash-o" aria-hidden="true"
+                               confirm-click="cancelTicket(item)" template="delete-modal.html">
+                            </i>
+                            <i class="fa fa-unlock" aria-hidden="true"
+                               confirm-click="lockTicket(item)" template="confirm-modal.html">
+                            </i>
+                        </span>
+                <span ng-if='isDone(item.status)' class="pull-right">
+                        <i class="fa fa-eye pull-right" aria-hidden="true"
+                           data-toggle="collapse"
+                           data-target="#collapse_{{$index}}">
+                        </i>
+                         <i class="fa fa-lock" aria-hidden="true"
+                            confirm-click="unlockTicket(item)" template="confirm-modal.html">
+                         </i>
+                        </span>
+            </div>
+        </div>
+        <div class="collapse" id="collapse_{{$index}}">
+            <div class="card card-block">
+                {{item.ticketDto.note}}
+            </div>
+        </div>
+    </div>
+</div>

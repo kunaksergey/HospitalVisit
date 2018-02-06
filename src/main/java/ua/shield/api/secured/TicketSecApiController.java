@@ -80,7 +80,7 @@ public class TicketSecApiController {
     }
 
     @RequestMapping(method = RequestMethod.POST, consumes = "application/json")
-    @PreAuthorize("!isAnonymous()")
+    @PreAuthorize("hasRole('ROLE_USER')")
     ResponseEntity<TicketDto> add(@RequestBody TicketDto ticketDto, Principal principal) {
         Patient patient = patientService.findByName(principal.getName());
         Doctor doctor = doctorService.findOne(ticketDto.getDoctorId());
@@ -157,8 +157,8 @@ public class TicketSecApiController {
             @RequestParam(name = "start", required = false) LocalDate start,
             @RequestParam(name = "end", required = false) LocalDate end,
             Principal principal) {
-//        Doctor doctor = doctorService.findByName(principal.getName());
-        Doctor doctor = doctorService.findByName("kostyakunak");
+        Doctor doctor = doctorService.findByName(principal.getName());
+//        Doctor doctor = doctorService.findByName("kostyakunak");
         Condition condition = new Condition(status, new DateRange(start, end));
         UnitMethodServiceAdapter doctorMethodServiceAdapter = unitMethodServiceAdapterFactory.getDoctorMethodServiceAdapter(doctor);
         List<Ticket> ticketList = findAllByCondition(doctorMethodServiceAdapter, condition);

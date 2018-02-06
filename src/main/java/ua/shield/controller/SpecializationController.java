@@ -7,16 +7,18 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-import ua.shield.entity.Hospital;
 import ua.shield.entity.Specialization;
 import ua.shield.service.SpecializationService;
 
 @Controller
 @RequestMapping("/specialization")
 public class SpecializationController {
+    private final SpecializationService specializationService;
 
     @Autowired
-    SpecializationService specializationService;
+    public SpecializationController(SpecializationService specializationService) {
+        this.specializationService = specializationService;
+    }
 
     @RequestMapping
     ModelAndView showAll() {
@@ -48,8 +50,8 @@ public class SpecializationController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/save",method = RequestMethod.POST)
-    String save(@ModelAttribute("specialization")  Specialization specialization){
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    String save(@ModelAttribute("specialization") Specialization specialization) {
         specializationService.save(specialization);
         return "redirect:/specialization";
     }
