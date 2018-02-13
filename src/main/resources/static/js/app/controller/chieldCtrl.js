@@ -4,6 +4,7 @@ app.controller("chieldCtrl", chieldCtrl);
 
 function chieldCtrl($scope,chieldService) {
     $scope.chieldList = [];
+    $scope.chield = {};
     getChields();
 
     $scope.closeModal = function () {

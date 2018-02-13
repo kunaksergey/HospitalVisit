@@ -1,23 +1,20 @@
-<table class="table">
-    <thead>
-    <tr>
-        <th colspan="7">{{title}}</th>
-    </tr>
-    <tr>
-        <th>Понеділок</th>
-        <th>Вівторок</th>
-        <th>Середа</th>
-        <th>Четверг</th>
-        <th>П\ятниця</th>
-        <th>Субота</th>
-        <th>Неділя</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-        <td ng-repeat="item in weekDays">
-            <time even-or-odd={{evenOrOdd}} week-day={{item}}></time>
-        </td>
-    </tr>
-    </tbody>
-</table>
+<div class="card">
+    <div class="card-header">
+        {{title}}
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-sm-6 col-lg-3" ng-repeat="item in weekDays">
+                <div class="card">
+                    <div class="card-header">
+                        {{weekDaysIn18[$index]}}
+                    </div>
+                    <div class="card-body">
+                        <time even-or-odd={{evenOrOdd}} week-day={{item}}></time>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

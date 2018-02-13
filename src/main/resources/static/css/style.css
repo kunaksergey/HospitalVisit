@@ -202,9 +202,20 @@
 #detail-content{
     position: relative;
 }
-.td-table-ticket-grid{
-    min-height: 100px;
+
+.card-header-ticket-slot{
+    background-color: #bf800c;
+    color: white;
+
 }
+.ticket-context{
+    min-width: 80%;
+}
+
+.ticket-context>input{
+    width: 100%;
+}
+
 #first-ticket-grid, #second-ticket-grid {
     position: absolute;
     width: 100%;

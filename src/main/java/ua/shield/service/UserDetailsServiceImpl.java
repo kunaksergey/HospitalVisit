@@ -18,12 +18,16 @@ import java.util.stream.Collectors;
 
 
 @Service("userDetailsService")
+@Transactional
 public class UserDetailsServiceImpl implements UserDetailsService {
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+    private final RoleService roleService;
 
     @Autowired
-    private RoleService roleService;
+    public UserDetailsServiceImpl(UserService userService, RoleService roleService) {
+        this.userService = userService;
+        this.roleService = roleService;
+    }
 
     @Override
     @Transactional(readOnly = true)

@@ -2,6 +2,7 @@ package ua.shield.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ua.shield.entity.*;
 import ua.shield.enum_.RoleEnum;
 import ua.shield.repository.DoctorRepository;
@@ -15,26 +16,33 @@ import java.util.HashSet;
 import java.util.List;
 
 @Service("doctorService")
+@Transactional
 public class DoctorServiceImpl implements DoctorService {
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+
+    private final HospitalRepositoty hospitalRepositoty;
+
+    private final SpecializationRepository specializationRepository;
+
+    private final DoctorRepository doctorRepository;
 
     @Autowired
-    private HospitalRepositoty hospitalRepositoty;
-
-    @Autowired
-    private SpecializationRepository specializationRepository;
-
-    @Autowired
-    private DoctorRepository doctorRepository;
+    public DoctorServiceImpl(UserRepository userRepository, HospitalRepositoty hospitalRepositoty, SpecializationRepository specializationRepository, DoctorRepository doctorRepository) {
+        this.userRepository = userRepository;
+        this.hospitalRepositoty = hospitalRepositoty;
+        this.specializationRepository = specializationRepository;
+        this.doctorRepository = doctorRepository;
+    }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Doctor> findAll() {
          return doctorRepository.findAll();
     }
 
 
     @Override
+    @Transactional(readOnly = true)
     public List<Doctor> findAllBySpecializationStartsWith(String startStr){
         List<Specialization> specializations = specializationRepository.findAllByNameStartsWith(startStr);
         List<Doctor> doctors = doctorRepository.findAllBySpecializationsInOrderByUserAsc(specializations);
@@ -42,6 +50,7 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Doctor> findAllBySpecializationStartsWithAndDistrict(String startStr, District district) {
         List<Specialization> specializations = specializationRepository.findAllByNameStartsWith(startStr);
         List<Hospital> hospitals = hospitalRepositoty.findAllByDistrict(district);
@@ -50,11 +59,13 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Doctor> findAllByHospital(Hospital hospital) {
         return null;
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Doctor> findAllByUserIn(List<User> users)
     {
         return doctorRepository.findAllByUserIn(users);
@@ -64,6 +75,7 @@ public class DoctorServiceImpl implements DoctorService {
      * find doctor by started letter in his full name
      */
      @Override
+     @Transactional(readOnly = true)
     public List<Doctor> findAllByFullNameStartsWith(String nameStartWith){
         List<User> users=userRepository.findAllByFullNameStartsWithAndRoles(nameStartWith,new Role(RoleEnum.ROLE_DOCTOR));
         return doctorRepository.findAllByUserIn(users);
@@ -73,6 +85,7 @@ public class DoctorServiceImpl implements DoctorService {
      * find doctor by started letter in full name and district
      */
     @Override
+    @Transactional(readOnly = true)
     public List<Doctor> findAllByFullNameStartsWithAndDistrict(String nameStartWith, District district) {
         List<Hospital> hospitals = hospitalRepositoty.findAllByDistrict(district);
         List<User> users=userRepository.findAllByFullNameStartsWithAndRoles(nameStartWith,new Role(RoleEnum.ROLE_DOCTOR));
@@ -80,11 +93,13 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Doctor findOne(int id) {
         return doctorRepository.findOne(id);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Doctor findByUser(User user) {
         return doctorRepository.findByUser(user);
     }
@@ -111,6 +126,7 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Doctor findByName(String name) {
         return doctorRepository.findByUserUsername(name);
     }

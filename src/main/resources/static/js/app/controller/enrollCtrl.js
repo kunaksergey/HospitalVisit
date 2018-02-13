@@ -14,7 +14,9 @@ app.controller("enrollCtrl", function ($scope, $http, $window, ticketService) {
 
 
     $scope.reserve = function (ticket) {
-        ticketService.reserve(ticket)
+        var ticket1=ticket;
+        ticket1.time="";
+        ticketService.reserve(ticket1)
             .then(function (response) {
                 update(ticket,response.data);
             }, function (error) {

@@ -24,10 +24,14 @@ import java.util.stream.Collectors;
 @Service("ticketService")
 @Transactional
 public class TicketServiceImpl implements TicketService {
+    private final ScheduleService scheduleService;
+    private final TicketRepository ticketRepository;
+
     @Autowired
-    private ScheduleService scheduleService;
-    @Autowired
-    private TicketRepository ticketRepository;
+    public TicketServiceImpl(ScheduleService scheduleService, TicketRepository ticketRepository) {
+        this.scheduleService = scheduleService;
+        this.ticketRepository = ticketRepository;
+    }
 
     @Override
     public Ticket findOne(Integer id){
@@ -67,11 +71,13 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Ticket> findAllByPatient(Patient patient) {
         return ticketRepository.findAllByPatient(patient);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Ticket> findAllByDoctor(Doctor doctor) {
         return ticketRepository.findAllByDoctor(doctor);
     }

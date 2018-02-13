@@ -3,6 +3,7 @@ app.controller("scheduleCtrl", scheduleCtrl);
 
 function scheduleCtrl($scope, $uibModal, scheduleService, constants) {
     $scope.weekDays = constants.weekdays;
+    $scope.weekDaysIn18=constants.weekDaysIn18;
 
     $scope.$watch('doctorId', function () {
         scheduleService.getListByDoctor($scope.doctorId)

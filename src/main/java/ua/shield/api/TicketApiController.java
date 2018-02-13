@@ -70,42 +70,43 @@ public class TicketApiController {
                 , HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.POST, consumes = "application/json")
-    @PreAuthorize( "!isAnonymous()")
-    ResponseEntity<TicketDto> add(@RequestBody TicketDto ticketDto, Principal principal) {
-        Patient patient = patientService.findByName(principal.getName());
-        Doctor doctor = doctorService.findOne(ticketDto.getDoctorId());
-        Ticket newTicket = ticketConverter.createFromDto(ticketDto, doctor, patient);
-        Ticket savedTicket = ticketService.save(newTicket);
-        return new ResponseEntity<>(ticketConverter.createFromEntity(savedTicket),
-                HttpStatus.CREATED);
-    }
+    //for delete
+//    @RequestMapping(method = RequestMethod.POST, consumes = "application/json")
+//    @PreAuthorize( "!isAnonymous()")
+//    ResponseEntity<TicketDto> add(@RequestBody TicketDto ticketDto, Principal principal) {
+//        Patient patient = patientService.findByName(principal.getName());
+//        Doctor doctor = doctorService.findOne(ticketDto.getDoctorId());
+//        Ticket newTicket = ticketConverter.createFromDto(ticketDto, doctor, patient);
+//        Ticket savedTicket = ticketService.save(newTicket);
+//        return new ResponseEntity<>(ticketConverter.createFromEntity(savedTicket),
+//                HttpStatus.CREATED);
+//    }
 
 
-    @RequestMapping(value = "/patient/{patientId}", method = RequestMethod.GET)
-    ResponseEntity<List<TicketDto>> findAllByPatient(@PathVariable Integer patientId,
-                                                              Principal principal) {
-        Patient patient = patientService.findByName(principal.getName());
-
-        List<Ticket> ticketList = ticketService.findAllByPatient(patient);
-
-        return (ticketList.size() > 0) ?
-                new ResponseEntity<>(ticketConverter.createFromEntities(ticketList), HttpStatus.OK) :
-                new ResponseEntity<>(HttpStatus.NO_CONTENT);
-
-    }
-
-    @RequestMapping(value = "/patient/{patientId}/status/{statusId}", method = RequestMethod.GET)
-    ResponseEntity<List<TicketDto>> findAllByPatientAndStatus(@PathVariable Integer patientId,
-                                                              @PathVariable StatusTicket statusTicket,
-                                                              Principal principal) {
-        Patient patient = patientService.findByName(principal.getName());
-
-        List<Ticket> ticketList =ticketService.findAllByPatientAndStatus(patient, statusTicket);
-
-        return (ticketList.size() > 0) ?
-                new ResponseEntity<>(ticketConverter.createFromEntities(ticketList), HttpStatus.OK) :
-                new ResponseEntity<>(HttpStatus.NO_CONTENT);
-         }
+//    @RequestMapping(value = "/patient/{patientId}", method = RequestMethod.GET)
+//    ResponseEntity<List<TicketDto>> findAllByPatient(@PathVariable Integer patientId,
+//                                                              Principal principal) {
+//        Patient patient = patientService.findByName(principal.getName());
+//
+//        List<Ticket> ticketList = ticketService.findAllByPatient(patient);
+//
+//        return (ticketList.size() > 0) ?
+//                new ResponseEntity<>(ticketConverter.createFromEntities(ticketList), HttpStatus.OK) :
+//                new ResponseEntity<>(HttpStatus.NO_CONTENT);
+//
+//    }
+//
+//    @RequestMapping(value = "/patient/{patientId}/status/{statusId}", method = RequestMethod.GET)
+//    ResponseEntity<List<TicketDto>> findAllByPatientAndStatus(@PathVariable Integer patientId,
+//                                                              @PathVariable StatusTicket statusTicket,
+//                                                              Principal principal) {
+//        Patient patient = patientService.findByName(principal.getName());
+//
+//        List<Ticket> ticketList =ticketService.findAllByPatientAndStatus(patient, statusTicket);
+//
+//        return (ticketList.size() > 0) ?
+//                new ResponseEntity<>(ticketConverter.createFromEntities(ticketList), HttpStatus.OK) :
+//                new ResponseEntity<>(HttpStatus.NO_CONTENT);
+//         }
 
 }

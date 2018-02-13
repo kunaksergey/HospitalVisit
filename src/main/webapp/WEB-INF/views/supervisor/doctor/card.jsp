@@ -18,7 +18,6 @@
     <script src="/js/bootstrap.js"></script>
     <script src="/js/bootstrap.bundle.js"></script>
     <script src="/js/photo-upload.js"></script>
-    <%--<script src="/js/parts-selector.js"></script>--%>
     <script src="/js/app/app.js"></script>
     <script src="/js/app/common/constants.js"></script>
     <script src="/js/app/directive/photo-upload-directive.js"></script>

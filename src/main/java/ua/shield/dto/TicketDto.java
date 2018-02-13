@@ -1,16 +1,50 @@
 package ua.shield.dto;
 
+import org.hibernate.validator.constraints.NotEmpty;
 import ua.shield.entity.Ticket;
 import ua.shield.enum_.StatusTicket;
+import ua.shield.validator.TicketExisting;
+import ua.shield.validator.TicketNew;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
+import javax.validation.constraints.Pattern;
 import java.time.format.DateTimeFormatter;
 
 public class TicketDto {
+    @NotNull(
+            groups = TicketExisting.class,
+            message = "{NotNull.ticketDto.id}"
+    )
+    @Null(groups = TicketNew.class)
     private Integer id;
+
+    @NotNull(groups={TicketNew.class,TicketExisting.class},
+            message = "{NotNull.ticketDto.id}"
+    )
     private Integer doctorId;
+
+    @NotEmpty(groups={TicketNew.class,TicketExisting.class},
+            message = "{NotEmpty.ticketDto.time.requered}"
+    )
+    @Pattern(regexp = "/^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/",
+    message="{Pattern.ticketDto.time.badformat}"
+    )
     private String time;
+
+    @NotNull(groups={TicketNew.class,TicketExisting.class},
+            message = "{NotNull.ticketDto.date.requered}"
+    )
+    @Pattern(regexp = "/^(0[0-9]|1[0-9]|2[0-9]|3[0-1])-(0[1-9]|1[1-2]|)-(19[0-9][0-9]|20[0-9][0-9])$/",
+            message="{Pattern.ticketDto.date.badformat}"
+    )
     private String date;
+
     private String note;
+
+    @NotNull(groups={TicketNew.class,TicketExisting.class},
+            message = "{NotNull.ticketDto.isBusy.requered}"
+    )
     private boolean isBusy;
 
     public TicketDto() {

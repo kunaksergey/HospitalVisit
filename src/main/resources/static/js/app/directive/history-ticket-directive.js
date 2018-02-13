@@ -81,6 +81,7 @@ function historyCtrl($scope, $uibModal, ticketService,constants) {
     };
 
     $scope.lockTicket = function (ticket) {
+        ticket.ticketDto.time="s";
         ticketService.lock(ticket)
             .then(function (response) {
                 ticket.status = "DONE";

@@ -12,8 +12,12 @@ import java.util.List;
 @Service("scheduleService")
 @Transactional
 public class ScheduleServiceImpl implements ScheduleService {
+    private final ScheduleRepository scheduleRepository;
+
     @Autowired
-    private ScheduleRepository scheduleRepository;
+    public ScheduleServiceImpl(ScheduleRepository scheduleRepository) {
+        this.scheduleRepository = scheduleRepository;
+    }
 
     @Override
     @Transactional(readOnly = true)

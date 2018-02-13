@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import ua.shield.converter.ChiledEntityDtoConverter;
@@ -28,22 +29,22 @@ public class ChieldSecApiController {
     private final PatientService patientService;
     private final ChiledEntityDtoConverter chieldConverter;
     private final ChieldService chieldService;
-    private final ChieldDtoValidator chieldDtoValidator;
     private final ErrorResponseFactory errorResponseFactory;
 
+    @InitBinder
+    protected void initBinder(WebDataBinder binder) {
+        binder.setValidator(new ChieldDtoValidator());
+    }
 
     @Autowired
     public ChieldSecApiController(PatientService patientService,
                                   ChiledEntityDtoConverter chieldConverter,
                                   ChieldService chieldService,
-                                  ErrorResponseFactory errorResponseFactory,
-                                  ChieldDtoValidator chieldDtoValidator
-    ) {
+                                  ErrorResponseFactory errorResponseFactory) {
         this.patientService = patientService;
         this.chieldConverter = chieldConverter;
         this.chieldService = chieldService;
         this.errorResponseFactory = errorResponseFactory;
-        this.chieldDtoValidator = chieldDtoValidator;
     }
 
     @RequestMapping(value = "/listdata/patient", method = RequestMethod.GET)
@@ -51,24 +52,23 @@ public class ChieldSecApiController {
     ResponseEntity<List<ChieldDto>> listdata(Principal principal) {
         Set<Chield> chields = patientService.findByName(principal.getName()).getChields();
         if (chields.size() > 0) {
-            return new ResponseEntity<>(chieldConverter.createFromEntities(chields), HttpStatus.OK);
+            return  ResponseEntity.ok(chieldConverter.createFromEntities(chields));
         }
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
     }
 
     @RequestMapping(method = RequestMethod.POST, consumes = "application/json")
     @PreAuthorize("hasRole('ROLE_USER')")
-    public ResponseEntity add(@RequestBody ChieldDto chieldDto, BindingResult bindingResult, Principal principal) {
-        chieldDtoValidator.validate(chieldDto, bindingResult);
+    public ResponseEntity<?> add(@Validated @RequestBody ChieldDto chieldDto, BindingResult bindingResult, Principal principal) {
         if (bindingResult.hasErrors()) {
             ErrorResponseDto errorResponse = errorResponseFactory.createErrorResponse(HttpStatus.BAD_REQUEST, "bad request", bindingResult.getFieldErrors());
-            return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
-         }
+            return ResponseEntity.badRequest().body(errorResponse);
+        }
         Patient patient = patientService.findByName(principal.getName());
         Chield chield = chieldConverter.createFromDto(chieldDto);
         chield.setPatient(patient);
         Chield savedChield = chieldService.add(chield);
-        return new ResponseEntity<>(chieldConverter.createFromEntity(savedChield), HttpStatus.OK);
+        return ResponseEntity.ok(chieldConverter.createFromEntity(savedChield));
     }
 }
 

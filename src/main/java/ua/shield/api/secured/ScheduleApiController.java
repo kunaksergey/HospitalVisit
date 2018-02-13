@@ -1,4 +1,4 @@
-package ua.shield.api;
+package ua.shield.api.secured;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
-@RequestMapping("/api/v1/schedule")
+@RequestMapping("/api/secured/v1/schedule")
 public class ScheduleApiController {
     @Autowired
     private ScheduleService scheduleService;

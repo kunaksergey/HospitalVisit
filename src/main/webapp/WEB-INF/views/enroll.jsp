@@ -71,7 +71,7 @@
         <%--First ticket-grid--%>
         <div id="first-ticket-grid" class="ticket-grid">
             <div class="ticket-grid-header">
-                <button class="bt-next-ticket-grid">></button>
+                <button class="bt-next-ticket-grid btn-info btn-sm">></button>
             </div>
             <ticket-grid ng-if="ticketSlotList" start=0 end=7></ticket-grid>
             <div class="ticket-grid-footer"></div>
@@ -81,7 +81,7 @@
         <%--Second ticket-grid--%>
         <div id="second-ticket-grid" class="ticket-grid">
             <div class="ticket-grid-header">
-                <button class="bt-next-ticket-grid"><</button>
+                <button class="bt-next-ticket-grid btn-info btn-sm"><</button>
             </div>
             <ticket-grid ng-if="ticketSlotList" start=7 end=14></ticket-grid>
             <div class="ticket-grid-footer"></div>

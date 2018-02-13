@@ -2,21 +2,26 @@ package ua.shield.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ua.shield.entity.Doctor;
 import ua.shield.entity.Hospital;
 import ua.shield.repository.HospitalRepositoty;
 
 import java.util.List;
 
-/**
- * Created by sa on 03.12.17.
- */
 @Service("hospitalService")
-public class HospitalServiceImpl implements HospitalService{
-    @Autowired
-    HospitalRepositoty hospitalRepositoty;
+@Transactional
+public class HospitalServiceImpl implements HospitalService {
+    private final HospitalRepositoty hospitalRepositoty;
 
-    public List<Hospital> findAll(){
+    @Autowired
+    public HospitalServiceImpl(HospitalRepositoty hospitalRepositoty) {
+        this.hospitalRepositoty = hospitalRepositoty;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Hospital> findAll() {
         return hospitalRepositoty.findAll();
     }
 
@@ -26,17 +31,15 @@ public class HospitalServiceImpl implements HospitalService{
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Hospital findOne(Integer id) {
         return hospitalRepositoty.findOne(id);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Doctor> findAllOfHospital() {
 
         return null;
     }
-
-    ;
-
-
 }

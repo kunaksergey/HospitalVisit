@@ -2,6 +2,7 @@ package ua.shield.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ua.shield.domen.DateRange;
 import ua.shield.domen.TicketPicker;
 import ua.shield.entity.Doctor;
@@ -19,15 +20,21 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service("ticketPicker")
+@Transactional
 public class TicketPickerServiceImpl implements TicketPickerService{
 
-    @Autowired
-    private TicketService ticketService;
+    private final TicketService ticketService;
+
+    private final ScheduleService scheduleService;
 
     @Autowired
-    private ScheduleService scheduleService;
+    public TicketPickerServiceImpl(TicketService ticketService, ScheduleService scheduleService) {
+        this.ticketService = ticketService;
+        this.scheduleService = scheduleService;
+    }
 
     @Override
+    @Transactional(readOnly = true)
     public List<TicketPicker> findAllInRangeByDoctor(DateRange dateRange, Doctor doctor) {
         List<Ticket> ticketList = ticketService.assambledInRangeByDoctor(dateRange, doctor);
         List<Schedule> scheduleList = scheduleService.findAllByDoctor(doctor);

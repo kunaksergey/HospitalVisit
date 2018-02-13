@@ -10,8 +10,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
-//@Component("beforeCreateChieldValidator")
-@Component
 public class ChieldDtoValidator implements Validator {
     @Override
     public boolean supports(Class<?> clazz) {

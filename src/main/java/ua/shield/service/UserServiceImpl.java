@@ -17,14 +17,18 @@ import java.util.Set;
 @Transactional
 public class UserServiceImpl implements UserService {
     
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+
+    private final RoleService roleService;
+
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    private RoleService roleService;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    public UserServiceImpl(UserRepository userRepository, RoleService roleService, PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.roleService = roleService;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @Override
     public User add(User user) {
@@ -38,36 +42,43 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public User findByUsername(String username) {
         return userRepository.findByUsername(username);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public User findOne(Integer id) {
         return userRepository.findOne(id);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<User> findByRolesIn(Set<Role> roles) {
         return userRepository.findAllByRolesIn(roles);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<User> findAllByFullNameStartWith(String nameStartWith) {
         return userRepository.findAllByFullNameStartsWith(nameStartWith);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<User> findByRoles(Role role) {
         return userRepository.findAllByRoles(role);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<User> findAll() {
         return userRepository.findAll();
     }
 
     @Override
+    @Transactional(readOnly = true)
     public User findByEmail(String email) {
         return userRepository.findByEmail(email);
     }

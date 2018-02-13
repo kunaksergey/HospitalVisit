@@ -2,24 +2,29 @@ package ua.shield.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ua.shield.entity.Supervisor;
 import ua.shield.entity.User;
 import ua.shield.repository.SupervisorRepository;
 
-/**
- * Created by sa on 21.12.17.
- */
 @Service("supervisorService")
+@Transactional
 public class SupervisorServiceImpl implements SupervisorService {
+    private final SupervisorRepository supervisorRepository;
+
     @Autowired
-    private SupervisorRepository supervisorRepository;
+    public SupervisorServiceImpl(SupervisorRepository supervisorRepository) {
+        this.supervisorRepository = supervisorRepository;
+    }
 
     @Override
+    @Transactional(readOnly = true)
     public Supervisor findByUser(User user) {
         return supervisorRepository.findByUser(user);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Supervisor findOne(Integer id) {
         return supervisorRepository.findOne(id);
     }

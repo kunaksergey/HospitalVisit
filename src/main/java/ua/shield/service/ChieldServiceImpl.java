@@ -2,10 +2,12 @@ package ua.shield.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ua.shield.entity.Chield;
 import ua.shield.repository.ChieldRepository;
 
 @Service("chieldService")
+@Transactional
 public class ChieldServiceImpl implements ChieldService{
     private final ChieldRepository chieldRepository;
 

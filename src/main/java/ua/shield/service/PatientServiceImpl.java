@@ -2,6 +2,7 @@ package ua.shield.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ua.shield.entity.Patient;
 import ua.shield.entity.Role;
 import ua.shield.entity.User;
@@ -13,12 +14,17 @@ import java.util.Collections;
 import java.util.HashSet;
 
 @Service("patientService")
+@Transactional
 public class PatientServiceImpl implements PatientService {
-    @Autowired
-    private PatientRepository patientRepository;
+    private final PatientRepository patientRepository;
+
+    private final UserRepository userRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    public PatientServiceImpl(PatientRepository patientRepository, UserRepository userRepository) {
+        this.patientRepository = patientRepository;
+        this.userRepository = userRepository;
+    }
 
     @Override
     public Patient add(Patient patient) {
@@ -27,6 +33,7 @@ public class PatientServiceImpl implements PatientService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Patient findByUser(User user) {
         return patientRepository.findByUser(user);
     }
@@ -37,6 +44,7 @@ public class PatientServiceImpl implements PatientService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Patient findByName(String name) {
         return patientRepository.findByUserUsername(name);
     }

@@ -11,10 +11,14 @@ import org.springframework.stereotype.Service;
 
 @Service("securityService")
 public class SecurityServiceImpl implements SecurityService {
+    private final UserDetailsService userDetailsService;
+    private final AuthenticationManager authenticationManager;
+
     @Autowired
-    UserDetailsService userDetailsService;
-    @Autowired
-    AuthenticationManager authenticationManager;
+    public SecurityServiceImpl(UserDetailsService userDetailsService, AuthenticationManager authenticationManager) {
+        this.userDetailsService = userDetailsService;
+        this.authenticationManager = authenticationManager;
+    }
 
     @Override
     public String findLoggedInUsername() {

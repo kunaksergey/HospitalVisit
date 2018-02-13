@@ -142,30 +142,27 @@
                             <div class="modal-body" ng-form name="chieldForm">
                                 <div class="row">
                                     <div class="col-lg-6">
-                                        <div class="input-group">
-                                            <span class="input-group-addon" id="basic-addon1">ПІБ</span>
-                                            <input ng-model="chield.fullName" class="form-control"
-                                                   placeholder="ПІБ Дитини"
-                                                   aria-describedby="basic-addon1" required>
-                                        </div>
+                                        <label for="fullName">ПІБ</label>
+                                        <input ng-model="chield.fullName" class="form-control" id="fullName"
+                                               placeholder="ПІБ Дитини"
+                                               aria-describedby="basic-addon1" required>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-6">
-                                        <div class="input-group">
-                                            <span class="input-group-addon" id="basic-addon2">День народження</span>
-                                            <input class="datepicker" ng-model="chield.birthDay" class="form-control"
-                                                   placeholder="dd-MM-yyyy"
-                                                   aria-describedby="basic-addon2" required validate-date>
-                                        </div>
+                                        <label for="birthDay">День народження</label>
+                                        <input ng-model="chield.birthDay" class="form-control datepicker" id="birthDay"
+                                               placeholder="dd-MM-yyyy"
+                                               aria-describedby="basic-addon2" required validate-date>
                                     </div>
                                 </div>
                             </div>
                             <div class="modal-footer">
                                 <a href='' class="btn btn-default btn-sm" ng-click="closeModal()" data-dismiss="modal">Відміна
                                 </a>
-                                <a href='' class="btn btn-info btn-sm" confirm-click="save()" template="confirm-modal.html">
-                                    <%--ng-disabled="chieldForm.$invalid"--%>
+                                <a href='' class="btn btn-info btn-sm" confirm-click="save()"
+                                   template="confirm-modal.html"
+                                   ng-disabled="chieldForm.$invalid">
                                     Зберегти
                                 </a>
                             </div>
